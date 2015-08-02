@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="app_color">#3B5998</color>
+    <color name="white">#FFFFFF</color>
+    <color name="white_transparent">#5fffffff</color>
+    <color name="grey_textview_disabled">#B0B0B0</color>
+    <color name="overlay_profile_pic">#7aFFFFFF</color>
+
+    <!-- Cheese-->
+
+    <color name="indigo_color_primary">#3F51B5</color>
+    <color name="indigo_color_primary_dark">#303f9f</color>
+    <color name="indigo_color_primary_text">#dc3f51b5</color>
+    <color name="indigo_color_secondary">#883f51b5</color>
+    <color name="indigo_color_disabled">#423f51b5</color>
+    <color name="indigo_color_divider">#1e3f51b5</color>
+    <color name="indigo_color_window_background">#E8EAF6</color>
+
+    <color name="white_color_primary">#FFFFFF</color>
+    <color name="white_color_primary_text">#dcFFFFFF</color>
+    <color name="white_color_secondary">#88FFFFFF</color>
+    <color name="white_color_disabled">#42FFFFFF</color>
+    <color name="white_color_divider">#1eFFFFFF</color>
+
+    <color name="black_color_primary">#000000</color>
+    <color name="black_color_primary_text">#dc000000</color>
+    <color name="black_color_secondary">#88000000</color>
+    <color name="black_color_disabled">#42000000</color>
+    <color name="black_color_divider">#1e000000</color>
+
+
+</resources>
