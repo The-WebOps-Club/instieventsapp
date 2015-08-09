@@ -27,6 +27,14 @@
     <color name="black_color_secondary">#88000000</color>
     <color name="black_color_disabled">#42000000</color>
     <color name="black_color_divider">#1e000000</color>
-
+    
+    <color name="events_primary">#F44336</color>
+    <color name="events_dark_primary">#D32F2F</color>
+    <color name="events_light_primary">#FFCDD2</color>
+    <color name="events_text">#FFFFFF</color>
+    <color name="events_accents">#00BCD4</color>
+    <color name="events_primary_text">#212121</color>
+    <color name="events_secondary_text">#727272</color>
+    <color name="events_divider">#B6B6B6</color>
 
 </resources>
