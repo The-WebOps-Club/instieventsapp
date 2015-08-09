@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_weight="5"
+
+        android:text="Hostelname"
+        android:id="@+id/scoreboard_hostelname_body"
+        android:gravity="center"
+        android:background="#ffcd94"
+
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"/>
+    <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
+    <View
+        android:layout_width="5dp"
+        android:layout_height="30dp"
+        android:id="@+id/separator2"
+        android:visibility="visible"
+
+        android:background="#eb8c00"/>
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_weight="3"
+
+        android:text="Points"
+        android:gravity="center"
+        android:id="@+id/scoreboard_points_body"
+        android:background="#ffcd94"
+
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        />
+    <View
+        android:layout_width="5dp"
+        android:layout_height="30dp"
+        android:id="@+id/separator3"
+        android:visibility="visible"
+
+        android:background="#eb8c00"/>
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_weight="3"
+
+        android:text="Position"
+        android:gravity="center"
+        android:id="@+id/scoreboard_position_body"
+        android:background="#ffcd94"
+
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        />
+
+</LinearLayout>

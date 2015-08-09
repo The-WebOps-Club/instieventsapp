@@ -1,5 +1,6 @@
 package org.saarang.instieventsapp.Adapters;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,10 +19,12 @@ import java.util.List;
 public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Viewholder> {
 
     List<ScoreboardObject> mList;
+    Context mContext;
     String highlight;
     int check=0;
     public ScoreboardAdapter(List<ScoreboardObject> list,String userhostel){
         mList=list;
+        // should add context
         highlight=userhostel;
     }
     public static class Viewholder extends RecyclerView.ViewHolder{
