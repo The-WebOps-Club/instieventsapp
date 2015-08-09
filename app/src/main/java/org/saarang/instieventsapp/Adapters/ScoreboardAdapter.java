@@ -2,6 +2,7 @@ package org.saarang.instieventsapp.Adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,30 +61,28 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Vi
 
     @Override
     public void onBindViewHolder(Viewholder viewholder, int i) {
-        if(check==0){
+
         if (mList.get(i).getHostelname() == highlight) {
             viewholder.hostelname.setText(mList.get(i).getHostelname());
             viewholder.points.setText(mList.get(i).getPoints());
             viewholder.position.setText(mList.get(i).getPosition());
-            viewholder.hostelname.setBackgroundColor(Color.parseColor("#c0c0c0"));
-            viewholder.points.setBackgroundColor(Color.parseColor("#c0c0c0"));
-            viewholder.position.setBackgroundColor(Color.parseColor("#c0c0c0"));
-            viewholder.hostelname.setTextColor(Color.parseColor("#0057e7"));
+            viewholder.hostelname.setBackgroundColor(Color.parseColor("#f8f8fa"));
+            viewholder.points.setBackgroundColor(Color.parseColor("#f8f8fa"));
+            viewholder.position.setBackgroundColor(Color.parseColor("#f8f8fa"));
+            /*viewholder.hostelname.setTextColor(Color.parseColor("#0057e7"));
             viewholder.points.setTextColor(Color.parseColor("#0057e7"));
-            viewholder.position.setTextColor(Color.parseColor("#0057e7"));
-            check=1;
-        } else {
+            viewholder.position.setTextColor(Color.parseColor("#0057e7"));*/
+            viewholder.hostelname.setTypeface(null,Typeface.BOLD);
+            viewholder.points.setTypeface(null, Typeface.BOLD);
+            viewholder.position.setTypeface(null, Typeface.BOLD);
+        }
+         else {
 
             viewholder.hostelname.setText(mList.get(i).getHostelname());
             viewholder.points.setText(mList.get(i).getPoints());
             viewholder.position.setText(mList.get(i).getPosition());
-        }}
-        else
-        {
-            viewholder.hostelname.setText(mList.get(i).getHostelname());
-            viewholder.points.setText(mList.get(i).getPoints());
-            viewholder.position.setText(mList.get(i).getPosition());
         }
+
     }
     @Override
     public int getItemCount() {

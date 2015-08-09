@@ -24,6 +24,7 @@ public class ScoreBoardFragment extends Fragment {
     View rootView;
 
     RecyclerView scoreboardrecycle;
+    //SwipeRefreshLayout swipe;
     private RecyclerView.Adapter adapter;
     //private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.LayoutManager layoutManager;
@@ -63,6 +64,9 @@ public class ScoreBoardFragment extends Fragment {
         scoreboardrecycle=(RecyclerView) rootView.findViewById(R.id.scoreboardrv);
         layoutManager=new LinearLayoutManager(getActivity());
         scoreboardrecycle.setLayoutManager(layoutManager);
+
+  //      swipe=(SwipeRefreshLayout) rootView.findViewById(R.id.score_swipe);
+//        swipe.setOnRefreshListener((SwipeRefreshLayout.OnRefreshListener) this);
         initialise();
         adapter=new ScoreboardAdapter(score,"Mandakini");
         scoreboardrecycle.setAdapter(adapter);
