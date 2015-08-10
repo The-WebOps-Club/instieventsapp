@@ -68,7 +68,7 @@ public class ScoreBoardFragment extends Fragment {
   //      swipe=(SwipeRefreshLayout) rootView.findViewById(R.id.score_swipe);
 //        swipe.setOnRefreshListener((SwipeRefreshLayout.OnRefreshListener) this);
         initialise();
-        adapter=new ScoreboardAdapter(score,"Mandakini");
+        adapter=new ScoreboardAdapter(getActivity(),score,"Sabarmati");
         scoreboardrecycle.setAdapter(adapter);
         return rootView;
     }

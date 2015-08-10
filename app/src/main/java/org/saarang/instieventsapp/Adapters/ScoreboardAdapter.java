@@ -20,12 +20,12 @@ import java.util.List;
 public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Viewholder> {
 
     List<ScoreboardObject> mList;
-    Context mContext;
+
     String highlight;
-    int check=0;
-    public ScoreboardAdapter(List<ScoreboardObject> list,String userhostel){
+    Context mContext;
+    public ScoreboardAdapter(Context context,List<ScoreboardObject> list,String userhostel){
         mList=list;
-        // should add context
+        mContext=context;
         highlight=userhostel;
     }
     public static class Viewholder extends RecyclerView.ViewHolder{
@@ -72,7 +72,7 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Vi
             /*viewholder.hostelname.setTextColor(Color.parseColor("#0057e7"));
             viewholder.points.setTextColor(Color.parseColor("#0057e7"));
             viewholder.position.setTextColor(Color.parseColor("#0057e7"));*/
-            viewholder.hostelname.setTypeface(null,Typeface.BOLD);
+            viewholder.hostelname.setTypeface(null, Typeface.BOLD);
             viewholder.points.setTypeface(null, Typeface.BOLD);
             viewholder.position.setTypeface(null, Typeface.BOLD);
         }
