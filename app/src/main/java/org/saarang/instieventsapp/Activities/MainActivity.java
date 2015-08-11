@@ -1,7 +1,9 @@
 package org.saarang.instieventsapp.Activities;
 
+import android.annotation.TargetApi;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
 
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,15 +61,17 @@ public class MainActivity extends AppCompatActivity {
             setupViewPager(viewPager);
         }
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#3F51B5")));
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#3F51B5")));
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
+
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);

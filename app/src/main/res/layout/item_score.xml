@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_weight="3"
+        android:text="Position"
+        android:gravity="center"
+        android:id="@+id/scoreboard_position_body"
+        android:background="#ffffff"
+        android:textColor="#000000"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        />
+
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_weight="5"
+        android:text="Hostelname"
+        android:id="@+id/scoreboard_hostelname_body"
+        android:gravity="left"
+        android:background="#ffffff"
+        android:textColor="#000000"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"/>
+    <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
+
+
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_weight="3"
+        android:text="Points"
+        android:gravity="center"
+        android:id="@+id/scoreboard_points_body"
+        android:background="#ffffff"
+        android:textColor="#000000"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        />
+
+</LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#afafaf"/>
+
+
+</LinearLayout>
