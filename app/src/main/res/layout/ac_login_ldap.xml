@@ -7,7 +7,7 @@
     android:weightSum="1"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    tools:context=".LDAPLoginActivity">
+    tools:context=".Activities.LDAPLoginActivity">
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/formScrollView"
@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:orientation="vertical"
-                android:background="@color/app_color"
+                android:background="@color/events_primary"
                 android:layout_weight="57">
 
                 <ImageView
@@ -85,7 +85,7 @@
         android:id="@+id/bottomBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/indigo_color_divider"
+        android:background="@color/events_light_primary"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_weight="0">
@@ -104,7 +104,7 @@
                 android:layout_gravity="right|center_horizontal"
                 android:gravity="right|center_vertical"
                 android:text="LOGIN"
-                android:textColor="@color/black_color_secondary" />
+                android:textColor="@color/events_secondary_text" />
 
             <ImageView
                 android:layout_width="20dp"
