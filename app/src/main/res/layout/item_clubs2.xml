@@ -1,0 +1,102 @@
+
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="#ffffffff"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="5dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:background="@drawable/shadow"
+    >
+    <LinearLayout
+
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="128dp"
+            android:id="@+id/ivProfilePic"
+
+            android:src="@drawable/webclub"
+            android:background="@color/app_color"
+            android:scaleType="centerCrop" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Deals with web development and mobile application development operations"
+
+            android:id="@+id/tvName"
+            android:textColor="@color/black_color_primary"
+            android:layout_marginLeft="10dp"
+            android:textSize="13dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#ffffcdd2"
+            android:layout_marginTop="5dp" />
+
+
+
+
+
+    </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffffff"
+            android:weightSum="100"
+            android:divider="#ff070707"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp">
+
+
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:text="View More"
+                android:id="@+id/bViewMore"
+                android:background="#FFFFFF"
+                android:gravity="center"
+                android:paddingBottom="5dp"
+                android:textSize="14sp"
+                android:textColor="#2196F3"
+                android:layout_weight="50"
+                android:layout_marginLeft="130dp"/>
+            <!--android:textColor="#ff9e9e9e"-->
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:text="Subscribe"
+                android:id="@+id/bSubscibe"
+                android:background="#FFFFFF"
+                android:paddingBottom="5dp"
+                android:textSize="14sp"
+                android:layout_weight="50"
+                android:textColor="@color/black_color_primary"
+                android:gravity="center" />
+
+        </LinearLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>
+
+
