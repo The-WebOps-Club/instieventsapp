@@ -20,6 +20,9 @@
         <activity
             android:name=".Activities.ClubDetailActivity"
             android:label="@string/title_activity_club_detail" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activities.MainActivity" />
         </activity>
     </application>
 
