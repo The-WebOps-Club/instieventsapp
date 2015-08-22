@@ -3,8 +3,9 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorAccent">#ffffff</item>
+        <item name="colorAccent">@color/events_accents</item>
         <item name="android:windowBackground">@color/white_color_primary</item>
+        <item name="android:textColor">@color/events_text</item>
     </style>
 
 </resources>

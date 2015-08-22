@@ -20,7 +20,11 @@ public class EventsFeedAdapter extends RecyclerView.Adapter<EventsFeedAdapter.Vi
                                             "1st January 2015"};
     String[] time = {"8 pm", "6 pm", "9:30 am", "10am", "11 pm"};
     String[] locations = {"MRC", "SAC", "OAT", "CRC", "SAC"};
-    String[] descriptions = {"random", "gen", "timepass", "useless", "done"};
+    String[] descriptions = {"random", "gen", "St. agur blue cheese rubber cheese caerphilly cheddar cheesecake cream cheese manchego lancashire. ",
+            "Cheeseburger swiss bavarian bergkase cream cheese fromage frais cheesy feet port-salut airedale.",
+            "Jarlsberg lancashire edam. Dolcelatte hard cheese brie st. agur blue\n" +
+            " cheese caerphilly bavarian bergkase cheese and biscuits mascarpone.  Roquefort squirty cheese\n" +
+            " the big cheese."};
 
     public EventsFeedAdapter(Context context, String[] items)
     {
