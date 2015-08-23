@@ -12,10 +12,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.gson.Gson;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.saarang.instieventsapp.Adapters.ClubSubscriptionAdapter;
+import org.saarang.instieventsapp.Helper.DatabaseHelper;
 import org.saarang.instieventsapp.Objects.Club;
 import org.saarang.instieventsapp.Objects.UserProfile;
 import org.saarang.instieventsapp.R;
@@ -85,6 +88,10 @@ public class ClubSubscriptionActivity extends Activity {
 
     private class Clubdetails extends AsyncTask<Void,Void,Void>{
 
+        JSONObject jEvent;
+        Gson gson = new Gson();
+        Club club;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -99,7 +106,7 @@ public class ClubSubscriptionActivity extends Activity {
         protected Void doInBackground(Void... params) {
             String urlString= URLConstants.URL_SUBSCRIBE;
             JSONObject json = GetRequest.execute(urlString, UserProfile.getUserToken(context));
-            Log.d(LOG_TAG,json.toString());
+            Log.d(LOG_TAG, json.toString());
             if (json == null) {
                 return null;
 
@@ -111,14 +118,11 @@ public class ClubSubscriptionActivity extends Activity {
                 if(status==200){
                   Log.d(LOG_TAG,"Retrieval success");
                   JSONArray jEvents=json.getJSONObject("data").getJSONArray("response");
-                  int i;
-                  for(i=0;jEvents.getJSONObject(i)!=null;i++)
-
-                  {
-                      String clubname=jEvents.getJSONObject(i).getString("name");
-                      list.add(new Club(clubname,false));
-                     // Log.d(LOG_TAG,list.get(i).getName());
-
+                  for(int i=0; i< jEvents.length(); i++) {
+                      jEvent = jEvents.getJSONObject(i);
+                      club = gson.fromJson(jEvent.toString(), Club.class);
+                      DatabaseHelper data = new DatabaseHelper(context);
+                      data.addClub(club.getCV());
                   }
 
               }
@@ -138,6 +142,7 @@ public class ClubSubscriptionActivity extends Activity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             pDialog.dismiss();
+            list = Club.getAllClubs(context);
             adapter=new ClubSubscriptionAdapter(context,list);
             rvClubs.setAdapter(adapter);
         }
