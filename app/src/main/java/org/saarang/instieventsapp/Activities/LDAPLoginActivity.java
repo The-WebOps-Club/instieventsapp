@@ -2,14 +2,17 @@ package org.saarang.instieventsapp.Activities;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -26,7 +29,7 @@ import org.saarang.saarangsdk.Network.HttpRequest;
  * Created by Ajmal on 08-08-2015.
  */
 
-public class LDAPLoginActivity extends Activity{
+public class LDAPLoginActivity extends Activity {
 
 
     private static String LOG_TAG = "LDAPLoginActivity";
@@ -44,16 +47,16 @@ public class LDAPLoginActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_login_ldap);
 
-        tvLogin = (TextView)findViewById(R.id.tvLogin);
-        tvLogin.setOnClickListener(new View.OnClickListener() {
+        btLogin = (Button) findViewById(R.id.btLogin);
+        btLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 processLogin();
             }
         });
 
-        etUsername =(EditText) findViewById(R.id.etUsername);
-        etPassword =(EditText)findViewById(R.id.etPassword);
+        etUsername = (EditText) findViewById(R.id.etUsername);
+        etPassword = (EditText) findViewById(R.id.etPassword);
         etPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
@@ -66,7 +69,8 @@ public class LDAPLoginActivity extends Activity{
 
         tilUsername = (TextInputLayout) findViewById(R.id.tilUsername);
     }
-    private void processLogin(){
+
+    private void processLogin() {
         //Getting Text From Edit Texts
         username = etUsername.getText().toString();
         password = etPassword.getText().toString();
@@ -87,6 +91,7 @@ public class LDAPLoginActivity extends Activity{
             tilUsername.setError("Invalid roll number");
         }
     }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -116,14 +121,13 @@ public class LDAPLoginActivity extends Activity{
             String urlString = URLConstants.SERVER + URLConstants.URL_LOGIN;
 
             //Adding Parameters
-           JSONObject JSONrequest = new JSONObject();
-            try{
-                JSONrequest.put("rollNumber",param[0]);
-                JSONrequest.put("password",param[1]);
+            JSONObject JSONrequest = new JSONObject();
+            try {
+                JSONrequest.put("rollNumber", param[0]);
+                JSONrequest.put("password", param[1]);
                 Log.d(LOG_TAG, "2 JSONrequest\n" + JSONrequest.toString());
                 Log.d(LOG_TAG, "3 urlstring :: " + urlString);
-            }
-            catch (JSONException e){
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
 
@@ -138,16 +142,15 @@ public class LDAPLoginActivity extends Activity{
 
             try {
                 status = responseJSON.getInt("status");
-                if (status == 200){
+                if (status == 200) {
                     Log.d(LOG_TAG, "5 successfull\n");
 
                     //Saving INSTIProfile of logged in user
                     profile.saveUser(LDAPLoginActivity.this, responseJSON.getJSONObject("data"));
 
 
-                }
-                else {
-                    Log.d(LOG_TAG,"5 unsuccessfull!! ");
+                } else {
+                    Log.d(LOG_TAG, "5 unsuccessfull!! ");
                 }
             } catch (JSONException e) {
 
@@ -158,20 +161,29 @@ public class LDAPLoginActivity extends Activity{
         @Override
         protected void onPostExecute(Void aVoid) {
             pDialog.dismiss();
-            switch (status){
+            switch (status) {
                 case 200:
                     Intent intent = new Intent(LDAPLoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
                     break;
                 case 401:
-                    Log.d(LOG_TAG,"invalid credentials ");
+                    Log.d(LOG_TAG, "invalid credentials ");
                     break;
                 default:
-                    Log.d(LOG_TAG,"Error connecting server ");
+                    Log.d(LOG_TAG, "Error connecting server ");
                     break;
             }
         }
+    }
+
+    @Override
+
+    public boolean onTouchEvent(MotionEvent event) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.
+                INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        return true;
     }
 
 }

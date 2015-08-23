@@ -36,5 +36,5 @@
     <color name="events_primary_text">#212121</color>
     <color name="events_secondary_text">#727272</color>
     <color name="events_divider">#B6B6B6</color>
-
+    <color name="events_login">#00bcd4</color>
 </resources>
