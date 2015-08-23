@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import org.saarang.instieventsapp.Objects.ClubSubscriptionObject;
+import org.saarang.instieventsapp.Objects.Club;
 import org.saarang.instieventsapp.R;
 
 import java.util.List;
@@ -18,23 +18,23 @@ import java.util.List;
  */
 public class ClubSubscriptionAdapter extends RecyclerView.Adapter<ClubSubscriptionAdapter.Viewholder> {
 
-    List<ClubSubscriptionObject> mList;
+    List<Club> mList;
     Context mContext;
 
-    public ClubSubscriptionAdapter(Context context,List<ClubSubscriptionObject> list){
+    public ClubSubscriptionAdapter(Context context,List<Club> list){
         mContext=context;
         mList=list;
     }
 
     public static class Viewholder extends RecyclerView.ViewHolder{
 
-        TextView hostelname;
+        TextView clubname;
         CheckBox subscribed;
 
 
         public Viewholder(View itemView) {
             super(itemView);
-            hostelname=(TextView)itemView.findViewById(R.id.club_subscription_hostelname);
+            clubname=(TextView)itemView.findViewById(R.id.club_subscription_hostelname);
             subscribed=(CheckBox)itemView.findViewById(R.id.club_subscription_subscribed);
 
         }
@@ -50,8 +50,8 @@ public class ClubSubscriptionAdapter extends RecyclerView.Adapter<ClubSubscripti
 
     @Override
     public void onBindViewHolder(Viewholder viewholder, int i) {
-        viewholder.hostelname.setText(mList.get(i).gethostelname());
-        viewholder.subscribed.setChecked(mList.get(i).getSubscribed());
+        viewholder.clubname.setText(mList.get(i).getName());
+        viewholder.subscribed.setChecked(mList.get(i).getIsSubscribed());
     }
 
 
