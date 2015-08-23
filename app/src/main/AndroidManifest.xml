@@ -24,6 +24,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".Activities.ClubSubscriptionActivity"
+            android:label=""
+            android:theme="@style/AppTheme" >
+        </activity>
+
         <activity
             android:name=".Activities.ClubDetailActivity"
             android:label="@string/title_activity_club_detail" >

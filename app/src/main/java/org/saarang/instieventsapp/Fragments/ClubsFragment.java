@@ -12,8 +12,7 @@ import android.view.ViewGroup;
 import org.saarang.instieventsapp.Adapters.ClubsAdapter;
 import org.saarang.instieventsapp.R;
 
-import java.util.ArrayList;
-import java.util.List;
+//import org.saarang.instieventsapp.R;
 
 /**
  * Created by Seetharaman on 02-08-2015.
