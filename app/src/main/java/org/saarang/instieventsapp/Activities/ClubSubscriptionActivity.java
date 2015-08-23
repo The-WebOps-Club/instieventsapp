@@ -1,16 +1,27 @@
 package org.saarang.instieventsapp.Activities;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.saarang.instieventsapp.Adapters.ClubSubscriptionAdapter;
 import org.saarang.instieventsapp.Objects.Club;
+import org.saarang.instieventsapp.Objects.UserProfile;
 import org.saarang.instieventsapp.R;
+import org.saarang.instieventsapp.Utils.URLConstants;
+import org.saarang.saarangsdk.Network.Connectivity;
+import org.saarang.saarangsdk.Network.GetRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,39 +32,114 @@ import java.util.List;
 public class ClubSubscriptionActivity extends Activity {
 
 
-    RecyclerView clubsubscriptionrecycler;
+    RecyclerView rvClubs;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
-    private Button gotonextpage;
+    private Button bNext;
+    String LOG_TAG="ClubSubscriptionActivity";
     private List<Club> list;
-    private void initialise(){
-        list=new ArrayList<>();
-        list.add(new Club("Thespian",false));
-        list.add(new Club("Quiz",true));
-        list.add(new Club("Coding",true));
-        list.add(new Club("Drama",false));
-        list.add(new Club("Dance", false));
-    }
-
+    ProgressDialog pDialog;
+    Clubdetails details;
+    int status=400;
+    Context context = ClubSubscriptionActivity.this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.club_subscription);
-        clubsubscriptionrecycler=(RecyclerView)findViewById(R.id.reSubscription);
+
+        rvClubs=(RecyclerView)findViewById(R.id.reSubscription);
         layoutManager=new LinearLayoutManager(this);
-        clubsubscriptionrecycler.setLayoutManager(layoutManager);
+        rvClubs.setLayoutManager(layoutManager);
+
         initialise();
+
         adapter=new ClubSubscriptionAdapter(this,list);
-        clubsubscriptionrecycler.setAdapter(adapter);
-        gotonextpage=(Button) findViewById(R.id.gotomain);
-        gotonextpage.setOnClickListener(new View.OnClickListener() {
+        rvClubs.setAdapter(adapter);
+        bNext=(Button) findViewById(R.id.gotomain);
+
+        bNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i;
-                i=new Intent("org.saarang.instieventsapp.Activities.MAINACTIVITY");
+                i = new Intent("org.saarang.instieventsapp.Activities.MAINACTIVITY");
                 startActivity(i);
             }
         });
+    }
+
+    public void initialise(){
+
+        list=new ArrayList<>();
+        if (Connectivity.isConnected()) {
+            Log.d(LOG_TAG, "Retrieving club details ... ");
+            details = new Clubdetails();
+            details.execute();
+
+        }
+        else {
+            Log.d(LOG_TAG, "1 no net");
+        }
+
+    }
+
+    private class Clubdetails extends AsyncTask<Void,Void,Void>{
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(ClubSubscriptionActivity.this);
+            pDialog.setMessage("Getting  club details...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            String urlString= URLConstants.URL_SUBSCRIBE;
+            JSONObject json = GetRequest.execute(urlString, UserProfile.getUserToken(context));
+            Log.d(LOG_TAG,json.toString());
+            if (json == null) {
+                return null;
+
+            }
+            try{
+
+                status=json.getInt("status");
+
+                if(status==200){
+                  Log.d(LOG_TAG,"Retrieval success");
+                  JSONArray jEvents=json.getJSONObject("data").getJSONArray("response");
+                  int i;
+                  for(i=0;jEvents.getJSONObject(i)!=null;i++)
+
+                  {
+                      String clubname=jEvents.getJSONObject(i).getString("name");
+                      list.add(new Club(clubname,false));
+                     // Log.d(LOG_TAG,list.get(i).getName());
+
+                  }
+
+              }
+              else {
+                  Log.d(LOG_TAG,"5 unsuccessfull!! ");
+              }
+
+            }catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            pDialog.dismiss();
+            adapter=new ClubSubscriptionAdapter(context,list);
+            rvClubs.setAdapter(adapter);
+        }
     }
 }
