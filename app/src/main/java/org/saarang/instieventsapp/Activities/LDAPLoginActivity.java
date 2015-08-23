@@ -6,32 +6,21 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
-import android.test.suitebuilder.annotation.MediumTest;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.saarang.instieventsapp.Objects.INSTIProfile;
+import org.saarang.instieventsapp.Objects.UserProfile;
 import org.saarang.instieventsapp.R;
 import org.saarang.instieventsapp.Utils.URLConstants;
 import org.saarang.saarangsdk.Network.Connectivity;
 import org.saarang.saarangsdk.Network.HttpRequest;
-import org.saarang.saarangsdk.Network.PostRequest;
-import org.saarang.saarangsdk.Objects.PostParam;
-import org.saarang.saarangsdk.Utils.StringValidator;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Ajmal on 08-08-2015.
@@ -48,7 +37,7 @@ public class LDAPLoginActivity extends Activity{
     String username, password;
     ProgressDialog pDialog;
     Login logintask;
-    INSTIProfile profile;
+    UserProfile profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

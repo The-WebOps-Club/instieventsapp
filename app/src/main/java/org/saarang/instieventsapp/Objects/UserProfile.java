@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 
 
-public class INSTIProfile {
+public class UserProfile {
 
     private static String LOG_TAG = "INSTIProfile";
 
