@@ -28,10 +28,10 @@ public class UserProfile {
         SharedPreferences preferences = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         try {
-            String token = json.getJSONObject("data").getString("token");
+            String token = json.getString("token");
             editor.putString(spToken, token);
 
-            JSONObject user = json.getJSONObject("data").getJSONObject("user");
+            JSONObject user = json.getJSONObject("user");
             String id = user.getString("_id");
             editor.putString(spId, id);
 
@@ -44,26 +44,22 @@ public class UserProfile {
         } finally {
             editor.commit();
 
-            Log.d(LOG_TAG, preferences.getString(spToken, ""));
-            Log.d(LOG_TAG, preferences.getString(spId, ""));
-            Log.d(LOG_TAG, preferences.getString(spRollNumber, ""));
-
         }
 
     }
 
-    public static String getINSTIUserToken(Context context){
+    public static String getUserToken(Context context){
         SharedPreferences pref = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
         return pref.getString(spToken, "");
     }
-    public static String getINSTIUserId(Context context){
+    public static String getUserId(Context context){
         SharedPreferences pref = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
         return pref.getString(spId, "");
     }
 
-    public static String getINSTIUserRollNumber(Context context){
+    public static String getUserRollNumber(Context context){
         SharedPreferences pref = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
-        return pref.getString(spRollNumber, "okmj");
+        return pref.getString(spRollNumber, "");
     }
 }
 

@@ -142,9 +142,8 @@ public class LDAPLoginActivity extends Activity{
                     Log.d(LOG_TAG, "5 successfull\n");
 
                     //Saving INSTIProfile of logged in user
-                    profile.saveUser(LDAPLoginActivity.this, responseJSON);
+                    profile.saveUser(LDAPLoginActivity.this, responseJSON.getJSONObject("data"));
 
-                    Log.d(LOG_TAG, profile.getINSTIUserRollNumber(LDAPLoginActivity.this) );
 
                 }
                 else {
