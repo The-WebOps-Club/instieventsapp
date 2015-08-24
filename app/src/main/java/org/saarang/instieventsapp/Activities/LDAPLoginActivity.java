@@ -163,7 +163,7 @@ public class LDAPLoginActivity extends Activity {
             pDialog.dismiss();
             switch (status) {
                 case 200:
-                    Intent intent = new Intent(LDAPLoginActivity.this, MainActivity.class);
+                    Intent intent = new Intent(LDAPLoginActivity.this, ClubSubscriptionActivity.class);
                     startActivity(intent);
                     finish();
                     break;
