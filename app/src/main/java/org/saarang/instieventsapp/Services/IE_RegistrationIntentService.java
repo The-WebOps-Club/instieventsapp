@@ -24,7 +24,6 @@ import java.util.ArrayList;
  */
 public class IE_RegistrationIntentService extends IntentService {
     private static final String TAG = "RegIntentService";
-    String sender_id = "475795801819";
     private static final String[] TOPICS = {"global"};
     String Old_ID,token;
     Boolean senttokentoserver;
