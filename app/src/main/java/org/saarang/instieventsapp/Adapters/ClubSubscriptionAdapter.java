@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.saarang.instieventsapp.Objects.Club;
@@ -29,13 +29,14 @@ public class ClubSubscriptionAdapter extends RecyclerView.Adapter<ClubSubscripti
     public static class Viewholder extends RecyclerView.ViewHolder{
 
         TextView clubname;
-        CheckBox subscribed;
+        ImageView subscribed;
 
 
         public Viewholder(View itemView) {
             super(itemView);
             clubname=(TextView)itemView.findViewById(R.id.club_subscription_hostelname);
-            subscribed=(CheckBox)itemView.findViewById(R.id.club_subscription_subscribed);
+            subscribed=(ImageView)itemView.findViewById(R.id.club_subscription_subscribed);
+
 
         }
     }
@@ -49,9 +50,40 @@ public class ClubSubscriptionAdapter extends RecyclerView.Adapter<ClubSubscripti
     }
 
     @Override
-    public void onBindViewHolder(Viewholder viewholder, int i) {
+    public void onBindViewHolder(final Viewholder viewholder, final int i) {
         viewholder.clubname.setText(mList.get(i).getName());
-        viewholder.subscribed.setChecked(mList.get(i).getIsSubscribed());
+        if(mList.get(i).getIsSubscribed()){
+            viewholder.subscribed.setImageResource(R.drawable.ic_tick);
+        }
+        else
+            viewholder.subscribed.setImageResource(R.drawable.ic_circle);
+        viewholder.clubname.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mList.get(i).getIsSubscribed()){
+                    viewholder.subscribed.setImageResource(R.drawable.ic_circle);
+                    mList.get(i).setIsSubscribed(false);
+                }
+                else{
+                    viewholder.subscribed.setImageResource(R.drawable.ic_tick);
+                    mList.get(i).setIsSubscribed(true);
+                }
+            }
+        });
+
+        viewholder.subscribed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mList.get(i).getIsSubscribed()){
+                    viewholder.subscribed.setImageResource(R.drawable.ic_circle);
+                    mList.get(i).setIsSubscribed(false);
+                }
+                else{
+                    viewholder.subscribed.setImageResource(R.drawable.ic_tick);
+                    mList.get(i).setIsSubscribed(true);
+                }
+            }
+        });
     }
 
 
