@@ -1,6 +1,7 @@
 package org.saarang.instieventsapp.Activities;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Build;
@@ -18,15 +19,20 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import org.saarang.instieventsapp.Fragments.CalenderFragment;
 import org.saarang.instieventsapp.Fragments.ClubsFragment;
 import org.saarang.instieventsapp.Fragments.EventsFeedFragment;
 import org.saarang.instieventsapp.Fragments.ScoreBoardFragment;
 import org.saarang.instieventsapp.R;
+import org.saarang.instieventsapp.Services.IE_RegistrationIntentService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +40,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -76,6 +83,12 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         tabLayout.setupWithViewPager(viewPager);
+
+        if (checkPlayServices()) {
+            // Start IntentService to register this application with GCM.
+            Intent intent = new Intent(this, IE_RegistrationIntentService.class);
+            startService(intent);
+        }
     }
 
     @Override
@@ -109,6 +122,21 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+    private boolean checkPlayServices() {
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+                GooglePlayServicesUtil.getErrorDialog(resultCode, this,
+                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
+            } else {
+                Log.i("tag", "This device is not supported.");
+                finish();
+            }
+            return false;
+        }
+        return true;
+    }
+
 
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
@@ -158,5 +186,7 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitles.get(position);
         }
+
+
     }
 }
