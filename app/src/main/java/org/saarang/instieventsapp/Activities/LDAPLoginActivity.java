@@ -24,6 +24,7 @@ import org.saarang.instieventsapp.Helper.DatabaseHelper;
 import org.saarang.instieventsapp.Objects.Club;
 import org.saarang.instieventsapp.Objects.UserProfile;
 import org.saarang.instieventsapp.R;
+import org.saarang.instieventsapp.Services.IE_RegistrationIntentService;
 import org.saarang.instieventsapp.Utils.URLConstants;
 import org.saarang.saarangsdk.Network.Connectivity;
 import org.saarang.saarangsdk.Network.HttpRequest;
@@ -50,6 +51,9 @@ public class LDAPLoginActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_login_ldap);
+
+        Intent intent = new Intent(this, IE_RegistrationIntentService.class);
+        startService(intent);
 
         tvLogin = (TextView)findViewById(R.id.tvLogin);
         tvLogin.setOnClickListener(new View.OnClickListener() {
