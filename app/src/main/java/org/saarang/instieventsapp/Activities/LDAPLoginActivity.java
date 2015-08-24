@@ -118,7 +118,7 @@ public class LDAPLoginActivity extends Activity {
         @Override
         protected Void doInBackground(String... param) {
 
-            String urlString = URLConstants.SERVER + URLConstants.URL_LOGIN;
+            String urlString = URLConstants.URL_LOGIN;
 
             //Adding Parameters
             JSONObject JSONrequest = new JSONObject();

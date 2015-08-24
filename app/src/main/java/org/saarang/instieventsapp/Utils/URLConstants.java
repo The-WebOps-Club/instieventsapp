@@ -7,5 +7,5 @@ public class URLConstants {
 
     public static String SERVER = "http://10.21.209.192:9000/";
 
-    public static String URL_LOGIN = "auth/local";
+    public static String URL_LOGIN = SERVER + "auth/local";
 }
