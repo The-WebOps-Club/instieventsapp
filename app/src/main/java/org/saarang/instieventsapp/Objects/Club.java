@@ -3,6 +3,7 @@ package org.saarang.instieventsapp.Objects;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -15,6 +16,9 @@ import java.util.List;
  * Created by kiran on 23/8/15.
  */
 public class Club {
+
+    private static String LOG_TAG = "ClubObject";
+
     String id;
     String name;
     String createdOn;
@@ -58,7 +62,7 @@ public class Club {
             COLUMN_CONVENORS + " TEXT  " +
             " );";
 
-    public static String[] columns = {COLUMN_CLUB_ID, KEY_ROWID, COLUMN_NAME, COLUMN_CREATED_ON,
+    public static String[] columns = {KEY_ROWID, COLUMN_CLUB_ID, COLUMN_NAME, COLUMN_CREATED_ON,
             COLUMN_UPDATED_ON, COLUMN_CATEGORY, COLUMN_DESCRIPTION, COLUMN_CONVENORS};
 
 
@@ -164,10 +168,13 @@ public class Club {
         ArrayList<Club> arrayList = new ArrayList<>();
         Gson gson = new Gson();
         while ( c.moveToNext() ){
+            Log.d(LOG_TAG, "Club id loaded is " + c.getString(1));
             Club club = new Club(c.getString(1), c.getString(2),c.getString(3),c.getString(4),
                     c.getString(5),c.getString(6), gson.fromJson(c.getString(7), Convenor[].class) );
             arrayList.add(club);
         }
         return arrayList;
     }
+
 }
+

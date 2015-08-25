@@ -66,7 +66,7 @@ public class IE_GCMListenerService extends GcmListenerService{
 
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_notifications)
+                .setSmallIcon(R.drawable.ic_clock_grey)
                 .setContentTitle("GCM Message")
                 .setContentText(message)
                 .setAutoCancel(true)
