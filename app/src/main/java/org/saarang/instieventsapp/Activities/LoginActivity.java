@@ -182,6 +182,7 @@ public class LoginActivity extends Activity{
             pDialog.dismiss();
             switch (status){
                 case 200:
+                    UserProfile.setUserState(context, 1);
                     Intent intent = new Intent(LoginActivity.this, ClubSubscriptionActivity.class);
                     startActivity(intent);
                     finish();

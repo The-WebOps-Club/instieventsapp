@@ -2,13 +2,9 @@ package org.saarang.instieventsapp.Objects;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.saarang.saarangsdk.Objects.PostParam;
-
-import java.util.ArrayList;
 
 /**
  * Created by Moochi on 23-08-2015.
@@ -60,6 +56,21 @@ public class UserProfile {
     public static String getUserRollNumber(Context context){
         SharedPreferences pref = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
         return pref.getString(spRollNumber, "");
+    }
+
+    public static  String spUserState = "spUserState";
+    public static String spLastActivity = "spLastActivity";
+
+    public static void setUserState( Context context, int state){
+        SharedPreferences preferences = context.getSharedPreferences(spUserState, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt(spLastActivity, state);
+        editor.commit();
+    }
+
+    public static int getLastActivity(Context context){
+        SharedPreferences preferences = context.getSharedPreferences(spUserState, Context.MODE_PRIVATE);
+        return preferences.getInt(spLastActivity, 1);
     }
 }
 
