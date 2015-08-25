@@ -2,6 +2,7 @@ package org.saarang.instieventsapp.Activities;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,8 +15,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.saarang.instieventsapp.Helper.DatabaseHelper;
+import org.saarang.instieventsapp.Objects.Club;
 import org.saarang.instieventsapp.Objects.UserProfile;
 import org.saarang.instieventsapp.R;
 import org.saarang.instieventsapp.Services.IE_RegistrationIntentService;
@@ -39,6 +45,7 @@ public class LDAPLoginActivity extends Activity{
     ProgressDialog pDialog;
     Login logintask;
     UserProfile profile;
+    Context context=LDAPLoginActivity.this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +110,9 @@ public class LDAPLoginActivity extends Activity{
     private class Login extends AsyncTask<String, Void, Void> {
 
         int status = 400;
+        JSONObject jEvent;
+        Club club;
+        Gson gson=new Gson();
 
         @Override
         protected void onPreExecute() {
@@ -117,8 +127,8 @@ public class LDAPLoginActivity extends Activity{
         @Override
         protected Void doInBackground(String... param) {
 
-            String urlString = URLConstants.SERVER + URLConstants.URL_LOGIN;
-
+           // String urlString = URLConstants.SERVER + URLConstants.URL_LOGIN;
+              String urlString=URLConstants.URL_LOGIN;
             //Adding Parameters
            JSONObject JSONrequest = new JSONObject();
             try{
@@ -142,24 +152,30 @@ public class LDAPLoginActivity extends Activity{
 
             try {
                 status = responseJSON.getInt("status");
-                if (status == 200){
+                if (status == 200) {
                     Log.d(LOG_TAG, "5 successfull\n");
 
                     //Saving INSTIProfile of logged in user
                     profile.saveUser(LDAPLoginActivity.this, responseJSON.getJSONObject("data"));
-
-
+                    JSONArray jEvents = responseJSON.getJSONObject("data").getJSONArray("clubs");
+                    for (int i = 0; i < jEvents.length(); i++) {
+                        jEvent = jEvents.getJSONObject(i);
+                        club = gson.fromJson(jEvent.toString(), Club.class);
+                        Log.d(LOG_TAG,jEvent.getString("name"));
+                        DatabaseHelper data = new DatabaseHelper(context);
+                        data.addClub(club.getCV());
+                    }
                 }
                 else {
                     Log.d(LOG_TAG,"5 unsuccessfull!! ");
                 }
             } catch (JSONException e) {
-
+                  e.printStackTrace();
             }
             return null;
         }
 
-        @Override
+            @Override
         protected void onPostExecute(Void aVoid) {
             pDialog.dismiss();
             switch (status){

@@ -1,15 +1,17 @@
 package org.saarang.instieventsapp.Activities;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
 
 import com.google.gson.Gson;
@@ -27,12 +29,11 @@ import org.saarang.saarangsdk.Network.Connectivity;
 import org.saarang.saarangsdk.Network.GetRequest;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by kiran on 23/8/15.
  */
-public class ClubSubscriptionActivity extends Activity {
+public class ClubSubscriptionActivity extends AppCompatActivity {
 
 
     RecyclerView rvClubs;
@@ -40,7 +41,9 @@ public class ClubSubscriptionActivity extends Activity {
     private RecyclerView.LayoutManager layoutManager;
     private Button bNext;
     String LOG_TAG="ClubSubscriptionActivity";
-    private List<Club> list;
+    private ArrayList<Club> list;
+    private ArrayList<String> subclub;
+    JSONArray jsonsub;
     ProgressDialog pDialog;
     Clubdetails details;
     int status=400;
@@ -53,22 +56,44 @@ public class ClubSubscriptionActivity extends Activity {
 
         rvClubs=(RecyclerView)findViewById(R.id.reSubscription);
         layoutManager=new LinearLayoutManager(this);
+        Toolbar tool=(Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(tool);
         rvClubs.setLayoutManager(layoutManager);
 
-        initialise();
-
-        adapter=new ClubSubscriptionAdapter(this,list);
+        //initialise();
+        list=new ArrayList<>();
+        list = Club.getAllClubs(context);
+        adapter=new ClubSubscriptionAdapter(context,list);
         rvClubs.setAdapter(adapter);
-        bNext=(Button) findViewById(R.id.gotomain);
 
-        bNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i;
-                i = new Intent("org.saarang.instieventsapp.Activities.MAINACTIVITY");
-                startActivity(i);
+       // adapter=new ClubSubscriptionAdapter(this,list);
+        //rvClubs.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_subscriptions, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+       int id=item.getItemId();
+        if(id==R.id.gotomain){
+            Intent i;
+            i = new Intent("org.saarang.instieventsapp.Activities.MAINACTIVITY");
+            subclub=new ArrayList<>();
+            for(int j=0; j<list.size(); j++){
+                if(list.get(j).getIsSubscribed()){
+                    subclub.add(list.get(j).getId());
+                }
             }
-        });
+
+            jsonsub=new JSONArray(subclub);
+            Log.d(LOG_TAG,jsonsub.toString());
+            startActivity(i);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void initialise(){

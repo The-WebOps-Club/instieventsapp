@@ -5,9 +5,9 @@ package org.saarang.instieventsapp.Utils;
  */
 public class URLConstants {
 
-    public static String SERVER = "http://10.21.209.192:9000/";
-
-    public static String URL_LOGIN = "auth/local";
+    public static String SERVER = "http://10.21.210.130:9000/";
 
     public static String URL_SUBSCRIBE= SERVER + "api/clubs";
+
+    public static String URL_LOGIN=SERVER+"auth/local/mobile";
 }
