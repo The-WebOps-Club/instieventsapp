@@ -66,6 +66,6 @@ public class ClubDetailAdapter extends RecyclerView.Adapter<ClubDetailAdapter.Vi
 
     @Override
     public int getItemCount() {
-        return 5;
+        return 10;
     }
 }
