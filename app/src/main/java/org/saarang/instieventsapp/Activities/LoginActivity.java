@@ -33,7 +33,7 @@ import org.saarang.saarangsdk.Network.HttpRequest;
  * Created by Ajmal on 08-08-2015.
  */
 
-public class LDAPLoginActivity extends Activity{
+public class LoginActivity extends Activity{
 
 
     private static String LOG_TAG = "LDAPLoginActivity";
@@ -45,7 +45,7 @@ public class LDAPLoginActivity extends Activity{
     ProgressDialog pDialog;
     Login logintask;
     UserProfile profile;
-    Context context=LDAPLoginActivity.this;
+    Context context=LoginActivity.this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +117,7 @@ public class LDAPLoginActivity extends Activity{
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(LDAPLoginActivity.this);
+            pDialog = new ProgressDialog(LoginActivity.this);
             pDialog.setMessage("Logging in ...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
@@ -134,6 +134,8 @@ public class LDAPLoginActivity extends Activity{
             try{
                 JSONrequest.put("rollNumber",param[0]);
                 JSONrequest.put("password",param[1]);
+                JSONrequest.put("name", "ajmal");
+                JSONrequest.put("hostel", "narmad");
                 Log.d(LOG_TAG, "2 JSONrequest\n" + JSONrequest.toString());
                 Log.d(LOG_TAG, "3 urlstring :: " + urlString);
             }
@@ -156,7 +158,7 @@ public class LDAPLoginActivity extends Activity{
                     Log.d(LOG_TAG, "5 successfull\n");
 
                     //Saving INSTIProfile of logged in user
-                    profile.saveUser(LDAPLoginActivity.this, responseJSON.getJSONObject("data"));
+                    profile.saveUser(LoginActivity.this, responseJSON.getJSONObject("data"));
                     JSONArray jEvents = responseJSON.getJSONObject("data").getJSONArray("clubs");
                     for (int i = 0; i < jEvents.length(); i++) {
                         jEvent = jEvents.getJSONObject(i);
@@ -180,7 +182,7 @@ public class LDAPLoginActivity extends Activity{
             pDialog.dismiss();
             switch (status){
                 case 200:
-                    Intent intent = new Intent(LDAPLoginActivity.this, ClubSubscriptionActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, ClubSubscriptionActivity.class);
                     startActivity(intent);
                     finish();
                     break;

@@ -2,6 +2,7 @@ package org.saarang.instieventsapp.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +53,7 @@ public class ClubSubscriptionAdapter extends RecyclerView.Adapter<ClubSubscripti
     @Override
     public void onBindViewHolder(final Viewholder viewholder, final int i) {
         viewholder.clubname.setText(mList.get(i).getName());
+        Log.d("ClubsubscriptionAdapter",mList.get(i).getId());
         if(mList.get(i).getIsSubscribed()){
             viewholder.subscribed.setImageResource(R.drawable.ic_tick);
         }
