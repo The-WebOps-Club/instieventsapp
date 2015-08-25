@@ -2,10 +2,13 @@ package org.saarang.instieventsapp.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.saarang.instieventsapp.Adapters.ScheduleAdapter;
 import org.saarang.instieventsapp.R;
 
 /**
@@ -13,13 +16,28 @@ import org.saarang.instieventsapp.R;
  */
 public class CalenderFragment extends Fragment {
 
-    View rootView;
 
+    public CalenderFragment(){
+
+    }
+
+    private RecyclerView.Adapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
+    RecyclerView recyclerView;
+
+    View rootView;
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fr_calender, container, false);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
 
+        // use a linear layout manager
+        layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
+
+        adapter = new ScheduleAdapter(getActivity());
+        recyclerView.setAdapter(adapter);
 
         return rootView;
     }
