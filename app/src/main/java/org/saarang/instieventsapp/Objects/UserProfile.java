@@ -68,7 +68,7 @@ public class UserProfile {
         editor.commit();
     }
 
-    public static int getLastActivity(Context context){
+    public static int getUserState(Context context){
         SharedPreferences preferences = context.getSharedPreferences(spUserState, Context.MODE_PRIVATE);
         return preferences.getInt(spLastActivity, 1);
     }

@@ -163,6 +163,7 @@ public class ClubSubscriptionActivity extends AppCompatActivity {
        protected void onPostExecute(Void aVoid) {
            super.onPostExecute(aVoid);
            pDialog.dismiss();
+           UserProfile.setUserState(context, 3);
            Intent i;
            i = new Intent("org.saarang.instieventsapp.Activities.MAINACTIVITY");
            startActivity(i);

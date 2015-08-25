@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import org.saarang.instieventsapp.Objects.Club;
+import org.saarang.instieventsapp.Objects.Event;
+import org.saarang.instieventsapp.Objects.ScoreCard;
 
 import java.util.ArrayList;
 

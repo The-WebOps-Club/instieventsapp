@@ -26,6 +26,7 @@ import org.saarang.instieventsapp.Fragments.CalenderFragment;
 import org.saarang.instieventsapp.Fragments.ClubsFragment;
 import org.saarang.instieventsapp.Fragments.EventsFragment;
 import org.saarang.instieventsapp.Fragments.ScoreBoardFragment;
+import org.saarang.instieventsapp.Objects.UserProfile;
 import org.saarang.instieventsapp.R;
 import org.saarang.instieventsapp.Services.IE_RegistrationIntentService;
 
@@ -36,12 +37,16 @@ public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-
+    int userState;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        userState = UserProfile.getUserState(this);
+        redirectUser(userState);
+
         setContentView(R.layout.ac_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -84,6 +89,20 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, IE_RegistrationIntentService.class);
             startService(intent);
         }
+    }
+
+    private void redirectUser(int userState) {
+        switch (userState){
+            case 1:
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                break;
+            case 2:
+                Intent intent_2 = new Intent(this, ClubSubscriptionActivity.class);
+                startActivity(intent_2);
+                break;
+        }
+
     }
 
     @Override
