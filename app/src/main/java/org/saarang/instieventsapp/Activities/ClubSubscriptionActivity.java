@@ -14,8 +14,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
-import com.google.gson.Gson;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,8 +24,7 @@ import org.saarang.instieventsapp.Objects.Club;
 import org.saarang.instieventsapp.Objects.UserProfile;
 import org.saarang.instieventsapp.R;
 import org.saarang.instieventsapp.Utils.URLConstants;
-import org.saarang.saarangsdk.Network.Connectivity;
-import org.saarang.saarangsdk.Network.GetRequest;
+import org.saarang.saarangsdk.Network.HttpRequest;
 
 import java.util.ArrayList;
 
@@ -44,9 +41,8 @@ public class ClubSubscriptionActivity extends AppCompatActivity {
     String LOG_TAG="ClubSubscriptionActivity";
     private ArrayList<Club> list;
     private ArrayList<String> subclub;
-    JSONArray jsonsub;
+    JSONObject jsonsub;
     ProgressDialog pDialog;
-    Clubdetails details;
     int status=400;
     Context context = ClubSubscriptionActivity.this;
 
@@ -85,8 +81,7 @@ public class ClubSubscriptionActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
        int id=item.getItemId();
         if(id==R.id.gotomain){
-            Intent i;
-            i = new Intent("org.saarang.instieventsapp.Activities.MAINACTIVITY");
+
             subclub=new ArrayList<>();
             for(int j=0; j<list.size(); j++){
                 if(list.get(j).getIsSubscribed()){
@@ -94,87 +89,86 @@ public class ClubSubscriptionActivity extends AppCompatActivity {
                 }
             }
 
-            jsonsub=new JSONArray(subclub);
-            Log.d(LOG_TAG,jsonsub.toString());
-            startActivity(i);
-        }
-        return super.onOptionsItemSelected(item);
-    }
+            jsonsub=new JSONObject();
+            try {
+                jsonsub.put("clubs",new JSONArray(subclub));
+                Log.d(LOG_TAG, jsonsub.toString());
+                sendSubscribed send=new sendSubscribed();
+                send.execute(jsonsub);
 
-    public void initialise(){
-
-        list=new ArrayList<>();
-        if (Connectivity.isConnected()) {
-            Log.d(LOG_TAG, "Retrieving club details ... ");
-            details = new Clubdetails();
-            details.execute();
-
-        }
-        else {
-            Log.d(LOG_TAG, "1 no net");
-        }
-
-    }
-
-    private class Clubdetails extends AsyncTask<Void,Void,Void>{
-
-        JSONObject jEvent;
-        Gson gson = new Gson();
-        Club club;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pDialog = new ProgressDialog(ClubSubscriptionActivity.this);
-            pDialog.setMessage("Getting  club details...");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(false);
-            pDialog.show();
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            String urlString= URLConstants.URL_SUBSCRIBE;
-            JSONObject json = GetRequest.execute(urlString, UserProfile.getUserToken(context));
-            Log.d(LOG_TAG, json.toString());
-            if (json == null) {
-                return null;
-
-            }
-            try{
-
-                status=json.getInt("status");
-
-                if(status==200){
-                  Log.d(LOG_TAG,"Retrieval success");
-                  JSONArray jEvents=json.getJSONObject("data").getJSONArray("response");
-                  for(int i=0; i< jEvents.length(); i++) {
-                      jEvent = jEvents.getJSONObject(i);
-                      club = gson.fromJson(jEvent.toString(), Club.class);
-                      DatabaseHelper data = new DatabaseHelper(context);
-                      data.addClub(club.getCV());
-                  }
-
-              }
-              else {
-                  Log.d(LOG_TAG,"5 unsuccessfull!! ");
-              }
-
-            }catch (JSONException e) {
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
 
 
-            return null;
-        }
 
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            pDialog.dismiss();
-            list = Club.getAllClubs(context);
-            adapter=new ClubSubscriptionAdapter(context,list);
-            rvClubs.setAdapter(adapter);
         }
+        return super.onOptionsItemSelected(item);
     }
+
+
+
+   private class sendSubscribed extends AsyncTask<JSONObject,Void,Void> {
+       @Override
+       protected void onPreExecute() {
+           super.onPreExecute();
+           pDialog = new ProgressDialog(ClubSubscriptionActivity.this);
+           pDialog.setMessage("Loading data...");
+           pDialog.setIndeterminate(false);
+           pDialog.setCancelable(false);
+           pDialog.show();
+       }
+
+       @Override
+       protected Void doInBackground(JSONObject... params) {
+           JSONObject json=params[0];
+           String url=URLConstants.URL_SUBCLUBS;
+           String token;
+           token=UserProfile.getUserToken(context);
+           Log.d(LOG_TAG,token);
+           JSONObject responseJSON = HttpRequest.execute("POST",url , token, json);
+           Log.d(LOG_TAG, responseJSON.toString());
+
+           if(responseJSON==null){
+               return null;
+           }
+           int status;
+           try {
+               status=responseJSON.getInt("status");
+               if(status==200){
+                   Log.d(LOG_TAG,"Subscribed data has been sent");
+                   for(int j=0; j<list.size(); j++){
+                       if(list.get(j).getIsSubscribed()){
+                           DatabaseHelper data = new DatabaseHelper(context);
+                           Log.d(LOG_TAG,list.get(j).getName());
+                           data.updateClub(1,list.get(j).getId());
+                       }
+                       else
+                       {
+                           DatabaseHelper data=new DatabaseHelper(context);
+                           data.updateClub(0,list.get(j).getId());
+                       }
+                   }
+               }
+               else{
+                   Log.d(LOG_TAG,"Unsuccessful");
+               }
+           } catch (JSONException e) {
+               e.printStackTrace();
+           }
+           return null;
+       }
+
+       @Override
+       protected void onPostExecute(Void aVoid) {
+           super.onPostExecute(aVoid);
+           pDialog.dismiss();
+           Intent i;
+           i = new Intent("org.saarang.instieventsapp.Activities.MAINACTIVITY");
+           startActivity(i);
+
+       }
+   }
+
+
 }

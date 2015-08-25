@@ -60,6 +60,8 @@ public class Club {
             COLUMN_CONVENORS + " TEXT  " +
             " );";
 
+
+
     public static String[] columns = {KEY_ROWID, COLUMN_CLUB_ID, COLUMN_NAME, COLUMN_CREATED_ON,
             COLUMN_UPDATED_ON, COLUMN_CATEGORY, COLUMN_DESCRIPTION, COLUMN_CONVENORS, COLUMN_ISSUBSCRIBED};
 

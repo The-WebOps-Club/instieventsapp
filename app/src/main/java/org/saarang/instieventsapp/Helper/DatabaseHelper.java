@@ -7,8 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import org.saarang.instieventsapp.Objects.Club;
-import org.saarang.instieventsapp.Objects.Event;
-import org.saarang.instieventsapp.Objects.ScoreCard;
 
 import java.util.ArrayList;
 
@@ -69,6 +67,15 @@ public class DatabaseHelper {
         long id = ourDatabase.insert(Club.TABLE_NAME, null, cv);
         close();
         return id;
+    }
+
+    public void updateClub(int i,String clubid){
+        open();
+        ContentValues cv=new ContentValues();
+        cv.put("isSubscribed", i);
+        ourDatabase.update(Club.TABLE_NAME, cv, "clubId" + " = ?", new String[]{clubid});
+        close();
+
     }
 
     public long addScoreCard(ContentValues cv) {

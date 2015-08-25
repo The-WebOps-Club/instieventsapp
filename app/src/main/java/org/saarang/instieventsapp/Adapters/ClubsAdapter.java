@@ -9,7 +9,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import org.saarang.instieventsapp.Activities.ClubDetailActivity;
+import org.saarang.instieventsapp.Objects.Club;
 import org.saarang.instieventsapp.R;
+
+import java.util.ArrayList;
 
 /**
  * Created by kevin selva prasanna on 08-Aug-15.
@@ -17,8 +20,10 @@ import org.saarang.instieventsapp.R;
 public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
 
     Context mContext;
-    public ClubsAdapter(Context context) {
+    ArrayList<Club> mList;
+    public ClubsAdapter(Context context,ArrayList<Club> list) {
         mContext = context;
+        mList=list;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
@@ -42,6 +47,8 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
+        if(mList.get(position).getIsSubscribed())
+            holder.bSubscibe.setVisibility(View.INVISIBLE);
         holder.bViewMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,6 +60,6 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
 
     @Override
     public int getItemCount() {
-        return 5;
+        return mList.size();
     }
 }
