@@ -65,6 +65,15 @@ public class DatabaseHelper {
         return id;
     }
 
+    public void updateClub(int i,String clubid){
+        open();
+        ContentValues cv=new ContentValues();
+        cv.put("isSubscribed", i);
+        ourDatabase.update(Club.TABLE_NAME, cv, "clubId" + " = ?", new String[]{clubid});
+        close();
+
+    }
+
     public ArrayList<Club> getAllClubs () {
         open();
         String[] columns = Club.columns;

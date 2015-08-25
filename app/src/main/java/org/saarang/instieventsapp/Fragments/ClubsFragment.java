@@ -10,7 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.saarang.instieventsapp.Adapters.ClubsAdapter;
+import org.saarang.instieventsapp.Objects.Club;
 import org.saarang.instieventsapp.R;
+
+import java.util.ArrayList;
 
 //import org.saarang.instieventsapp.R;
 
@@ -27,7 +30,7 @@ public class ClubsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     private RecyclerView.LayoutManager layoutManager;
     RecyclerView recyclerView;
     SwipeRefreshLayout swipeRefreshLayout;
-
+    ArrayList<Club> list;
 
 
     @Override
@@ -43,8 +46,13 @@ public class ClubsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh);
         swipeRefreshLayout.setOnRefreshListener(this);
 
-        adapter = new ClubsAdapter(getActivity());
+        list=new ArrayList<>();
+        list=Club.getAllClubs(getActivity());
+
+        adapter = new ClubsAdapter(getActivity(),list);
         recyclerView.setAdapter(adapter);
+
+
 
 
 
