@@ -5,15 +5,15 @@ import com.google.gson.Gson;
 /**
  * Created by Seetharaman on 22-08-2015.
  */
-public class EventObject {
+public class EventObjectB {
 
     String name, time, venue, description, results, details, club, createdOn, updatedOn;
     boolean isActive, isLitSocEvent;
 
     Gson gson = new Gson();
 
-    public EventObject(String name, String time, String venue, String description, String results, String details, boolean isActive,
-                       boolean isLitSocEvent, String club, String createdOn, String updatedOn){
+    public EventObjectB(String name, String time, String venue, String description, String results, String details, boolean isActive,
+                        boolean isLitSocEvent, String club, String createdOn, String updatedOn){
 
         this.name = name;
         this.time = time;

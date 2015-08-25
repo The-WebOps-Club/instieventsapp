@@ -21,6 +21,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.saarang.instieventsapp.Adapters.ClubSubscriptionAdapter;
 import org.saarang.instieventsapp.Helper.DatabaseHelper;
+import org.saarang.instieventsapp.IntentServices.GetSetupData;
 import org.saarang.instieventsapp.Objects.Club;
 import org.saarang.instieventsapp.Objects.UserProfile;
 import org.saarang.instieventsapp.R;
@@ -52,6 +53,10 @@ public class ClubSubscriptionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent intent = new Intent(this, GetSetupData.class);
+        startService(intent);
+
         setContentView(R.layout.club_subscription);
 
         rvClubs=(RecyclerView)findViewById(R.id.reSubscription);
