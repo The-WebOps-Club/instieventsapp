@@ -8,18 +8,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.saarang.instieventsapp.Adapters.EventsFeedAdapter;
+import org.saarang.instieventsapp.Adapters.EventsAdapter;
+import org.saarang.instieventsapp.Objects.Event;
 import org.saarang.instieventsapp.R;
+
+import java.util.ArrayList;
 
 /**
  * Created by Seetharaman on 02-08-2015.
  */
-public class EventsFeedFragment extends Fragment {
+public class EventsFragment extends Fragment {
 
     View rootView;
     LinearLayoutManager layoutManager;
     RecyclerView rvEvents;
-    String[] headings = {"Thespian", "Quiz", "Coding", "Dance", "Drama"};
+    ArrayList<Event> events;
 
 
     @Override
@@ -34,8 +37,11 @@ public class EventsFeedFragment extends Fragment {
         //set the recycler view to use the linear layout manager
         rvEvents.setLayoutManager(layoutManager);
 
+        // Load events from Database
+        events = Event.getAllEvents(getActivity());
+
         //initialize events feed adapter
-        EventsFeedAdapter eventsAdapter = new EventsFeedAdapter(getActivity(), headings);
+        EventsAdapter eventsAdapter = new EventsAdapter(getActivity(), events);
 
         //Use the events feed adapter
         rvEvents.setAdapter(eventsAdapter);

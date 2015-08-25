@@ -55,7 +55,7 @@ public class Event {
             COLUMN_ISLITSOCEVENT + " NUMBER" +
             " );";
 
-    public static String[] columns = {KEY_ROWID, COLUMN_NAME, COLUMN_TIME, COLUMN_VENUE, COLUMN_DESCRIPTION,
+    public static String[] columns = {KEY_ROWID, COLUMN_EVENTID, COLUMN_NAME, COLUMN_TIME, COLUMN_VENUE, COLUMN_DESCRIPTION,
             COLUMN_CATEGORY, COLUMN_CLUB, COLUMN_RESULT, COLUMN_COORDS, COLUMN_CREATEDON, COLUMN_UPDATEDON, COLUMN_ISLITSOCEVENT};
 
     public Event(String id, String name, String time, String venue, String description, String category,
@@ -179,6 +179,10 @@ public class Event {
         return dh.addEvent(cv);
     }
 
+    public static ArrayList<Event> getAllEvents(Context context){
+        DatabaseHelper data = new DatabaseHelper(context);
+        return data.getAllEvents();
+    }
 
     public static ArrayList<Event> getArrayList(Cursor c){
         ArrayList<Event> arrayList = new ArrayList<>();
@@ -186,7 +190,7 @@ public class Event {
         while ( c.moveToNext() ){
             Event event = new Event(c.getString(1), c.getString(2),c.getString(3),c.getString(4),
                     c.getString(5),c.getString(6), c.getString(7),c.getString(8),c.getString(9),
-                    c.getString(10),c.getString(11), (c.getString(13)=="1")?true:false);
+                    c.getString(10),c.getString(11), (c.getString(12)=="1")?true:false);
             arrayList.add(event);
         }
         return arrayList;

@@ -2,12 +2,8 @@ package org.saarang.instieventsapp.Activities;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Build;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -22,14 +18,13 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import org.saarang.instieventsapp.Fragments.CalenderFragment;
 import org.saarang.instieventsapp.Fragments.ClubsFragment;
-import org.saarang.instieventsapp.Fragments.EventsFeedFragment;
+import org.saarang.instieventsapp.Fragments.EventsFragment;
 import org.saarang.instieventsapp.Fragments.ScoreBoardFragment;
 import org.saarang.instieventsapp.R;
 import org.saarang.instieventsapp.Services.IE_RegistrationIntentService;
@@ -140,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new EventsFeedFragment(), "Events Feed");
+        adapter.addFragment(new EventsFragment(), "Events Feed");
         adapter.addFragment(new CalenderFragment(), "Calender");
         adapter.addFragment(new ScoreBoardFragment(), "ScoreBoard");
         adapter.addFragment(new ClubsFragment(), "Clubs");

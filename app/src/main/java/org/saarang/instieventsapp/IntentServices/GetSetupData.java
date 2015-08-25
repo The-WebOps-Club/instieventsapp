@@ -70,7 +70,7 @@ public class GetSetupData extends IntentService {
                     for (int j = 0; j< jScoreCards.length(); j++){
                         jScoreBoard = jScoreCards.getJSONObject(j);
                         ContentValues cv = ScoreCard.getCV(category,
-                                jScoreBoard.getJSONObject("hostels").getString("name"),
+                                jScoreBoard.getJSONObject("hostel").getString("name"),
                                 jScoreBoard.getInt("score"), scoreBoardId + jScoreBoard.getString("_id"));
                         ScoreCard.saveScoreCard(this, cv);
                     }

@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class DatabaseHelper {
 
     private static final String DATABASE_NAME = "InstiEventsApp";
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 1;
 
     private DbHelper ourHelper;
     private final Context ourContext;
@@ -93,6 +93,16 @@ public class DatabaseHelper {
         close();
         return arrayList;
     }
+
+    public ArrayList<Event> getAllEvents () {
+        open();
+        String[] columns = Event.columns;
+        Cursor c = ourDatabase.query(Event.TABLE_NAME, columns, null, null, null, null, null);
+        ArrayList<Event> arrayList = Event.getArrayList(c);
+        close();
+        return arrayList;
+    }
+
 
     public ArrayList<ScoreCard> getScoreBoards (String category) {
         open();
