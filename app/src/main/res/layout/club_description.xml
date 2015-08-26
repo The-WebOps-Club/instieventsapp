@@ -20,6 +20,7 @@
         android:layout_height="wrap_content"
         android:text="New Text ushdF sdohf  dshfoaish osduohfousd sdfhsoadf uahfs adhfa fdshdf dfasudhf adf oashdfiasdh iahsdfsdfh fasihdf sadhfisfdh sifdh safsai hfihsai shgoisf gihioh iod fsdh i hsfdi sidhfigho"
         android:id="@+id/tv2"
+        android:textColor="@color/black_color_primary"
          />
     <TextView
         android:layout_width="match_parent"

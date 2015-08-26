@@ -15,13 +15,15 @@ import java.util.List;
  * Created by kiran on 23/8/15.
  */
 public class Club {
-    String id;
+
+    private static String LOG_TAG = "ClubObject";
+
     String name;
     String createdOn;
     String updatedOn;
     String description;
     String category;
-    Boolean isSubscribed = false;
+    Boolean isSubscribed;
     String _id;
 
     class Convenor{
@@ -53,22 +55,30 @@ public class Club {
             COLUMN_CREATED_ON + " TEXT  , " +
             COLUMN_UPDATED_ON + " TEXT  , " +
             COLUMN_CATEGORY + " TEXT NOT NULL , " +
-//            COLUMN_ISSUBSCRIBED + " NUMBER  , " +
+            COLUMN_ISSUBSCRIBED + " NUMBER  , " +
             COLUMN_DESCRIPTION + " TEXT , " +
             COLUMN_CONVENORS + " TEXT  " +
             " );";
 
+
+
     public static String[] columns = {KEY_ROWID, COLUMN_CLUB_ID, COLUMN_NAME, COLUMN_CREATED_ON,
-            COLUMN_UPDATED_ON, COLUMN_CATEGORY, COLUMN_DESCRIPTION, COLUMN_CONVENORS};
+            COLUMN_UPDATED_ON, COLUMN_CATEGORY, COLUMN_DESCRIPTION, COLUMN_CONVENORS, COLUMN_ISSUBSCRIBED};
 
 
     public Club(String _id, String name, String createdOn, String updatedOn, String category,
-                String description, Convenor[] convenors){
+                String description, Convenor[] convenors,int isSubscribed){
         this.name=name;
         this._id = _id;
         this.createdOn = createdOn;
         this.updatedOn = updatedOn;
         this.convenors = convenors;
+        this.category=category;
+        this.description=description;
+        if(isSubscribed==0)
+            this.isSubscribed=false;
+        else
+            this.isSubscribed=true;
     }
 
     public String getName(){
@@ -80,7 +90,7 @@ public class Club {
     }
 
     public String getId(){
-        return id;
+        return _id;
     }
 
     public String getCreatedOn(){
@@ -111,7 +121,7 @@ public class Club {
     }
 
     public void setId(String id){
-        this.id=id;
+        this._id=id;
     }
 
     public void setCreatedOn(String createdon){
@@ -142,9 +152,10 @@ public class Club {
         cv.put(COLUMN_CREATED_ON, createdOn);
         cv.put(COLUMN_UPDATED_ON, updatedOn);
         cv.put(COLUMN_DESCRIPTION, description);
-//        if (isSubscribed){
-//            cv.put(COLUMN_ISSUBSCRIBED, 1);
-//        } else cv.put(COLUMN_ISSUBSCRIBED, 0);
+        if (isSubscribed){
+            cv.put(COLUMN_ISSUBSCRIBED, 1);}
+         else
+        {cv.put(COLUMN_ISSUBSCRIBED, 0);}
         cv.put(COLUMN_CONVENORS, gson.toJson(convenors, Convenor[].class));
         cv.put(COLUMN_NAME, name);
         return cv;
@@ -155,19 +166,16 @@ public class Club {
         return data.getAllClubs();
     }
 
-//    public static String[] columns = {COLUMN_CLUB_ID, COLUMN_NAME, COLUMN_CREATED_ON,
-//            COLUMN_UPDATED_ON, COLUMN_CATEGORY, COLUMN_DESCRIPTION, COLUMN_CONVENORS};
-
-//    public Club(String _id, String name, String createdOn, String updatedOn, Convenor[] convenors){
-
     public static ArrayList<Club> getArrayList(Cursor c){
         ArrayList<Club> arrayList = new ArrayList<>();
         Gson gson = new Gson();
         while ( c.moveToNext() ){
             Club club = new Club(c.getString(1), c.getString(2),c.getString(3),c.getString(4),
-                    c.getString(5),c.getString(6), gson.fromJson(c.getString(7), Convenor[].class) );
+                    c.getString(5),c.getString(6), gson.fromJson(c.getString(7), Convenor[].class),c.getInt(8) );
             arrayList.add(club);
         }
         return arrayList;
     }
+
 }
+

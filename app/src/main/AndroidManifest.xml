@@ -2,14 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.saarang.instieventsapp" >
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
     <permission
         android:name="org.saarang.instieventsapp.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
+
     <uses-permission android:name="org.saarang.instieventsapp.permission.C2D_MESSAGE" />
 
     <application
@@ -20,30 +22,24 @@
         <activity
             android:name=".Activities.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme" >
            >
             <intent-filter>
                 <action android:name="org.saarang.instieventsapp.Activities.MAINACTIVITY" />
-
+                <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.intent.action.MAIN" />
+
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.LDAPLoginActivity"
-
+            android:name=".Activities.LoginActivity"
             android:theme="@style/AppTheme" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
-
         <activity
             android:name=".Activities.ClubSubscriptionActivity"
             android:theme="@style/AppTheme" >
         </activity>
-
         <activity
             android:name=".Activities.ClubDetailActivity"
             android:label="@string/title_activity_club_detail" >
@@ -51,6 +47,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.MainActivity" />
         </activity>
+
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
@@ -58,13 +55,11 @@
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
                 <category android:name="org.saarang.instieventsapp" />
             </intent-filter>
         </receiver>
-        <service
-            android:name=".Services.IE_RegistrationIntentService"
-            android:exported="false" >
-        </service>
+
         <service
             android:name=".Services.IE_GCMListenerService"
             android:exported="false" >
@@ -74,16 +69,19 @@
         </service>
         <service
             android:name=".Services.IE_InstanceIDListenerService"
-            android:exported="false">
+            android:exported="false" >
             <intent-filter>
-                <action android:name="com.google.android.gms.iid.InstanceID"/>
+                <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
         </service>
         <service
-            android:name=".IntentService.GetEvents"
-            android:exported="false"
-            >
-
+            android:name=".Services.IE_RegistrationIntentService"
+            android:exported="false" >
+        </service>
+        <service
+            android:name=".IntentServices.GetSetupData"
+            android:exported="false" >
         </service>
     </application>
+
 </manifest>

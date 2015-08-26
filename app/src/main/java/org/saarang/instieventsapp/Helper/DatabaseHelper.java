@@ -7,7 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import org.saarang.instieventsapp.Objects.Club;
-import org.saarang.instieventsapp.Objects.EventObject;
+import org.saarang.instieventsapp.Objects.Event;
+import org.saarang.instieventsapp.Objects.ScoreCard;
 
 import java.util.ArrayList;
 
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 public class DatabaseHelper {
 
     private static final String DATABASE_NAME = "InstiEventsApp";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 1;
 
     private DbHelper ourHelper;
     private final Context ourContext;
@@ -34,12 +35,16 @@ public class DatabaseHelper {
         public void onCreate(SQLiteDatabase db) {
             // TODO Auto-generated method stub _id INTEGER PRIMARY KEY
             db.execSQL(Club.CREATE_TABLE_CLUB);
+            db.execSQL(ScoreCard.CREATE_TABLE);
+            db.execSQL(Event.CREATE_TABLE);
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             // TODO Auto-generated method stub
             db.execSQL(" DROP TABLE IF EXISTS " + Club.TABLE_NAME  );
+            db.execSQL(" DROP TABLE IF EXISTS " + ScoreCard.TABLE_NAME  );
+            db.execSQL(" DROP TABLE IF EXISTS " + Event.TABLE_NAME  );
             onCreate(db);
         }
 
@@ -66,6 +71,29 @@ public class DatabaseHelper {
         return id;
     }
 
+    public void updateClub(int i,String clubid){
+        open();
+        ContentValues cv=new ContentValues();
+        cv.put("isSubscribed", i);
+        ourDatabase.update(Club.TABLE_NAME, cv, "clubId" + " = ?", new String[]{clubid});
+        close();
+
+    }
+
+    public long addScoreCard(ContentValues cv) {
+        open();
+        long id = ourDatabase.insert(ScoreCard.TABLE_NAME, null, cv);
+        close();
+        return id;
+    }
+
+    public long addEvent(ContentValues cv){
+        open();
+        long id = ourDatabase.insert(Event.TABLE_NAME, null, cv);
+        close();
+        return id;
+    }
+
     public ArrayList<Club> getAllClubs () {
         open();
         String[] columns = Club.columns;
@@ -75,22 +103,29 @@ public class DatabaseHelper {
         return arrayList;
     }
 
-
-    public long addEvent(ContentValues cv){
+    public ArrayList<Event> getAllEvents () {
         open();
-        long id = ourDatabase.insert(EventObject.TABLE_NAME, null, cv);
-        close();
-        return id;
-    }
-
-    public ArrayList<EventObject> getAllEvents () {
-        open();
-        String[] columns = EventObject.columns;
-        Cursor c = ourDatabase.query(EventObject.TABLE_NAME, columns, null, null, null, null, null);
-        ArrayList<EventObject> arrayList = EventObject.getArrayList(c);
+        String[] columns = Event.columns;
+        Cursor c = ourDatabase.query(Event.TABLE_NAME, columns, null, null, null, null, null);
+        ArrayList<Event> arrayList = Event.getArrayList(c);
         close();
         return arrayList;
     }
+
+
+    public ArrayList<ScoreCard> getScoreBoards (String category) {
+        open();
+        String[] columns = ScoreCard.columns;
+        Cursor c = ourDatabase.query(ScoreCard.TABLE_NAME, columns,
+            ScoreCard.COLUMN_CATEGORY + " LIKE ?", new String[]{category}, null, null,
+                ScoreCard.COLUMN_SCORE + " DESC");
+        ArrayList<ScoreCard> arrayList = ScoreCard.getArrayList(c);
+        close();
+        return arrayList;
+    }
+
+
+
 
 }
 

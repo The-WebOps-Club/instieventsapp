@@ -9,25 +9,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.saarang.instieventsapp.Objects.ScoreboardObject;
+import org.saarang.instieventsapp.Objects.ScoreCard;
 import org.saarang.instieventsapp.R;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by kiran on 8/8/15.
  */
 public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Viewholder> {
 
-    List<ScoreboardObject> mList;
+    ArrayList<ScoreCard> mList;
 
     String highlight;
     Context mContext;
-    public ScoreboardAdapter(Context context,List<ScoreboardObject> list,String userhostel){
+
+    public ScoreboardAdapter(Context context, ArrayList<ScoreCard> list,String userhostel){
         mList=list;
         mContext=context;
         highlight=userhostel;
     }
+
     public static class Viewholder extends RecyclerView.ViewHolder{
 
         TextView hostelname;
@@ -62,10 +64,10 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Vi
     @Override
     public void onBindViewHolder(Viewholder viewholder, int i) {
 
-        if (mList.get(i).getHostelname() == highlight) {
-            viewholder.hostelname.setText(mList.get(i).getHostelname());
-            viewholder.points.setText(mList.get(i).getPoints());
-            viewholder.position.setText(mList.get(i).getPosition());
+        if (mList.get(i).getHostel() == highlight) {
+            viewholder.hostelname.setText(mList.get(i).getHostel());
+            viewholder.points.setText(mList.get(i).getscore());
+            viewholder.position.setText("" + (i + 1));
             viewholder.hostelname.setBackgroundColor(Color.parseColor("#f8f8fa"));
             viewholder.points.setBackgroundColor(Color.parseColor("#f8f8fa"));
             viewholder.position.setBackgroundColor(Color.parseColor("#f8f8fa"));
@@ -78,9 +80,9 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Vi
         }
          else {
 
-            viewholder.hostelname.setText(mList.get(i).getHostelname());
-            viewholder.points.setText(mList.get(i).getPoints());
-            viewholder.position.setText(mList.get(i).getPosition());
+            viewholder.hostelname.setText(mList.get(i).getHostel());
+            viewholder.points.setText(mList.get(i).getscore());
+            viewholder.position.setText("" + (i + 1));
         }
 
     }

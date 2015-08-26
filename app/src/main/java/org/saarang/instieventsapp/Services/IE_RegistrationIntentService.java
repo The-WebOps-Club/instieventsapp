@@ -12,7 +12,9 @@ import com.google.android.gms.iid.InstanceID;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.saarang.instieventsapp.Objects.UserProfile;
 import org.saarang.instieventsapp.Utils.AppConstants;
+import org.saarang.instieventsapp.Utils.URLConstants;
 import org.saarang.saarangsdk.Network.PostRequest;
 import org.saarang.saarangsdk.Objects.PostParam;
 
@@ -24,7 +26,6 @@ import java.util.ArrayList;
  */
 public class IE_RegistrationIntentService extends IntentService {
     private static final String TAG = "RegIntentService";
-    String sender_id = "475795801819";
     private static final String[] TOPICS = {"global"};
     String Old_ID,token;
     Boolean senttokentoserver;
@@ -91,6 +92,36 @@ public class IE_RegistrationIntentService extends IntentService {
      * token The new token.
      */
     private void sendRegistrationToServer(String freshtoken) {
+        ArrayList<PostParam> params = new ArrayList<>();
+        int status;
+        String urlString = URLConstants.URL_REGISTER_DEVICE;
+
+        //Adding Parameters
+        params.add(new PostParam("deviceId", freshtoken));
+        if (!Old_ID.equals(""))
+            params.add(new PostParam("oldId", Old_ID));
+
+        //Making request
+        JSONObject responseJSON = PostRequest.execute(urlString, params, UserProfile.getUserToken(this));
+        Log.d(TAG,UserProfile.getUserToken(this));
+        Log.d(TAG, responseJSON.toString());
+        if (responseJSON == null) {
+
+        }
+
+        try {
+            status = responseJSON.getInt("status");
+            if (status == 200){
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+                sharedPreferences.edit().putString("token", token).apply();
+                sharedPreferences.edit().putBoolean("sentTokenToServer", true).apply();
+
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Log.d(TAG, responseJSON.toString());
 
     }
 
