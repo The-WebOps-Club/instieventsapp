@@ -2,8 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+<LinearLayout
+    android:layout_width="100dp"
+    android:layout_height="wrap_content">
+    <ImageView android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/iv_text"
+        android:paddingTop="20dp"
+        android:src="@drawable/ic_calendar_grey"
+        android:paddingLeft="20dp"
+        android:paddingStart="20dp"/>
+</LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,6 +47,9 @@
         android:textColor="@color/events_secondary_text"
         android:paddingTop="4dp"
         android:paddingBottom="12dp"/>
+
+    </LinearLayout>
+</LinearLayout>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
