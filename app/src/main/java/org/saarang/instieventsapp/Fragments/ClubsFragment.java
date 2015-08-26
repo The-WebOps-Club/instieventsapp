@@ -43,8 +43,8 @@ public class ClubsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
-        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh);
-        swipeRefreshLayout.setOnRefreshListener(this);
+      /*  swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeContainer);
+        swipeRefreshLayout.setOnRefreshListener(this);*/
 
         list=new ArrayList<>();
         list=Club.getAllClubs(getActivity());

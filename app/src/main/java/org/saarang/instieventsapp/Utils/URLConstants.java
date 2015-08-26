@@ -12,4 +12,5 @@ public class URLConstants {
     public static String URL_LOGIN = SERVER+ "auth/local/mobile";
     public static String URL_SCORECARD_FETCH= SERVER+ "api/scoreboards/";
     public static String URL_SUBCLUBS=SERVER + "api/clubs/subscribeall";
+    public static String URL_REGISTER_DEVICE = SERVER + "api/users/gcmRegister";
 }

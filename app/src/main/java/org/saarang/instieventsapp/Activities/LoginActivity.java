@@ -52,9 +52,9 @@ public class LoginActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_login_ldap);
 
-        Intent intent = new Intent(this, IE_RegistrationIntentService.class);
+      /*  Intent intent = new Intent(this, IE_RegistrationIntentService.class);
         startService(intent);
-
+*/
         tvLogin = (TextView)findViewById(R.id.tvLogin);
         tvLogin.setOnClickListener(new View.OnClickListener() {
             @Override

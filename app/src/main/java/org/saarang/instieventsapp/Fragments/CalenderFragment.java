@@ -34,7 +34,7 @@ public class CalenderFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fr_calender, container, false);
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.scoreboardrv);
 
         // use a linear layout manager
         layoutManager = new LinearLayoutManager(getActivity());
