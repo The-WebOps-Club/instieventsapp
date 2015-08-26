@@ -59,9 +59,6 @@ public class Event {
     public static String[] columns = {KEY_ROWID, COLUMN_EVENTID, COLUMN_NAME, COLUMN_TIME, COLUMN_VENUE, COLUMN_DESCRIPTION,
             COLUMN_CATEGORY, COLUMN_CLUB, COLUMN_RESULT, COLUMN_COORDS, COLUMN_CREATEDON, COLUMN_UPDATEDON, COLUMN_ISLITSOCEVENT};
 
-    public Event(){
-
-    }
     public Event(String id, String name, String time, String venue, String description, String category,
                  String club, String result, String coords, String createdOn, String updatedOn,
                  boolean isLitSocEvent) {
@@ -213,21 +210,12 @@ public class Event {
         ArrayList<Event> arrayList = new ArrayList<>();
         Gson gson = new Gson();
         while ( c.moveToNext() ){
-            arrayList.add(parseEvent(c));
+            Event event = new Event(c.getString(1), c.getString(2),c.getString(3),c.getString(4),
+                    c.getString(5),c.getString(6), c.getString(7),c.getString(8),c.getString(9),
+                    c.getString(10),c.getString(11), (c.getInt(12)==1)?true:false);
+            arrayList.add(event);
         }
         return arrayList;
-    }
-
-    public static Event parseEvent(Cursor c){
-        Event event = new Event(c.getString(1), c.getString(2),c.getString(3),c.getString(4),
-                c.getString(5),c.getString(6), c.getString(7),c.getString(8),c.getString(9),
-                c.getString(10),c.getString(11), (c.getInt(12)==1)?true:false);
-        return event;
-    }
-
-    public static Event getAnEvent(Context context, String eventId){
-        DatabaseHelper data = new DatabaseHelper(context);
-        return data.getAnEvent(eventId);
     }
 
 }

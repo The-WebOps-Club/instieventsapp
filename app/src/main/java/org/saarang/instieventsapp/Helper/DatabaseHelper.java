@@ -121,18 +121,6 @@ public class DatabaseHelper {
         return arrayList;
     }
 
-    public Event getAnEvent(String eventId){
-        Event event = new Event();
-        open();
-        String[] columns = Event.columns;
-        Cursor c = ourDatabase.query(Event.TABLE_NAME, columns, Event.COLUMN_EVENTID + " LIKE ?",
-                new String[]{eventId}, null, null, null);
-        while (c.moveToFirst()){
-            event = Event.parseEvent(c);
-        }
-        close();
-        return event;
-    }
 
     public ArrayList<ScoreCard> getScoreBoards (String category) {
         open();

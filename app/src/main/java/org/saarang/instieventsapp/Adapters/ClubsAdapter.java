@@ -2,6 +2,7 @@ package org.saarang.instieventsapp.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,7 +55,10 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
         holder.bViewMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Bundle clubId=new Bundle();
+                clubId.putString(Club.KEY_ROWID,mList.get(position).getId());
                 Intent myIntent = new Intent(view.getContext(),ClubDetailActivity.class);
+                myIntent.putExtras(clubId);
                 view.getContext().startActivity(myIntent);
             }
         });
