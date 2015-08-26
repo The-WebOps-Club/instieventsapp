@@ -1,10 +1,15 @@
 package org.saarang.instieventsapp.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
 
 import org.saarang.instieventsapp.R;
 
@@ -20,10 +25,10 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
-
+        ImageView textimage;
         public ViewHolder(View view) {
             super(view);
-
+            textimage = (ImageView)view.findViewById(R.id.iv_text);
 
 
         }
@@ -37,7 +42,12 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ScheduleAdapter.ViewHolder holder, int position) {
-
+        ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
+        // generate random color
+        int color1 = generator.getRandomColor();
+        TextDrawable drawable = TextDrawable.builder()
+                .buildRound("A", color1);
+        holder.textimage.setImageDrawable(drawable);
     }
 
     @Override
