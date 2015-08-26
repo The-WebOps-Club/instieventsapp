@@ -48,7 +48,9 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
         if(mList.get(position).getIsSubscribed())
-            holder.bSubscibe.setVisibility(View.INVISIBLE);
+        markAsSubscribed(holder.bSubscibe);
+
+
         holder.bViewMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,6 +58,10 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
                 view.getContext().startActivity(myIntent);
             }
         });
+    }
+
+    public void markAsSubscribed(Button subscribe){
+        subscribe.setText("Subscribed");
     }
 
     @Override

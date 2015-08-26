@@ -1,5 +1,13 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'maven'
+
+repositories {
+    mavenCentral()
+    maven {
+        url "'http://dl.bintray.com/amulyakhare/maven'"
+    }
+}
 
 android {
     compileSdkVersion 22
