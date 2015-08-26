@@ -5,8 +5,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
+
+import org.saarang.instieventsapp.Objects.Event;
 import org.saarang.instieventsapp.R;
+import org.saarang.saarangsdk.Helpers.TimeHelper;
+
+import java.util.ArrayList;
+
 
 /**
  * Created by kevin selva prasanna on 25-Aug-15.
@@ -14,8 +24,11 @@ import org.saarang.instieventsapp.R;
 public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHolder> {
 
     Context mContext;
-    public ScheduleAdapter(Context context) {
+    ArrayList<Event> events;
+
+    public ScheduleAdapter(Context context, ArrayList<Event> events) {
         mContext = context;
+        this.events = events;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
