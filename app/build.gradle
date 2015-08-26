@@ -4,9 +4,7 @@ apply plugin: 'maven'
 
 repositories {
     mavenCentral()
-    maven {
-        url "'http://dl.bintray.com/amulyakhare/maven'"
-    }
+
 }
 
 android {

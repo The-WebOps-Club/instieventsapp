@@ -210,8 +210,6 @@ public class Event {
         ArrayList<Event> arrayList = new ArrayList<>();
         Gson gson = new Gson();
         while ( c.moveToNext() ){
-            Log.d("Loading from DB ", "Is Litsoc event" + ((c.getString(12)=="1")?true:false)+ c.getString(12) );
-
             Event event = new Event(c.getString(1), c.getString(2),c.getString(3),c.getString(4),
                     c.getString(5),c.getString(6), c.getString(7),c.getString(8),c.getString(9),
                     c.getString(10),c.getString(11), (c.getInt(12)==1)?true:false);
