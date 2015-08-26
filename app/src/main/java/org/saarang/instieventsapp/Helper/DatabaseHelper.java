@@ -103,6 +103,15 @@ public class DatabaseHelper {
         return arrayList;
     }
 
+    public Club getAClub (String id) {
+        open();
+        String[] columns = Club.columns;
+        Cursor c = ourDatabase.query(Club.TABLE_NAME,columns , Club.KEY_ROWID+ " = " + id +"'",null, null, null, null);
+        Club club = Club.getClub(c);
+        close();
+        return club;
+    }
+
     public ArrayList<Event> getAllEvents () {
         open();
         String[] columns = Event.columns;

@@ -1,14 +1,13 @@
 package org.saarang.instieventsapp.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
+import org.saarang.instieventsapp.Objects.Club;
 import org.saarang.instieventsapp.R;
 
 /**
@@ -17,19 +16,21 @@ import org.saarang.instieventsapp.R;
 public class ClubDetailAdapter extends RecyclerView.Adapter<ClubDetailAdapter.ViewHolder> {
 
     Context mContext;
-    public ClubDetailAdapter(Context context) {
+    Club mClub;
+    public ClubDetailAdapter(Context context,Club club) {
         mContext = context;
+        mClub=club;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
 
-        TextView tv,tv2;
+        TextView tv,tv2,description;
         public ViewHolder(View view) {
             super(view);
             tv = (TextView)view.findViewById(R.id.tv);
             tv2 = (TextView)view.findViewById(R.id.tv2);
-
+            description=(TextView)view.findViewById(R.id.tv2);
 
 
         }
@@ -45,6 +46,8 @@ public class ClubDetailAdapter extends RecyclerView.Adapter<ClubDetailAdapter.Vi
                 .inflate(R.layout.item_events_feed, parent, false);
         View view2 = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.club_description, parent, false);
+
+
         switch(viewType) {
             case 0:
             case 1:
@@ -58,7 +61,11 @@ public class ClubDetailAdapter extends RecyclerView.Adapter<ClubDetailAdapter.Vi
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         if(position==1){
             holder.tv.setText("Convenors:");
-            holder.tv2.setText("\t1.jsnfjfb\n\t2.sjjisdn");
+            String convenors="";
+            for(int j=0;j<mClub.getConvenorsList().size(); j++){
+            convenors=convenors+"\t"+mClub.getConvenorsList().get(j).getConName()+"\n";
+            }
+            holder.tv2.setText(convenors);
 
         }
 

@@ -26,18 +26,31 @@ public class Club {
     Boolean isSubscribed;
     String _id;
 
-    class Convenor{
+    public class Convenor{
 
         String name;
         String phonenum;
         String email;
+
+        public String getConName(){
+            return name;
+        }
+
+        public String getConPhone(){
+            return phonenum;
+        }
+
+        public String getConEmail(){
+            return email;
+        }
+
     }
     List<Convenor> convenorsList;
     Convenor[] convenors;
 
     public static String TABLE_NAME = "clubs";
 
-    private static String KEY_ROWID = "_id";
+    public static String KEY_ROWID = "_id";
     private static String COLUMN_CLUB_ID = "clubId";
     private static String COLUMN_NAME = "name";
     private static String COLUMN_CREATED_ON = "createdOn";
@@ -166,6 +179,11 @@ public class Club {
         return data.getAllClubs();
     }
 
+    public static Club getAClub(Context context,String id){
+        DatabaseHelper data = new DatabaseHelper(context);
+        return data.getAClub(id);
+    }
+
     public static ArrayList<Club> getArrayList(Cursor c){
         ArrayList<Club> arrayList = new ArrayList<>();
         Gson gson = new Gson();
@@ -175,6 +193,15 @@ public class Club {
             arrayList.add(club);
         }
         return arrayList;
+    }
+    public static Club getClub(Cursor c){
+        Gson gson = new Gson();
+        //while ( c.moveToNext() ){
+            Club club = new Club(c.getString(1), c.getString(2),c.getString(3),c.getString(4),
+                    c.getString(5),c.getString(6), gson.fromJson(c.getString(7), Convenor[].class),c.getInt(8) );
+            //arrayList.add(club);
+
+        return club;
     }
 
 }

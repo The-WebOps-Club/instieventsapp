@@ -29,7 +29,7 @@
         android:layout_weight="5"
         android:text="Hostelname"
         android:id="@+id/scoreboard_hostelname_body"
-        android:gravity="left"
+        android:gravity="center"
         android:background="#ffffff"
         android:textColor="#000000"
         android:paddingLeft="10dp"

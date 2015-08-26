@@ -19,6 +19,7 @@ public class UserProfile {
     public static String spRollNumber="spRollNumber";
     public static String spId = "spId";
     public static String spToken = "spToken";
+    public static String spHostel="spHostel";
 
     public static void saveUser(Context context, JSONObject json){
         SharedPreferences preferences = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
@@ -34,6 +35,9 @@ public class UserProfile {
             String rollNumber = user.getString("rollNumber");
             editor.putString(spRollNumber, rollNumber);
 
+            String hostel=user.getString("hostel");
+            editor.putString(spHostel,hostel);
+
         } catch (JSONException e) {
             e.printStackTrace();
             return;
@@ -47,6 +51,10 @@ public class UserProfile {
     public static String getUserToken(Context context){
         SharedPreferences pref = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
         return pref.getString(spToken, "");
+    }
+    public static String getUserHostel(Context context){
+        SharedPreferences pref = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
+        return pref.getString(spHostel, "");
     }
     public static String getUserId(Context context){
         SharedPreferences pref = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);

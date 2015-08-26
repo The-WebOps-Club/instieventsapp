@@ -1,6 +1,6 @@
 package org.saarang.instieventsapp.Activities;
 
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.content.ContextCompat;
@@ -9,23 +9,21 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
 import org.saarang.instieventsapp.Adapters.ClubDetailAdapter;
-import org.saarang.instieventsapp.Adapters.ClubsAdapter;
+import org.saarang.instieventsapp.Objects.Club;
 import org.saarang.instieventsapp.R;
-
-import java.util.Random;
 
 public class ClubDetailActivity extends AppCompatActivity {
 
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     RecyclerView recyclerView;
+    Context mContext=ClubDetailActivity.this;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,7 +34,13 @@ public class ClubDetailActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new ClubDetailAdapter(this);
+        Bundle getclubid=getIntent().getExtras();
+        String clubId;
+        clubId=getclubid.getString(Club.KEY_ROWID);
+
+        Club club=Club.getAClub(mContext,clubId);
+
+        adapter = new ClubDetailAdapter(this,club);
         recyclerView.setAdapter(adapter);
 
 
