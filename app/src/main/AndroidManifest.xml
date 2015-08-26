@@ -34,7 +34,8 @@
         </activity>
         <activity
             android:name=".Activities.LoginActivity"
-            android:theme="@style/AppTheme" >
+            android:theme="@style/AppTheme"
+           >
         </activity>
         <activity
             android:name=".Activities.ClubSubscriptionActivity"
