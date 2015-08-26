@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import org.saarang.instieventsapp.Objects.Club;
+import org.saarang.instieventsapp.Objects.EventObject;
 
 import java.util.ArrayList;
 
@@ -75,7 +76,21 @@ public class DatabaseHelper {
     }
 
 
+    public long addEvent(ContentValues cv){
+        open();
+        long id = ourDatabase.insert(EventObject.TABLE_NAME, null, cv);
+        close();
+        return id;
+    }
 
+    public ArrayList<EventObject> getAllEvents () {
+        open();
+        String[] columns = EventObject.columns;
+        Cursor c = ourDatabase.query(EventObject.TABLE_NAME, columns, null, null, null, null, null);
+        ArrayList<EventObject> arrayList = EventObject.getArrayList(c);
+        close();
+        return arrayList;
+    }
 
 }
 

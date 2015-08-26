@@ -1,6 +1,7 @@
 package org.saarang.instieventsapp.Activities;
 
 import android.app.Activity;
+import android.app.IntentService;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.saarang.instieventsapp.Adapters.ClubSubscriptionAdapter;
 import org.saarang.instieventsapp.Helper.DatabaseHelper;
+import org.saarang.instieventsapp.IntentService.GetEvents;
 import org.saarang.instieventsapp.Objects.Club;
 import org.saarang.instieventsapp.Objects.UserProfile;
 import org.saarang.instieventsapp.R;
@@ -79,9 +81,16 @@ public class ClubSubscriptionActivity extends Activity {
             details = new Clubdetails();
             details.execute();
 
+            // Fetching Events in background through GetEvents IntentService
+            Log.d("GetEvents", "getting events ");
+            Intent getEventsIntent = new Intent(this, GetEvents.class);
+            startService(getEventsIntent);
+
+
+
         }
         else {
-            Log.d(LOG_TAG, "1 no net");
+            Log.d(LOG_TAG, "**1 no net");
         }
 
     }

@@ -133,7 +133,7 @@ public class LDAPLoginActivity extends Activity {
 
             //Making request
 
-            JSONObject responseJSON = HttpRequest.execute("POST", urlString, null, JSONrequest);
+            JSONObject responseJSON = HttpRequest.execute("POST", urlString,null,JSONrequest);
             Log.d(LOG_TAG, "4 responseJSON " + responseJSON.toString());
             if (responseJSON == null) {
                 return null;
