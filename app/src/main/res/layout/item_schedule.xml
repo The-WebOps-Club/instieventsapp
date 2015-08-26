@@ -34,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Coding Session"
-        android:id="@+id/tvTime"
+        android:id="@+id/tvName"
         android:textSize="16dp"
         android:paddingTop="4dp"/>
     <TextView
