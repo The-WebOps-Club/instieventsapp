@@ -29,11 +29,11 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
         Button bViewMore;
-        Button bSubscibe;
+        Button bSubscribe;
         public ViewHolder(View view) {
             super(view);
             bViewMore = (Button)view.findViewById(R.id.bViewMore);
-            bSubscibe = (Button)view.findViewById(R.id.bSubscibe);
+            bSubscribe = (Button)view.findViewById(R.id.bSubscibe);
 
 
         }
@@ -48,7 +48,7 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
         if(mList.get(position).getIsSubscribed())
-        markAsSubscribed(holder.bSubscibe);
+        markAsSubscribed(holder.bSubscribe);
 
 
         holder.bViewMore.setOnClickListener(new View.OnClickListener() {

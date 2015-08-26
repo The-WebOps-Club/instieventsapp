@@ -23,6 +23,9 @@ import org.saarang.instieventsapp.R;
 public class IE_GCMListenerService extends GcmListenerService{
 
     private static final String TAG = "GcmListenerService";
+    String message;
+    String data1;
+    String type;
 
 
     /**
@@ -35,9 +38,12 @@ public class IE_GCMListenerService extends GcmListenerService{
     // [START receive_message]
     @Override
     public void onMessageReceived(String from, Bundle data) {
-        String message = data.getString("message");
+        message = data.getString("message");
+        data1 = data.getString("data");
+        type = data.getString("type");
         Log.d(TAG, "From: " + from);
         Log.d(TAG, "Message: " + message);
+        Log.d(TAG ,data.toString());
 
         /**
          * Production applications would usually process the message here.
@@ -219,7 +225,7 @@ public class IE_GCMListenerService extends GcmListenerService{
             notificationBuilder = new NotificationCompat.Builder(this)
                     .setSmallIcon(R.drawable.ic_notifications)
                     .setContentTitle("GCM Message")
-                    .setContentText(message)
+                    .setContentText("message:" + message + " data:" + data1 + " type" + type)
                     .setAutoCancel(true)
                     .setSound(defaultSoundUri)
                     .setContentIntent(pendingIntent);

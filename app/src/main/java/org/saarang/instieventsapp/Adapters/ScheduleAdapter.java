@@ -39,7 +39,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
             super(view);
             textimage = (ImageView)view.findViewById(R.id.iv_text);
             tvDate = (TextView) view.findViewById(R.id.tvDate);
-            tvName = (TextView) view.findViewById(R.id.tvName);
+            tvName = (TextView) view.findViewById(R.id.tvTime);
             tvClub = (TextView) view.findViewById(R.id.tvClub);
         }
     }
