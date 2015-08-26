@@ -225,4 +225,9 @@ public class Event {
         return event;
     }
 
+    public static Event getAnEvent(Context context, String eventId){
+        DatabaseHelper data = new DatabaseHelper(context);
+        return data.getAnEvent(eventId);
+    }
+
 }
