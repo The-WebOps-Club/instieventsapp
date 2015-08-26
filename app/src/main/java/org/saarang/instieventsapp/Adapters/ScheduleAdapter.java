@@ -2,6 +2,7 @@ package org.saarang.instieventsapp.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
+import com.google.gson.Gson;
 
 import org.saarang.instieventsapp.Objects.Event;
 import org.saarang.instieventsapp.R;
@@ -39,7 +41,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
             super(view);
             textimage = (ImageView)view.findViewById(R.id.iv_text);
             tvDate = (TextView) view.findViewById(R.id.tvDate);
-            tvName = (TextView) view.findViewById(R.id.tvTime);
+            tvName = (TextView) view.findViewById(R.id.tvName);
             tvClub = (TextView) view.findViewById(R.id.tvClub);
         }
     }
@@ -54,6 +56,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
     public void onBindViewHolder(ScheduleAdapter.ViewHolder holder, int position) {
         ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
         // generate random color
+        Gson gson = new Gson();
+        Log.d("Event", gson.toJson(events.get(position)));
         int color1 = generator.getRandomColor();
         TextDrawable drawable = TextDrawable.builder()
                 .buildRound("A", color1);
