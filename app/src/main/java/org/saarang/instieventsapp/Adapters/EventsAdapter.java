@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import org.saarang.instieventsapp.Objects.Event;
 import org.saarang.instieventsapp.R;
+import org.saarang.saarangsdk.Helpers.TimeHelper;
 
 import java.util.ArrayList;
 
@@ -19,6 +20,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
 
     Context mContext;
     ArrayList<Event> mItems;
+    TimeHelper th;
 
 
     public EventsAdapter(Context context, ArrayList<Event> items)
@@ -52,10 +54,13 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(EventsAdapter.ViewHolder holder, int position) {
+
+        th = new TimeHelper();
+
         holder.tvHeading.setText(mItems.get(position).getName());
-        holder.tvDate.setText(mItems.get(position).getTime());
-        holder.tvTime.setText(mItems.get(position).getTime());
-        holder.tvLocation.setText(mItems.get(position).getVenue());
+        holder.tvDate.setText(th.getDate(mItems.get(position).getTime()) == ""?"Event date has not been fixed":th.getDate(mItems.get(position).getTime()));
+        holder.tvTime.setText(th.getTime(mItems.get(position).getTime()) == ""?"Event time has not been decided":th.getTime(mItems.get(position).getTime()));
+        holder.tvLocation.setText(mItems.get(position).getVenue() == null?"Event venue has not been announced":mItems.get(position).getVenue());
         holder.tvDescription.setText(mItems.get(position).getDescription());
     }
 
