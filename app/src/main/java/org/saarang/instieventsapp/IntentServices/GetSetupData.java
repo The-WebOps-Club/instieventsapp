@@ -46,6 +46,7 @@ public class GetSetupData extends IntentService {
                     for (int i=0; i<jEvents.length(); i++){
                         jEvent = jEvents.getJSONObject(i);
                         event = new Event(jEvent);
+//                        Log.d(LOG_TAG, "Category of event is " + event.getCate)
                         event.saveEvent(this);
                     }
                 }

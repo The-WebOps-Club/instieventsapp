@@ -3,6 +3,7 @@ package org.saarang.instieventsapp.Objects;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -89,6 +90,7 @@ public class Event {
             this.result = jEvent.getJSONArray("result").toString();
             this.coords = jEvent.getJSONArray("coords").toString();
             this.isLitSocEvent = jEvent.getBoolean("isLitSocEvent");
+            this.category = jEvent.getString("category");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -160,6 +162,26 @@ public class Event {
         this.updatedOn = updatedOn;
     }
 
+    public String eventContext(){
+        if (!isLitSocEvent) try {
+            Log.d("Litsoc event", "false");
+            return new JSONObject(club).getString("name");
+        } catch (JSONException | NullPointerException e) {
+            e.printStackTrace();
+            return " ";
+        }
+        else if (category.equals("lit")){
+            return "Lit-Soc";
+        }
+        else if (category.equals("tech")){
+            return "Tech-Soc";
+        }
+        else if (category.equals("sports")){
+            return "Schroeter";
+        }
+        return " ";
+    }
+
     public long saveEvent(Context context){
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_NAME, name);
@@ -172,7 +194,7 @@ public class Event {
         cv.put(COLUMN_RESULT,result);
         cv.put(COLUMN_COORDS,coords);
         cv.put(COLUMN_CREATEDON,createdOn);
-        cv.put(COLUMN_UPDATEDON,updatedOn);
+        cv.put(COLUMN_UPDATEDON, updatedOn);
         cv.put(COLUMN_ISLITSOCEVENT, isLitSocEvent?"1":"0" );
 
         DatabaseHelper dh = new DatabaseHelper(context);
@@ -188,9 +210,11 @@ public class Event {
         ArrayList<Event> arrayList = new ArrayList<>();
         Gson gson = new Gson();
         while ( c.moveToNext() ){
+            Log.d("Loading from DB ", "Is Litsoc event" + ((c.getString(12)=="1")?true:false)+ c.getString(12) );
+
             Event event = new Event(c.getString(1), c.getString(2),c.getString(3),c.getString(4),
                     c.getString(5),c.getString(6), c.getString(7),c.getString(8),c.getString(9),
-                    c.getString(10),c.getString(11), (c.getString(12)=="1")?true:false);
+                    c.getString(10),c.getString(11), (c.getInt(12)==1)?true:false);
             arrayList.add(event);
         }
         return arrayList;
