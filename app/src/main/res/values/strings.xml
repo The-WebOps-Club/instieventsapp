@@ -4,4 +4,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_club_detail">ClubDetailActivity</string>
+    <string name="action_about_us">About Us</string>
+    <string name="rate_us_weblink">Rate Us On Play Store<a href="https://play.google.com/store/apps/details?id=iitm.satan.messmenu">https://play.google.com/store/apps/details?id=iitm.satan.messmenu</a></string>
 </resources>
