@@ -118,7 +118,7 @@ public class Event {
     }
 
 
-
+    public String getId(){return _id;}
     public String getName() {
         return name;
     }
