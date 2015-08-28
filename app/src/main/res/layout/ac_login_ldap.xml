@@ -1,116 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="1"
+    android:id="@+id/llLoginMain"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_weight="1"
     android:focusable="true"
     android:focusableInTouchMode="true"
     tools:context=".Activities.LDAPLoginActivity">
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/formScrollView"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
-        >
+    <LinearLayout
+        android:id="@+id/ll1"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/events_login"
+        android:gravity="center"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:orientation="vertical"
-            android:weightSum="100"
-            >
+        <ImageView
+            android:id="@+id/ivLogoLogin"
+            android:layout_width="fill_parent"
+            android:layout_height="150dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/ic_logo_white" />
+    </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:orientation="vertical"
-                android:background="@color/events_primary"
-                android:layout_weight="57">
-
-                <ImageView
-                    android:id="@+id/ivLogoLogin"
-                    android:layout_width="fill_parent"
-                    android:layout_height="320dp"
-                    android:layout_gravity="center_horizontal"
-                    android:src="@drawable/ic_logo_white" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="20dp"
-                android:layout_weight="43">
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/tilUsername"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:id="@+id/etUsername"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:ems="10"
-                        android:hint="LDAP Login ID"
-                        android:inputType="textAutoComplete" />
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:id="@+id/tilPassword">
-
-                    <EditText
-                        android:id="@+id/etPassword"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="10dp"
-                        android:ems="10"
-                        android:hint="Password"
-                        android:inputType="textPassword" />
-                </android.support.design.widget.TextInputLayout>
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
-
-    <FrameLayout
-        android:id="@+id/bottomBar"
+    <LinearLayout
+        android:id="@+id/ll2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/events_light_primary"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_weight="0">
+        android:layout_below="@+id/ll1"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="20dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:orientation="horizontal"
-            android:layout_gravity="right"
-            android:paddingRight="20dp">
-
-            <TextView
-                android:id="@+id/tvLogin"
-                android:layout_width="80dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="right|center_horizontal"
-                android:gravity="right|center_vertical"
-                android:text="LOGIN"
-                android:textColor="@color/events_secondary_text" />
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/ic_forward"
-                android:layout_gravity="center_vertical"/>
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/ic_forward" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/tilUsername"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/etUsername"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="LDAP Login ID"
+                    android:inputType="textAutoComplete" />
+            </android.support.design.widget.TextInputLayout>
         </LinearLayout>
-    </FrameLayout>
-</LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/ic_forward" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/tilPassword"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/etPassword"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:ems="10"
+                    android:hint="Password"
+                    android:inputType="textPassword" />
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btLogin"
+            android:layout_width="101dp"
+            android:layout_height="40dp"
+            android:layout_margin="30dp"
+            android:background="@drawable/bt_round"
+            android:text="LOGIN"
+            android:textColor="#ffffff"/>
+
+
+    </LinearLayout>
+<!--
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/events_light_primary"
+        android:gravity="right"
+        android:orientation="horizontal"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:id="@+id/tvLogin"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right|center_horizontal"
+            android:gravity="right|center_vertical"
+            android:text="LOGIN"
+            android:textColor="@color/events_secondary_text" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_forward" />
+    </LinearLayout>
+-->
+
+
+    </LinearLayout>
