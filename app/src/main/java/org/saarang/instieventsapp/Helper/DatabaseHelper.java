@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import org.saarang.instieventsapp.Objects.Club;
 import org.saarang.instieventsapp.Objects.Event;
@@ -104,17 +103,6 @@ public class DatabaseHelper {
         return arrayList;
     }
 
-    public Club getAClub (String id) {
-        open();
-        String[] columns = Club.columns;
-        Cursor c = ourDatabase.query(Club.TABLE_NAME, columns, Club.COLUMN_CLUB_ID + " LIKE ? ",
-                new String[]{id}, null, null, null, null);
-        Club club = Club.getClub(c);
-        Log.d("check",club.getName());
-        close();
-        return club;
-    }
-
     public ArrayList<Event> getAllEvents () {
         open();
         long timeNow = System.currentTimeMillis()/1000000;
@@ -126,12 +114,24 @@ public class DatabaseHelper {
         return arrayList;
     }
 
+    public Event getAnEvent(String eventId){
+        Event event = new Event();
+        open();
+        String[] columns = Event.columns;
+        Cursor c = ourDatabase.query(Event.TABLE_NAME, columns, Event.COLUMN_EVENTID + " LIKE ?",
+                new String[]{eventId}, null, null, null);
+        while (c.moveToFirst()){
+            event = Event.parseEvent(c);
+        }
+        close();
+        return event;
+    }
 
     public ArrayList<ScoreCard> getScoreBoards (String category) {
         open();
         String[] columns = ScoreCard.columns;
         Cursor c = ourDatabase.query(ScoreCard.TABLE_NAME, columns,
-            ScoreCard.COLUMN_CATEGORY + " LIKE ?", new String[]{category}, null, null,
+                ScoreCard.COLUMN_CATEGORY + " LIKE ?", new String[]{category}, null, null,
                 ScoreCard.COLUMN_SCORE + " DESC");
         ArrayList<ScoreCard> arrayList = ScoreCard.getArrayList(c);
         close();
@@ -142,4 +142,3 @@ public class DatabaseHelper {
 
 
 }
-
