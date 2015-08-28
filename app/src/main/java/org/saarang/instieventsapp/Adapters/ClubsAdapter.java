@@ -2,6 +2,7 @@ package org.saarang.instieventsapp.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,11 +30,11 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
         Button bViewMore;
-        Button bSubscribe;
+        Button bSubscibe;
         public ViewHolder(View view) {
             super(view);
             bViewMore = (Button)view.findViewById(R.id.bViewMore);
-            bSubscribe = (Button)view.findViewById(R.id.bSubscibe);
+            bSubscibe = (Button)view.findViewById(R.id.bSubscibe);
 
 
         }
@@ -48,13 +49,16 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
         if(mList.get(position).getIsSubscribed())
-        markAsSubscribed(holder.bSubscribe);
+        markAsSubscribed(holder.bSubscibe);
 
 
         holder.bViewMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Bundle clubId=new Bundle();
+                clubId.putString(Club.KEY_ROWID,mList.get(position).getId());
                 Intent myIntent = new Intent(view.getContext(),ClubDetailActivity.class);
+                myIntent.putExtras(clubId);
                 view.getContext().startActivity(myIntent);
             }
         });

@@ -149,6 +149,7 @@ public class ClubSubscriptionActivity extends AppCompatActivity {
                            data.updateClub(0,list.get(j).getId());
                        }
                    }
+
                }
                else{
                    Log.d(LOG_TAG,"Unsuccessful");

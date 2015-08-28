@@ -10,7 +10,6 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.saarang.instieventsapp.Helper.DatabaseHelper;
-import org.saarang.saarangsdk.Helpers.TimeHelper;
 
 import java.util.ArrayList;
 
@@ -31,7 +30,6 @@ public class Event {
     public static String COLUMN_EVENTID = "eventId";
     public static String COLUMN_NAME = "name";
     public static String COLUMN_TIME = "time";
-    public static String COLUMN_TIMESTAMP = "timeStamp";
     public static String COLUMN_VENUE = "venue";
     public static String COLUMN_DESCRIPTION = "description";
     public static String COLUMN_CATEGORY = "category";
@@ -47,7 +45,6 @@ public class Event {
             COLUMN_EVENTID + " TEXT NOT NULL UNIQUE ON CONFLICT REPLACE , " +
             COLUMN_NAME + " TEXT " + " NOT NULL , " +
             COLUMN_TIME + " TEXT  , " +
-            COLUMN_TIMESTAMP + " NUMBER  , " +
             COLUMN_VENUE + " TEXT  , " +
             COLUMN_DESCRIPTION + " TEXT , " +
             COLUMN_CATEGORY + " TEXT  , " +
@@ -60,7 +57,7 @@ public class Event {
             " );";
 
     public static String[] columns = {KEY_ROWID, COLUMN_EVENTID, COLUMN_NAME, COLUMN_TIME, COLUMN_VENUE, COLUMN_DESCRIPTION,
-            COLUMN_CATEGORY, COLUMN_CLUB, COLUMN_RESULT, COLUMN_COORDS, COLUMN_CREATEDON, COLUMN_UPDATEDON, COLUMN_ISLITSOCEVENT, COLUMN_TIMESTAMP};
+            COLUMN_CATEGORY, COLUMN_CLUB, COLUMN_RESULT, COLUMN_COORDS, COLUMN_CREATEDON, COLUMN_UPDATEDON, COLUMN_ISLITSOCEVENT};
 
     public Event(){
 
@@ -192,7 +189,6 @@ public class Event {
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_NAME, name);
         cv.put(COLUMN_TIME,time);
-        cv.put(COLUMN_TIMESTAMP, TimeHelper.getTimeStamp(time)/1000000);
         cv.put(COLUMN_EVENTID, _id);
         cv.put(COLUMN_DESCRIPTION,description);
         cv.put(COLUMN_VENUE,venue);
@@ -223,8 +219,6 @@ public class Event {
     }
 
     public static Event parseEvent(Cursor c){
-        Log.d("Time difference", c.getString(2));
-        Log.d("Time difference", " is " + (c.getInt(13) - System.currentTimeMillis()/1000000));
         Event event = new Event(c.getString(1), c.getString(2),c.getString(3),c.getString(4),
                 c.getString(5),c.getString(6), c.getString(7),c.getString(8),c.getString(9),
                 c.getString(10),c.getString(11), (c.getInt(12)==1)?true:false);
