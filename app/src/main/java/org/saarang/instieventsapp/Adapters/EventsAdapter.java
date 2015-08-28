@@ -1,12 +1,15 @@
 package org.saarang.instieventsapp.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.saarang.instieventsapp.Activities.EventsDetailsActivity;
 import org.saarang.instieventsapp.Objects.Event;
 import org.saarang.instieventsapp.R;
 import org.saarang.saarangsdk.Helpers.TimeHelper;
@@ -31,9 +34,8 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView tvHeading, tvDate, tvTime, tvLocation, tvDescription;
-
-
+         TextView tvHeading, tvDate, tvTime, tvLocation, tvDescription;
+        LinearLayout eventsfeed;
         public ViewHolder(View itemView) {
             super(itemView);
 
@@ -41,6 +43,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
             tvHeading = (TextView)itemView.findViewById(R.id.tvHeading);
             tvDate = (TextView)itemView.findViewById(R.id.tvDate);
             tvTime = (TextView)itemView.findViewById(R.id.tvTime);
+            eventsfeed=(LinearLayout)itemView.findViewById(R.id.events_feed);
             tvLocation = (TextView)itemView.findViewById(R.id.tvLocation);
             tvDescription = (TextView)itemView.findViewById(R.id.tvDescription);
 
@@ -58,10 +61,19 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
         th = new TimeHelper();
 
         holder.tvHeading.setText(mItems.get(position).getName());
-        holder.tvDate.setText(th.getDate(mItems.get(position).getTime()) == ""?"Event date has not been fixed":th.getDate(mItems.get(position).getTime()));
-        holder.tvTime.setText(th.getTime(mItems.get(position).getTime()) == ""?"Event time has not been decided":th.getTime(mItems.get(position).getTime()));
+//        holder.tvDate.setText(th.getDate(mItems.get(position).getTime()) == ""?"Event date has not been fixed":th.getDate(mItems.get(position).getTime()));
+//        holder.tvTime.setText(th.getTime(mItems.get(position).getTime()) == ""?"Event time has not been decided":th.getTime(mItems.get(position).getTime()));
         holder.tvLocation.setText(mItems.get(position).getVenue() == null?"Event venue has not been announced":mItems.get(position).getVenue());
         holder.tvDescription.setText(mItems.get(position).getDescription());
+        holder.eventsfeed.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, EventsDetailsActivity.class);
+                mContext.startActivity(intent);
+
+            }
+        });
     }
 
     @Override

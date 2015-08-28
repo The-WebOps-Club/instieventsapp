@@ -7,6 +7,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/events_feed"
     >
     <android.support.v7.widget.CardView
         android:id="@+id/card_view"
@@ -30,7 +31,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Heading"
                 android:textColor="@color/events_primary_text"
                 android:gravity="center"

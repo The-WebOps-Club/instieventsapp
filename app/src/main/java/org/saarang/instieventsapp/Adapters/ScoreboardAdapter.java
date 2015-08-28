@@ -64,7 +64,7 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Vi
     @Override
     public void onBindViewHolder(Viewholder viewholder, int i) {
 
-        if (mList.get(i).getHostel() == highlight) {
+        if (mList.get(i).getHostel().equals(highlight)) {
             viewholder.hostelname.setText(mList.get(i).getHostel());
             viewholder.points.setText(mList.get(i).getscore());
             viewholder.position.setText("" + (i + 1));

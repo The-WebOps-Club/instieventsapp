@@ -2,7 +2,6 @@ package org.saarang.instieventsapp.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
-import com.google.gson.Gson;
 
 import org.saarang.instieventsapp.Objects.Event;
 import org.saarang.instieventsapp.R;
@@ -56,15 +54,19 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
     public void onBindViewHolder(ScheduleAdapter.ViewHolder holder, int position) {
         ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
         // generate random color
-        Gson gson = new Gson();
-        Log.d("Event", gson.toJson(events.get(position)));
         int color1 = generator.getRandomColor();
         TextDrawable drawable = TextDrawable.builder()
-                .buildRound("A", color1);
+                .buildRound(String.valueOf(events.get(position).eventContext().charAt(0)), color1);
         holder.textimage.setImageDrawable(drawable);
         holder.tvName.setText(events.get(position).getName());
         holder.tvClub.setText(events.get(position).eventContext());
-        holder.tvDate.setText(TimeHelper.getRelative(events.get(position).getTime()));
+        if(TimeHelper.getRelative(events.get(position).getTime()) != null) {
+            holder.tvDate.setText(TimeHelper.getRelative(events.get(position).getTime()));
+        }
+        else
+        {
+            holder.tvDate.setVisibility(View.GONE);
+        }
     }
 
     @Override
