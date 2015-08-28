@@ -105,8 +105,10 @@ public class DatabaseHelper {
 
     public ArrayList<Event> getAllEvents () {
         open();
+        long timeNow = System.currentTimeMillis()/1000000;
         String[] columns = Event.columns;
-        Cursor c = ourDatabase.query(Event.TABLE_NAME, columns, null, null, null, null, null);
+        Cursor c = ourDatabase.query(Event.TABLE_NAME, columns, null, null, null, null,
+                " ABS( " + Event.COLUMN_TIMESTAMP + " - "+ timeNow + " ) ASC ");
         ArrayList<Event> arrayList = Event.getArrayList(c);
         close();
         return arrayList;
