@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import org.saarang.instieventsapp.Objects.Club;
 import org.saarang.instieventsapp.Objects.Event;
@@ -101,6 +102,17 @@ public class DatabaseHelper {
         ArrayList<Club> arrayList = Club.getArrayList(c);
         close();
         return arrayList;
+    }
+
+    public Club getAClub (String id) {
+        open();
+        String[] columns = Club.columns;
+        Cursor c = ourDatabase.query(Club.TABLE_NAME, columns, Club.COLUMN_CLUB_ID + " LIKE ? ",
+                new String[]{id}, null, null, null, null);
+        Club club = Club.getClub(c);
+        Log.d("check", club.getName());
+        close();
+        return club;
     }
 
     public ArrayList<Event> getAllEvents () {
