@@ -5,7 +5,7 @@ package org.saarang.instieventsapp.Utils;
  */
 public class URLConstants {
 
-    public static String SERVER = "http://192.168.0.5:9000/";
+    public static String SERVER = "http://10.21.211.115:9000/";
 
     public static String URL_EVENT_FETCH = SERVER+ "api/events/";
     public static String URL_SUBSCRIBE = SERVER + "api/clubs";
