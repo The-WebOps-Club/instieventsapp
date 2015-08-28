@@ -9,10 +9,13 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -25,6 +28,7 @@ import org.saarang.instieventsapp.Objects.Club;
 import org.saarang.instieventsapp.Objects.UserProfile;
 import org.saarang.instieventsapp.R;
 import org.saarang.instieventsapp.Services.IE_RegistrationIntentService;
+import org.saarang.instieventsapp.Utils.UIUtils;
 import org.saarang.instieventsapp.Utils.URLConstants;
 import org.saarang.saarangsdk.Network.Connectivity;
 import org.saarang.saarangsdk.Network.HttpRequest;
@@ -33,7 +37,7 @@ import org.saarang.saarangsdk.Network.HttpRequest;
  * Created by Ajmal on 08-08-2015.
  */
 
-public class LoginActivity extends Activity{
+public class LoginActivity extends Activity {
 
 
     private static String LOG_TAG = "LDAPLoginActivity";
@@ -45,26 +49,30 @@ public class LoginActivity extends Activity{
     ProgressDialog pDialog;
     Login logintask;
     UserProfile profile;
-    Context context=LoginActivity.this;
+    Context context = LoginActivity.this;
+    LinearLayout llSnack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ac_login_ldap);
+        setContentView(R.layout.ac_login_ldap3);
 
       /*  Intent intent = new Intent(this, IE_RegistrationIntentService.class);
         startService(intent);
 */
-        tvLogin = (TextView)findViewById(R.id.tvLogin);
-        tvLogin.setOnClickListener(new View.OnClickListener() {
+        llSnack = (LinearLayout) findViewById(R.id.llLoginMain);
+        btLogin = (Button) findViewById(R.id.btLogin);
+        btLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 processLogin();
             }
         });
 
-        etUsername =(EditText) findViewById(R.id.etUsername);
-        etPassword =(EditText)findViewById(R.id.etPassword);
+        etUsername = (EditText) findViewById(R.id.etUsername);
+        etUsername.setHintTextColor(getResources().getColor(R.color.white));
+        etPassword = (EditText) findViewById(R.id.etPassword);
+        etPassword.setHintTextColor(getResources().getColor(R.color.white));
         etPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
@@ -77,7 +85,8 @@ public class LoginActivity extends Activity{
 
         tilUsername = (TextInputLayout) findViewById(R.id.tilUsername);
     }
-    private void processLogin(){
+
+    private void processLogin() {
         //Getting Text From Edit Texts
         username = etUsername.getText().toString();
         password = etPassword.getText().toString();
@@ -92,12 +101,13 @@ public class LoginActivity extends Activity{
                 logintask = new Login();
                 logintask.execute(username, password);
             } else {
-                Log.d(LOG_TAG, "1 no net");
+                UIUtils.showSnackBar(llSnack, getResources().getString(R.string.error_connection));
             }
         } else {
             tilUsername.setError("Invalid roll number");
         }
     }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -112,7 +122,7 @@ public class LoginActivity extends Activity{
         int status = 400;
         JSONObject jEvent;
         Club club;
-        Gson gson=new Gson();
+        Gson gson = new Gson();
 
         @Override
         protected void onPreExecute() {
@@ -127,19 +137,18 @@ public class LoginActivity extends Activity{
         @Override
         protected Void doInBackground(String... param) {
 
-           // String urlString = URLConstants.SERVER + URLConstants.URL_LOGIN;
-              String urlString=URLConstants.URL_LOGIN;
+            // String urlString = URLConstants.SERVER + URLConstants.URL_LOGIN;
+            String urlString = URLConstants.URL_LOGIN;
             //Adding Parameters
-           JSONObject JSONrequest = new JSONObject();
-            try{
-                JSONrequest.put("rollNumber",param[0]);
-                JSONrequest.put("password",param[1]);
+            JSONObject JSONrequest = new JSONObject();
+            try {
+                JSONrequest.put("rollNumber", param[0]);
+                JSONrequest.put("password", param[1]);
                 JSONrequest.put("name", "ajmal");
                 JSONrequest.put("hostel", "narmad");
                 Log.d(LOG_TAG, "2 JSONrequest\n" + JSONrequest.toString());
                 Log.d(LOG_TAG, "3 urlstring :: " + urlString);
-            }
-            catch (JSONException e){
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
 
@@ -163,24 +172,23 @@ public class LoginActivity extends Activity{
                     for (int i = 0; i < jEvents.length(); i++) {
                         jEvent = jEvents.getJSONObject(i);
                         club = gson.fromJson(jEvent.toString(), Club.class);
-                        Log.d(LOG_TAG,jEvent.getString("name"));
+                        Log.d(LOG_TAG, jEvent.getString("name"));
                         DatabaseHelper data = new DatabaseHelper(context);
                         data.addClub(club.getCV());
                     }
-                }
-                else {
-                    Log.d(LOG_TAG,"5 unsuccessfull!! ");
+                } else {
+                    Log.d(LOG_TAG, "5 unsuccessfull!! ");
                 }
             } catch (JSONException e) {
-                  e.printStackTrace();
+                e.printStackTrace();
             }
             return null;
         }
 
-            @Override
+        @Override
         protected void onPostExecute(Void aVoid) {
             pDialog.dismiss();
-            switch (status){
+            switch (status) {
                 case 200:
                     UserProfile.setUserState(context, 2);
                     Intent intent = new Intent(LoginActivity.this, ClubSubscriptionActivity.class);
@@ -188,13 +196,21 @@ public class LoginActivity extends Activity{
                     finish();
                     break;
                 case 401:
-                    Log.d(LOG_TAG,"invalid credentials ");
+                    UIUtils.showSnackBar(llSnack, "Invalid credentials, please try again");
                     break;
                 default:
-                    Log.d(LOG_TAG,"Error connecting server ");
+                    UIUtils.showSnackBar(llSnack, "There was an error connecting to our server. Please try again");
                     break;
             }
         }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.
+                INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        return true;
     }
 
 }

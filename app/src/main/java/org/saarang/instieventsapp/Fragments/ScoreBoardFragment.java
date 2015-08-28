@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import org.saarang.instieventsapp.Adapters.ScoreboardAdapter;
 import org.saarang.instieventsapp.Objects.ScoreCard;
 import org.saarang.instieventsapp.Objects.ScoreboardObject;
+import org.saarang.instieventsapp.Objects.UserProfile;
 import org.saarang.instieventsapp.R;
 
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class ScoreBoardFragment extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
     ArrayList<ScoreCard> list;
     private List<ScoreboardObject> score;
+    String hostel;
 
 
 
@@ -48,7 +50,8 @@ public class ScoreBoardFragment extends Fragment {
 
   //      swipe=(SwipeRefreshLayout) rootView.findViewById(R.id.score_swipe);
 //        swipe.setOnRefreshListener((SwipeRefreshLayout.OnRefreshListener) this);
-        adapter=new ScoreboardAdapter(getActivity(),list, "Jamuna");
+        hostel= UserProfile.getUserHostel(getActivity());
+        adapter=new ScoreboardAdapter(getActivity(),list,hostel);
         scoreboardrecycle.setAdapter(adapter);
         return rootView;
     }

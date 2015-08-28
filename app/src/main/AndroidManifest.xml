@@ -34,7 +34,8 @@
         </activity>
         <activity
             android:name=".Activities.LoginActivity"
-            android:theme="@style/AppTheme" >
+            android:theme="@style/AppTheme"
+           >
         </activity>
         <activity
             android:name=".Activities.ClubSubscriptionActivity"
@@ -46,6 +47,10 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.MainActivity" />
+        </activity>
+        <activity
+            android:name=".Activities.EventsDetailsActivity"
+            android:theme="@style/AppTheme" >
         </activity>
 
         <receiver
