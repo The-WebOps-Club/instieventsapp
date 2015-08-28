@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.saarang.instieventsapp.Objects.Club;
@@ -17,21 +18,27 @@ public class ClubDetailAdapter extends RecyclerView.Adapter<ClubDetailAdapter.Vi
 
     Context mContext;
     Club mClub;
+    int size=8;
+   // ArrayList<Club> mList;
     public ClubDetailAdapter(Context context,Club club) {
         mContext = context;
         mClub=club;
+      //  mList=Club.getAllClubs(mContext);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
 
-        TextView tv,tv2,description;
+        TextView tv,tv2,description,convenor;
+        ImageView call,mail;
         public ViewHolder(View view) {
             super(view);
             tv = (TextView)view.findViewById(R.id.tv);
             tv2 = (TextView)view.findViewById(R.id.tv2);
             description=(TextView)view.findViewById(R.id.tv2);
-
+           // convenor=(TextView)view.findViewById(R.id.tvConvenor);
+            //call=(ImageView)view.findViewById(R.id.ivCall);
+            //mail=(ImageView)view.findViewById(R.id.ivMail);
 
         }
     }
@@ -62,17 +69,23 @@ public class ClubDetailAdapter extends RecyclerView.Adapter<ClubDetailAdapter.Vi
         if(position==1){
             holder.tv.setText("Convenors:");
             String convenors="";
-            for(int j=0;j<mClub.getConvenorsList().size(); j++){
-            convenors=convenors+"\t"+mClub.getConvenorsList().get(j).getConName()+"\n";
+            Club.Convenor[] clubconvenors=mClub.getConvenors();
+            //Log.d("ClubDetailAdapter",convenors.getConName());
+           for(int j=0;j<clubconvenors.length; j++){
+           convenors=convenors+"\t"+clubconvenors[j].getConName()+"\n";
             }
             holder.tv2.setText(convenors);
 
+        }
+        if(position==0){
+            holder.tv.setText("Description");
+            holder.tv2.setText(mClub.getDescription());
         }
 
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        return size;
     }
 }

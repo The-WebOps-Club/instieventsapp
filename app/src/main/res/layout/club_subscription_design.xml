@@ -23,6 +23,7 @@
         android:layout_height="50dp"
         android:layout_weight="50"
         android:scaleType="center"
+        android:paddingLeft="100dp"
         android:background="#ffffff"
         android:id="@+id/club_subscription_subscribed"
         android:src="@drawable/ic_tick"

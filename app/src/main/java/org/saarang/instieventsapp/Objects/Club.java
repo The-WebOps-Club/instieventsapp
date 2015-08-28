@@ -9,7 +9,6 @@ import com.google.gson.Gson;
 import org.saarang.instieventsapp.Helper.DatabaseHelper;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by kiran on 23/8/15.
@@ -25,6 +24,7 @@ public class Club {
     String category;
     Boolean isSubscribed;
     String _id;
+
 
     public class Convenor{
 
@@ -45,13 +45,13 @@ public class Club {
         }
 
     }
-    List<Convenor> convenorsList;
+
     Convenor[] convenors;
 
     public static String TABLE_NAME = "clubs";
 
     public static String KEY_ROWID = "_id";
-    private static String COLUMN_CLUB_ID = "clubId";
+    public static String COLUMN_CLUB_ID = "clubId";
     private static String COLUMN_NAME = "name";
     private static String COLUMN_CREATED_ON = "createdOn";
     private static String COLUMN_UPDATED_ON = "updatedOn";
@@ -79,6 +79,10 @@ public class Club {
             COLUMN_UPDATED_ON, COLUMN_CATEGORY, COLUMN_DESCRIPTION, COLUMN_CONVENORS, COLUMN_ISSUBSCRIBED};
 
 
+    public Club(){
+
+
+    }
     public Club(String _id, String name, String createdOn, String updatedOn, String category,
                 String description, Convenor[] convenors,int isSubscribed){
         this.name=name;
@@ -122,9 +126,12 @@ public class Club {
         return category;
     }
 
-    public List<Convenor> getConvenorsList(){
-        return convenorsList;
+    public Convenor[] getConvenors(){
+        return convenors;
     }
+
+
+
     public void setIsSubscribed(Boolean subscribed){
         this.isSubscribed=subscribed;
     }
@@ -153,9 +160,9 @@ public class Club {
         this.category=category;
     }
 
-    public void setConvenorsList(List<Convenor> list){
-        this.convenorsList=list;
-    }
+
+
+
 
     public ContentValues getCV(){
         Gson gson = new Gson();
@@ -196,10 +203,11 @@ public class Club {
     }
     public static Club getClub(Cursor c){
         Gson gson = new Gson();
-        //while ( c.moveToNext() ){
-            Club club = new Club(c.getString(1), c.getString(2),c.getString(3),c.getString(4),
-                    c.getString(5),c.getString(6), gson.fromJson(c.getString(7), Convenor[].class),c.getInt(8) );
-            //arrayList.add(club);
+        Club  club = new Club();
+         c.moveToFirst() ;
+            club = new Club(c.getString(1), c.getString(2), c.getString(3), c.getString(4),
+                    c.getString(5), c.getString(6), gson.fromJson(c.getString(7), Convenor[].class), c.getInt(8));
+        //arrayList.add(club);
 
         return club;
     }

@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
@@ -37,8 +38,9 @@ public class ClubDetailActivity extends AppCompatActivity {
         Bundle getclubid=getIntent().getExtras();
         String clubId;
         clubId=getclubid.getString(Club.KEY_ROWID);
-
+        Log.d("check",clubId);
         Club club=Club.getAClub(mContext,clubId);
+
 
         adapter = new ClubDetailAdapter(this,club);
         recyclerView.setAdapter(adapter);

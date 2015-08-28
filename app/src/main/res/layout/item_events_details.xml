@@ -25,7 +25,7 @@
                 android:layout_height="60dp"
                 android:id="@+id/iv_date"
                 android:paddingTop="20dp"
-                android:src="@drawable/ic_calendar_grey"
+                android:src="@drawable/ic_calender"
                 android:paddingLeft="20dp"
                 android:paddingStart="20dp"
                 android:layout_gravity="center_vertical"/>
@@ -168,7 +168,7 @@
                 android:layout_height="60dp"
                 android:id="@+id/iv_description"
                 android:paddingTop="20dp"
-                android:src="@drawable/ic_calendar_grey"
+                android:src="@drawable/ic_description"
                 android:paddingLeft="20dp"
                 android:paddingStart="20dp"
                 android:layout_gravity="center_vertical"/>
@@ -180,7 +180,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="August 26"
+                android:text="Description"
                 android:id="@+id/evdescription"
                 android:textSize="16dp"
                 android:paddingTop="12dp"
@@ -188,7 +188,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Coding Session"
+                android:text="Abc"
                 android:id="@+id/evdescription2"
                 android:textSize="16dp"
                 android:paddingTop="4dp"
@@ -216,7 +216,7 @@
                 android:layout_height="60dp"
                 android:id="@+id/iv_convenor"
                 android:paddingTop="20dp"
-                android:src="@drawable/ic_calendar_grey"
+                android:src="@drawable/ic_convenors"
                 android:paddingLeft="20dp"
                 android:paddingStart="20dp"
                 android:layout_gravity="center_vertical"/>
@@ -228,7 +228,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="August 26"
+                android:text="Convenors"
                 android:id="@+id/evconvenor"
                 android:textSize="16dp"
                 android:paddingTop="12dp"
@@ -236,7 +236,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Coding Session"
+                android:text="1.Abc"
                 android:id="@+id/evconvenor2"
                 android:textSize="16dp"
                 android:paddingTop="4dp"

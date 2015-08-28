@@ -25,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="August 26"
-        android:id="@+id/tvdate"
+        android:id="@+id/tvDate"
         android:textSize="16dp"
         android:textColor="@color/events_primary"
         android:paddingTop="12dp"/>
@@ -33,14 +33,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Coding Session"
-        android:id="@+id/tvtime"
+        android:id="@+id/tvName"
         android:textSize="16dp"
         android:paddingTop="4dp"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Astronomy Club"
-        android:id="@+id/tvclub"
+        android:id="@+id/tvClub"
         android:textColor="@color/events_secondary_text"
         android:paddingTop="4dp"
         android:paddingBottom="12dp"/>
