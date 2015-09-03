@@ -2,8 +2,10 @@ package org.saarang.instieventsapp.Activities;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import org.saarang.instieventsapp.R;
 
@@ -22,6 +24,14 @@ public class EventsDetailsActivity extends AppCompatActivity {
 
         Toolbar tool=(Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(tool);
+
+        tool.setNavigationIcon(ContextCompat.getDrawable(this, R.drawable.ic_arrow_left));
+        tool.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
       /*  Bundle geteventid=getIntent().getExtras();
         String eventId;
