@@ -56,11 +56,17 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
         // generate random color
         int color1 = generator.getRandomColor();
         TextDrawable drawable = TextDrawable.builder()
-                .buildRound("A", color1);
+                .buildRound(String.valueOf(events.get(position).eventContext().charAt(0)), color1);
         holder.textimage.setImageDrawable(drawable);
         holder.tvName.setText(events.get(position).getName());
         holder.tvClub.setText(events.get(position).eventContext());
-        holder.tvDate.setText(TimeHelper.getRelative(events.get(position).getTime()));
+        if(TimeHelper.getRelative(events.get(position).getTime()) != null) {
+            holder.tvDate.setText(TimeHelper.getRelative(events.get(position).getTime()));
+        }
+        else
+        {
+            holder.tvDate.setVisibility(View.GONE);
+        }
     }
 
     @Override

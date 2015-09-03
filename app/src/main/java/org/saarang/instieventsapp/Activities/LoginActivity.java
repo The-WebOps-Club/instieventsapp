@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
@@ -70,9 +71,10 @@ public class LoginActivity extends Activity {
         });
 
         etUsername = (EditText) findViewById(R.id.etUsername);
-        etUsername.setHintTextColor(getResources().getColor(R.color.white));
+        etUsername.setHintTextColor(getResources().getColor(R.color.events_secondary_text));
+
         etPassword = (EditText) findViewById(R.id.etPassword);
-        etPassword.setHintTextColor(getResources().getColor(R.color.white));
+        etPassword.setHintTextColor(getResources().getColor(R.color.events_secondary_text));
         etPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
@@ -83,7 +85,9 @@ public class LoginActivity extends Activity {
             }
         });
 
-        tilUsername = (TextInputLayout) findViewById(R.id.tilUsername);
+
+
+        //tilUsername = (TextInputLayout) findViewById(R.id.tilUsername);
     }
 
     private void processLogin() {
@@ -93,8 +97,19 @@ public class LoginActivity extends Activity {
 
         //Validating roll number format
         if (username.length() >= 8) {
-            tilUsername.setError(null);
+            // tilUsername.setError(null);
             //Checking for connection
+
+
+//
+//
+//            pDialog = new ProgressDialog(LoginActivity.this);
+//            pDialog.setMessage("Connecting ...");
+//            pDialog.setIndeterminate(false);
+//            pDialog.setCancelable(false);
+//            pDialog.show();
+
+
 
             if (Connectivity.isConnected()) {
                 Log.d(LOG_TAG, "1- Starting Login functions ... ");
@@ -104,7 +119,8 @@ public class LoginActivity extends Activity {
                 UIUtils.showSnackBar(llSnack, getResources().getString(R.string.error_connection));
             }
         } else {
-            tilUsername.setError("Invalid roll number");
+            // tilUsername.setError("Invalid roll number");
+            UIUtils.showSnackBar(llSnack, getResources().getString(R.string.invalid_password));
         }
     }
 
@@ -207,7 +223,7 @@ public class LoginActivity extends Activity {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.
                 INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         return true;
