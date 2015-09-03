@@ -42,7 +42,7 @@
                     android:layout_weight="4"
                     android:layout_gravity="center"
                     android:layout_height="20dp"
-                    android:src="@drawable/play_store_icon" />
+                    android:src="@drawable/ic_arrow_left" />
                 <TextView
                 android:layout_weight="1"
                 android:layout_width="fill_parent"
@@ -76,7 +76,7 @@
                 android:layout_weight="4"
                 android:layout_gravity="center"
                 android:layout_height="20dp"
-                android:src="@drawable/bug_icon" />
+                android:src="@drawable/ic_arrow_left" />
             <TextView
                 android:layout_weight="1"
                 android:layout_width="fill_parent"

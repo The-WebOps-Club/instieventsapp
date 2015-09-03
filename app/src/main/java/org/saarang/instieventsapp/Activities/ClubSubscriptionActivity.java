@@ -24,6 +24,7 @@ import org.saarang.instieventsapp.Objects.Club;
 import org.saarang.instieventsapp.Objects.UserProfile;
 import org.saarang.instieventsapp.R;
 import org.saarang.instieventsapp.Utils.URLConstants;
+import org.saarang.saarangsdk.Network.Connectivity;
 import org.saarang.saarangsdk.Network.HttpRequest;
 
 import java.util.ArrayList;
@@ -50,8 +51,10 @@ public class ClubSubscriptionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Intent intent = new Intent(this, GetSetupData.class);
-        startService(intent);
+        if (Connectivity.isNetworkAvailable(context)){
+            Intent intent = new Intent(this, GetSetupData.class);
+            startService(intent);
+        }
 
         setContentView(R.layout.club_subscription);
 

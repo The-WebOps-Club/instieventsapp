@@ -38,7 +38,7 @@ public class EventsFragment extends Fragment {
         rvEvents.setLayoutManager(layoutManager);
 
         // Load events from Database
-        events = Event.getAllEvents(getActivity());
+        events = Event.getAllRelevantEvents(getActivity());
 
         //initialize events feed adapter
         EventsAdapter eventsAdapter = new EventsAdapter(getActivity(), events);

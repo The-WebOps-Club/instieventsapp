@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class Event {
 
     String _id, name, time, venue, description, category, club, result, coords, createdOn, updatedOn;
-    boolean active, isLitSocEvent;
+    boolean active, isLitSocEvent, isSubscribed;
 
 
     public static String TABLE_NAME = "Events";
@@ -41,6 +41,7 @@ public class Event {
     public static String COLUMN_CREATEDON = "createdOn";
     public static String COLUMN_UPDATEDON = "updatedOn";
     public static String COLUMN_ISLITSOCEVENT = "isLitSocEvent";
+    public static String COLUMN_ISRELEVANT = "isRelevant";
 
     public static String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " ( " +
             KEY_ROWID + " INTEGER " + " PRIMARY KEY , " +
@@ -56,7 +57,8 @@ public class Event {
             COLUMN_COORDS + " TEXT  , " +
             COLUMN_CREATEDON + " TEXT  , " +
             COLUMN_UPDATEDON + " TEXT , " +
-            COLUMN_ISLITSOCEVENT + " NUMBER" +
+            COLUMN_ISLITSOCEVENT + " NUMBER , " +
+            COLUMN_ISRELEVANT + " NUMBER " +
             " );";
 
     public static String[] columns = {KEY_ROWID, COLUMN_EVENTID, COLUMN_NAME, COLUMN_TIME, COLUMN_VENUE, COLUMN_DESCRIPTION,
@@ -110,10 +112,12 @@ public class Event {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        try {
-            this.club = jEvent.getJSONObject("club").toString();
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if (!this.isLitSocEvent){
+            try {
+                this.club = jEvent.getJSONObject("club").toString();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -170,7 +174,6 @@ public class Event {
 
     public String eventContext(){
         if (!isLitSocEvent) try {
-            Log.d("Litsoc event", "false");
             return new JSONObject(club).getString("name");
         } catch (JSONException | NullPointerException e) {
             e.printStackTrace();
@@ -213,6 +216,16 @@ public class Event {
         return data.getAllEvents();
     }
 
+    public static ArrayList<Event> getAllRelevantEvents(Context context){
+        DatabaseHelper data = new DatabaseHelper(context);
+        return data.getAllRelevantEvents();
+    }
+
+    public static ArrayList<Event> getUpcomingEvents(Context context){
+        DatabaseHelper data = new DatabaseHelper(context);
+        return data.getUpcomingEvents();
+    }
+
     public static ArrayList<Event> getArrayList(Cursor c){
         ArrayList<Event> arrayList = new ArrayList<>();
         Gson gson = new Gson();
@@ -223,8 +236,6 @@ public class Event {
     }
 
     public static Event parseEvent(Cursor c){
-        Log.d("Time difference", c.getString(2));
-        Log.d("Time difference", " is " + (c.getInt(13) - System.currentTimeMillis()/1000000));
         Event event = new Event(c.getString(1), c.getString(2),c.getString(3),c.getString(4),
                 c.getString(5),c.getString(6), c.getString(7),c.getString(8),c.getString(9),
                 c.getString(10),c.getString(11), (c.getInt(12)==1)?true:false);

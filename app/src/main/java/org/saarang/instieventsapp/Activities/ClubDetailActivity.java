@@ -41,7 +41,6 @@ public class ClubDetailActivity extends AppCompatActivity {
         Bundle getclubid=getIntent().getExtras();
         String clubId;
         clubId=getclubid.getString(Club.KEY_ROWID);
-        Log.d("check",clubId);
         Club club=Club.getAClub(mContext,clubId);
 
 

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
@@ -28,7 +27,6 @@ import org.saarang.instieventsapp.Helper.DatabaseHelper;
 import org.saarang.instieventsapp.Objects.Club;
 import org.saarang.instieventsapp.Objects.UserProfile;
 import org.saarang.instieventsapp.R;
-import org.saarang.instieventsapp.Services.IE_RegistrationIntentService;
 import org.saarang.instieventsapp.Utils.UIUtils;
 import org.saarang.instieventsapp.Utils.URLConstants;
 import org.saarang.saarangsdk.Network.Connectivity;
@@ -111,8 +109,7 @@ public class LoginActivity extends Activity {
 
 
 
-            if (Connectivity.isConnected()) {
-                Log.d(LOG_TAG, "1- Starting Login functions ... ");
+            if (Connectivity.isNetworkAvailable(context)) {
                 logintask = new Login();
                 logintask.execute(username, password);
             } else {
