@@ -13,7 +13,7 @@ import org.json.JSONObject;
 import org.saarang.instieventsapp.Objects.Event;
 import org.saarang.instieventsapp.Objects.ScoreCard;
 import org.saarang.instieventsapp.Objects.UserProfile;
-import org.saarang.instieventsapp.Utils.spUtils;
+import org.saarang.instieventsapp.Utils.SPUtils;
 import org.saarang.instieventsapp.Utils.URLConstants;
 import org.saarang.saarangsdk.Network.GetRequest;
 
@@ -43,7 +43,7 @@ public class GetSetupData extends IntentService {
                         UserProfile.getUserToken(this));
                 Log.d(LOG_TAG, json.toString());
                 if (json.getInt("status") == 200){
-                    spUtils.setLastUpdateDate(this);
+                    SPUtils.setLastUpdateDate(this);
                     JSONArray jEvents = json.getJSONObject("data").getJSONArray("response");
                     for (int i=0; i<jEvents.length(); i++){
                         jEvent = jEvents.getJSONObject(i);
