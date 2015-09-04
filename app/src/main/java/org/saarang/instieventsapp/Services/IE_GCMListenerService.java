@@ -17,12 +17,15 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GcmListenerService;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.saarang.instieventsapp.Activities.EventsDetailsActivity;
 import org.saarang.instieventsapp.Activities.MainActivity;
+import org.saarang.instieventsapp.Helper.DatabaseHelper;
+import org.saarang.instieventsapp.Objects.Club;
 import org.saarang.instieventsapp.Objects.Event;
 import org.saarang.instieventsapp.Objects.ScoreCard;
 import org.saarang.instieventsapp.Objects.UserProfile;
@@ -35,16 +38,17 @@ public class IE_GCMListenerService extends GcmListenerService{
     String data;
     String type,category,scoreBoardId,title;
     Event event;
-    JSONObject Data, jScoreBoard,json;
-    JSONArray jScoreBoards, jScoreCards;
-
+    JSONObject Data, jScoreBoard,Club;
+    JSONArray jScoreBoards, jScoreCards,Clubs;
+    Club club;
+    Gson gson = new Gson();
 
 
     /**
      * Called when message is received.
      *
      * @param from SenderID of the sender.
-     * @param data Data bundle containing message data as key/value pairs.
+     * @param datakjfk Data bundle containing message data as key/value pairs.
      *             For Set of keys use data.keySet().
      */
     // [START receive_message]
@@ -127,7 +131,20 @@ public class IE_GCMListenerService extends GcmListenerService{
                 }
                 break;
 
-            case "103":break;
+            case "103":
+                try {
+                    Clubs = new JSONArray(data);
+                    for (int f = 0; f < Clubs.length(); f++) {
+                        Club = Clubs.getJSONObject(f);
+                        club = gson.fromJson(Club.toString(), Club.class);
+                        Log.d(TAG, Club.getString("name"));
+                        DatabaseHelper data = new DatabaseHelper(this);
+                        data.addClub(club.getCV());
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
             case "302":
                 try {
                     jScoreBoards = new JSONArray(data);
