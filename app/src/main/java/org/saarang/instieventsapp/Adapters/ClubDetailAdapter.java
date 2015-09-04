@@ -4,17 +4,21 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.saarang.instieventsapp.Objects.Club;
+import org.saarang.instieventsapp.Objects.Event;
 import org.saarang.instieventsapp.R;
+import org.saarang.saarangsdk.Helpers.TimeHelper;
+
+import java.util.ArrayList;
 
 /**
  * Created by kevin selva prasanna on 11-Aug-15.
@@ -23,31 +27,36 @@ public class ClubDetailAdapter extends RecyclerView.Adapter<ClubDetailAdapter.Vi
 
     Context mContext;
     Club mClub;
-    int size=8;
+    ArrayList<Event> mEventList;
+    int size=3;
    // ArrayList<Club> mList;
-    public ClubDetailAdapter(Context context,Club club) {
+    public ClubDetailAdapter(Context context,Club club,ArrayList<Event> events) {
         mContext = context;
         mClub=club;
+        mEventList=events;
+        size=mEventList.size()+2;
       //  mList=Club.getAllClubs(mContext);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
 
-        TextView tv,tv2,description,convenor;
-        ImageView call,mail;
-        LinearLayout convenorlist,parentlayout;
+        TextView tv,tv2,description;
+        TextView tvHeading,tvDate,tvTime,tvLocation;
         ViewGroup mLinearLayout;
+
         public ViewHolder(View view) {
             super(view);
             tv = (TextView)view.findViewById(R.id.tv);
             tv2 = (TextView)view.findViewById(R.id.tv2);
             description=(TextView)view.findViewById(R.id.tv2);
-            //convenorlist=(LinearLayout)view.findViewById(R.id.convenorlist);
-           // convenor=(TextView)view.findViewById(R.id.tvConvenor);
-            //call=(ImageView)view.findViewById(R.id.ivCall);
-            //mail=(ImageView)view.findViewById(R.id.ivMail);
             mLinearLayout = (ViewGroup) view.findViewById(R.id.convenorlist1);
+            tvDate=(TextView)view.findViewById(R.id.tvDate);
+            tvHeading=(TextView)view.findViewById(R.id.tvHeading);
+            tvTime=(TextView)view.findViewById(R.id.tvTime);
+            tvLocation=(TextView)view.findViewById(R.id.tvLocation);
+
+
         }
     }
 
@@ -76,6 +85,9 @@ public class ClubDetailAdapter extends RecyclerView.Adapter<ClubDetailAdapter.Vi
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+
+
+
         if(position==1){
             final Club.Convenor[] clubconvenors=mClub.getConvenors();
             //Log.d("ClubDetailAdapter",convenors.getConName());
@@ -124,10 +136,22 @@ public class ClubDetailAdapter extends RecyclerView.Adapter<ClubDetailAdapter.Vi
 
 
         }
-        if(position==0){
+        else if(position==0){
             holder.tv.setText("Description");
             holder.tv2.setText(mClub.getDescription());
 
+        }
+        else{
+            holder.tvHeading.setText(mClub.getName());
+            String date,time;
+            if(mEventList.size()!=0) {
+
+                date = TimeHelper.getDate(mEventList.get(position - 2).getTime());
+                time = TimeHelper.getTime(mEventList.get(position - 2).getTime());
+                holder.tvDate.setText(date);
+                holder.tvTime.setText(time);
+                holder.tvLocation.setText(mEventList.get(position - 2).getVenue());
+            }
         }
 
     }

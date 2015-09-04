@@ -40,4 +40,6 @@
     <color name="events_background">#ffebee</color>
     <color name="events_login_background">#d32f2f</color>
     <color name="events_login_button">#448aff</color>
+    <color name="floating_button_sub">#52a74f</color>
+    <color name="floating_button_notsub">#ff0000</color>
 </resources>

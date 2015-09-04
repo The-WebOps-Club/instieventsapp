@@ -45,7 +45,7 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
 
         Button bViewMore;
         Button bSubscibe;
-        TextView tvName;
+        TextView tvName,tvDesc;
         ImageView ivProf;
 
         public ViewHolder(View view) {
@@ -54,7 +54,7 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
             bSubscibe = (Button)view.findViewById(R.id.bSubscibe);
             tvName=(TextView) view.findViewById(R.id.titleoverlay);
             ivProf=(ImageView) view.findViewById(R.id.ivProfilePic);
-
+            tvDesc=(TextView)view.findViewById(R.id.tvDesc);
         }
     }
     public ClubsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -90,6 +90,7 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
         });
 
         holder.tvName.setText(mList.get(position).getName());
+        holder.tvDesc.setText(mList.get(position).getDescription());
         Glide.with(mContext).load(R.drawable.webclub).centerCrop().into(holder.ivProf);
     }
 
@@ -138,6 +139,8 @@ private class Subscribe extends AsyncTask<String,Void,Void>{
 
         try {
             status = responseJSON.getInt("status");
+            Log.d(LOG_TAG,""+(status));
+
             if (status == 200) {
                 Log.d(LOG_TAG, "successfull\n");}
             else
