@@ -6,9 +6,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-
-import org.saarang.instieventsapp.R;
-import de.hdodenhof.circleimageview.CircleImageView;
+//import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by MIHIR on 28-08-2015.
@@ -17,9 +15,9 @@ public class ImageAdapter extends BaseAdapter {
 
     private Context mContext;
     public Integer[] mThumbIds = {
-            R.drawable.play_store_icon, R.drawable.play_store_icon,
-            R.drawable.play_store_icon, R.drawable.play_store_icon,
-            R.drawable.play_store_icon, R.drawable.play_store_icon,
+//            R.drawable.play_store_icon, R.drawable.play_store_icon,
+//            R.drawable.play_store_icon, R.drawable.play_store_icon,
+//            R.drawable.play_store_icon, R.drawable.play_store_icon,
 
     };
 
