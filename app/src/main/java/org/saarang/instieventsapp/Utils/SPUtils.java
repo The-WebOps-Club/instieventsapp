@@ -9,7 +9,7 @@ import org.saarang.saarangsdk.Helpers.TimeHelper;
 /**
  * Created by kevin selva prasanna on 04-Sep-15.
  */
-public class spUtils {
+public class SPUtils {
     private static String sp = "sharedPreferences";
     private static String spLastUpdateDate = "latestPost";
 
