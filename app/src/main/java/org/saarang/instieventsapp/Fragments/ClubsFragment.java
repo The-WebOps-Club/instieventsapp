@@ -24,7 +24,7 @@ import org.saarang.instieventsapp.Objects.Event;
 import org.saarang.instieventsapp.Objects.ScoreCard;
 import org.saarang.instieventsapp.Objects.UserProfile;
 import org.saarang.instieventsapp.R;
-import org.saarang.instieventsapp.Utils.SPUtils;
+import org.saarang.instieventsapp.Utils.spUtils;
 import org.saarang.instieventsapp.Utils.UIUtils;
 import org.saarang.instieventsapp.Utils.URLConstants;
 import org.saarang.saarangsdk.Network.Connectivity;
@@ -104,7 +104,7 @@ public class ClubsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
         @Override
         protected Void doInBackground(String... strings) {
-            params.add(new PostParam("time", SPUtils.getLastUpdateDate(getActivity())));
+            params.add(new PostParam("time", spUtils.getLastUpdateDate(getActivity())));
             JSONObject json = PostRequest.execute(URLConstants.URL_REFRESH, params,
                     UserProfile.getUserToken(getActivity()));
             try {
@@ -113,7 +113,7 @@ public class ClubsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                 e.printStackTrace();
             }
             if(status==200){
-                SPUtils.setLastUpdateDate(getActivity());
+                spUtils.setLastUpdateDate(getActivity());
                 try {
                     Log.d(LOG_TAG, "Status:" + String.valueOf(status));
                     Log.d(LOG_TAG, json.toString());

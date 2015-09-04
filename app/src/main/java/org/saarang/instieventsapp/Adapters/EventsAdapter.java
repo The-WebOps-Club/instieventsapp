@@ -8,12 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import org.saarang.instieventsapp.Activities.EventsDetailsActivity;
 import org.saarang.instieventsapp.Objects.Event;
 import org.saarang.instieventsapp.R;
 import org.saarang.saarangsdk.Helpers.TimeHelper;
-
 import java.util.ArrayList;
 
 /**
@@ -24,6 +22,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
     Context mContext;
     ArrayList<Event> mItems;
     TimeHelper th;
+    String LOG_TAG = "EventsAdapter";
 
 
     public EventsAdapter(Context context, ArrayList<Event> items)
@@ -31,6 +30,8 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
         mContext = context;
         mItems = items;
     }
+
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
