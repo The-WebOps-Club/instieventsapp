@@ -3,6 +3,7 @@ package org.saarang.instieventsapp.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,10 +25,10 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
     Context mContext;
     ArrayList<Event> mItems;
     TimeHelper th;
+    String id;
+    private static String LOG_TAG = "EventDetails";
 
-
-    public EventsAdapter(Context context, ArrayList<Event> items)
-    {
+    public EventsAdapter(Context context, ArrayList<Event> items) {
         mContext = context;
         mItems = items;
     }
@@ -40,15 +41,16 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
             super(itemView);
 
             //Getting variables from id's in item layout
-            tvHeading = (TextView)itemView.findViewById(R.id.tvHeading);
-            tvDate = (TextView)itemView.findViewById(R.id.tvDate);
-            tvTime = (TextView)itemView.findViewById(R.id.tvTime);
-            eventsfeed=(LinearLayout)itemView.findViewById(R.id.events_feed);
-            tvLocation = (TextView)itemView.findViewById(R.id.tvLocation);
-            tvDescription = (TextView)itemView.findViewById(R.id.tvDescription);
+            tvHeading = (TextView) itemView.findViewById(R.id.tvHeading);
+            tvDate = (TextView) itemView.findViewById(R.id.tvDate);
+            tvTime = (TextView) itemView.findViewById(R.id.tvTime);
+            eventsfeed = (LinearLayout) itemView.findViewById(R.id.events_feed);
+            tvLocation = (TextView) itemView.findViewById(R.id.tvLocation);
+            tvDescription = (TextView) itemView.findViewById(R.id.tvDescription);
 
         }
     }
+
     public EventsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_events_feed, parent, false);
@@ -56,20 +58,24 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(EventsAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(EventsAdapter.ViewHolder holder, final int position) {
 
         th = new TimeHelper();
+        id = mItems.get(position).getId();
 
         holder.tvHeading.setText(mItems.get(position).getName());
-        holder.tvDate.setText(th.getDate(mItems.get(position).getTime()) == ""?"Event date has not been fixed":th.getDate(mItems.get(position).getTime()));
-        holder.tvTime.setText(th.getTime(mItems.get(position).getTime()) == ""?"Event time has not been decided":th.getTime(mItems.get(position).getTime()));
-        holder.tvLocation.setText(mItems.get(position).getVenue() == null?"Event venue has not been announced":mItems.get(position).getVenue());
+        holder.tvDate.setText(th.getDate(mItems.get(position).getTime()) == "" ? "Event date has not been fixed" : th.getDate(mItems.get(position).getTime()));
+        holder.tvTime.setText(th.getTime(mItems.get(position).getTime()) == "" ? "Event time has not been decided" : th.getTime(mItems.get(position).getTime()));
+        holder.tvLocation.setText(mItems.get(position).getVenue() == null ? "Event venue has not been announced" : mItems.get(position).getVenue());
         holder.tvDescription.setText(mItems.get(position).getDescription());
+
         holder.eventsfeed.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, EventsDetailsActivity.class);
+                intent.putExtra(Event.COLUMN_EVENTID, id);
+                Log.d(LOG_TAG, "pos :: " + position + " name :: " + mItems.get(position).getName()+  " id :: " + id);
                 mContext.startActivity(intent);
 
             }

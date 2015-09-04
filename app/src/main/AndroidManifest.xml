@@ -54,7 +54,10 @@
             android:name=".Activities.EventsDetailsActivity"
             android:theme="@style/AppTheme" >
         </activity>
-
+        <activity
+            android:name=".Activities.AboutUsActivity"
+            android:theme="@style/AppTheme" >
+        </activity>
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"

@@ -24,11 +24,11 @@ public class ClubDetailAdapter extends RecyclerView.Adapter<ClubDetailAdapter.Vi
     Context mContext;
     Club mClub;
     int size=8;
-   // ArrayList<Club> mList;
+    // ArrayList<Club> mList;
     public ClubDetailAdapter(Context context,Club club) {
         mContext = context;
         mClub=club;
-      //  mList=Club.getAllClubs(mContext);
+        //  mList=Club.getAllClubs(mContext);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
@@ -44,7 +44,7 @@ public class ClubDetailAdapter extends RecyclerView.Adapter<ClubDetailAdapter.Vi
             tv2 = (TextView)view.findViewById(R.id.tv2);
             description=(TextView)view.findViewById(R.id.tv2);
             //convenorlist=(LinearLayout)view.findViewById(R.id.convenorlist);
-           // convenor=(TextView)view.findViewById(R.id.tvConvenor);
+            // convenor=(TextView)view.findViewById(R.id.tvConvenor);
             //call=(ImageView)view.findViewById(R.id.ivCall);
             //mail=(ImageView)view.findViewById(R.id.ivMail);
             mLinearLayout = (ViewGroup) view.findViewById(R.id.convenorlist1);
@@ -70,7 +70,7 @@ public class ClubDetailAdapter extends RecyclerView.Adapter<ClubDetailAdapter.Vi
             case 1:
                 return new ViewHolder(view3);
             default:
-            return new ViewHolder(view);
+                return new ViewHolder(view);
         }
     }
 
@@ -79,9 +79,9 @@ public class ClubDetailAdapter extends RecyclerView.Adapter<ClubDetailAdapter.Vi
         if(position==1){
             final Club.Convenor[] clubconvenors=mClub.getConvenors();
             //Log.d("ClubDetailAdapter",convenors.getConName());
-          // for(int j=0;j<clubconvenors.length; j++){
+            // for(int j=0;j<clubconvenors.length; j++){
             holder.mLinearLayout.removeAllViews();
-             int i;
+            int i;
             //holder.convenor.setText(clubconvenors[0].getConName());
             for (i = 0; i < clubconvenors.length;  i++){
 
