@@ -57,7 +57,7 @@ public class ClubSubscriptionActivity extends AppCompatActivity {
 
         rvClubs=(RecyclerView)findViewById(R.id.reSubscription);
         layoutManager=new LinearLayoutManager(this);
-        Toolbar tool=(Toolbar) findViewById(R.id.toolbar);
+        Toolbar tool=(Toolbar) findViewById(R.id.toolbarClubSub);
         setSupportActionBar(tool);
         rvClubs.setLayoutManager(layoutManager);
 

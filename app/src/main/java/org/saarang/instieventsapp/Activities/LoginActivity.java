@@ -101,15 +101,6 @@ public class LoginActivity extends Activity {
             //Checking for connection
 
 
-//
-//
-//            pDialog = new ProgressDialog(LoginActivity.this);
-//            pDialog.setMessage("Connecting ...");
-//            pDialog.setIndeterminate(false);
-//            pDialog.setCancelable(false);
-//            pDialog.show();
-
-
 
             if (Connectivity.isConnected()) {
                 Log.d(LOG_TAG, "1- Starting Login functions ... ");

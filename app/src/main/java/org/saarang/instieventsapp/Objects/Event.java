@@ -118,7 +118,7 @@ public class Event {
     }
 
 
-    public String getId(){return _id;}
+
     public String getName() {
         return name;
     }
@@ -142,7 +142,9 @@ public class Event {
     public String getResult() {
         return result;
     }
-
+    public String getId(){
+        return _id;
+    }
 
     public boolean isActive() {
         return active;

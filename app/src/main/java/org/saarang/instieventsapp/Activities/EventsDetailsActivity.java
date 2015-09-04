@@ -2,23 +2,30 @@ package org.saarang.instieventsapp.Activities;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.MenuItem;
+import android.widget.TextView;
 
 import org.saarang.instieventsapp.Objects.Event;
 import org.saarang.instieventsapp.R;
+import org.saarang.saarangsdk.Helpers.TimeHelper;
 
 /**
  * Created by kiran on 26/8/15.
  */
 public class EventsDetailsActivity extends AppCompatActivity {
 
-    Context mContext=EventsDetailsActivity.this;
-    String id ;
-
+    Context mContext = EventsDetailsActivity.this;
+    String id;
+    Event event;
+    private static String LOG_TAG = "EventDetails";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.ac_events_details);
 
         // Collecting event id from the parent Activity
 
@@ -26,14 +33,48 @@ public class EventsDetailsActivity extends AppCompatActivity {
         id = bundle.getString(Event.COLUMN_EVENTID);
 
         // Getting event object
-        //Event event=Event.getAEvent(mContext,eventId);
+        event = Event.getAnEvent(mContext, id);
 
-        setContentView(R.layout.item_events_details);
 
-        Toolbar tool=(Toolbar) findViewById(R.id.toolbar);
+
+        TextView tvDate = (TextView)findViewById(R.id.tvDate);
+
+        TextView tvDate2 = (TextView)findViewById(R.id.tvDate2);
+        TextView tvTime = (TextView)findViewById(R.id.tvTime);
+        TextView tvDescription = (TextView)findViewById(R.id.tvDescription);
+        TextView tvPlace = (TextView)findViewById(R.id.tvPlace);
+        TextView tvConvener = (TextView)findViewById(R.id.tvConvenor);
+
+
+        Log.d(LOG_TAG, event.getName() + " :: " +event.getTime() +  " :: " + event.getVenue()+ " :: "+ event.getDescription());
+
+        tvDate2.setText(event.getName());
+        tvTime.setText(TimeHelper.getTime(event.getTime()));
+        tvPlace.setText(event.getVenue());
+        tvDescription.setText(event.getDescription());
+        tvDate.setText(TimeHelper.getDate(event.getTime()));
+        //TODO tvConvener.setText(event.something);
+
+        Toolbar tool = (Toolbar) findViewById(R.id.toolbarEventDetails);
         setSupportActionBar(tool);
-        
+
+        final ActionBar ab = getSupportActionBar();
+        ab.setHomeAsUpIndicator(R.drawable.ic_arrow_left);
+
+        ab.setDisplayHomeAsUpEnabled(true);
 
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home: {
+                //          close activity on back
+                finish();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -33,7 +33,7 @@
                 app:layout_collapseMode="parallax" />
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+                android:id="@+id/toolbarClubDetail"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
