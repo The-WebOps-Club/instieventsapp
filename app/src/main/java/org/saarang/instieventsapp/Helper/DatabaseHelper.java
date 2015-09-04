@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,6 +27,7 @@ public class DatabaseHelper {
     private DbHelper ourHelper;
     private final Context ourContext;
     private SQLiteDatabase ourDatabase;
+
 
     private static class DbHelper extends SQLiteOpenHelper {
 
@@ -162,6 +162,18 @@ public class DatabaseHelper {
         String[] columns = Event.columns;
         Cursor c = ourDatabase.query(Event.TABLE_NAME, columns, Event.COLUMN_TIMESTAMP + "> ?",
                 new String[]{"" + timeNow}, null, null, null);
+        ArrayList<Event> arrayList = Event.getArrayList(c);
+        close();
+        return arrayList;
+    }
+
+    public ArrayList<Event> getClubEvents (String clubId) {
+        open();
+        long timeNow = System.currentTimeMillis()/1000000;
+        String[] columns = Event.columns;
+        Cursor c = ourDatabase.query(Event.TABLE_NAME, columns, Event.COLUMN_CLUB + " LIKE ?",
+                new String[]{'%'+ clubId +'%'}, null, null, " ABS( " + Event.COLUMN_TIMESTAMP + " - "+
+                        timeNow + " ) ASC ");
         ArrayList<Event> arrayList = Event.getArrayList(c);
         close();
         return arrayList;

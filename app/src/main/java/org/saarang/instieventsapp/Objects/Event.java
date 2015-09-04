@@ -3,7 +3,6 @@ package org.saarang.instieventsapp.Objects;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -219,6 +218,11 @@ public class Event {
     public static ArrayList<Event> getAllRelevantEvents(Context context){
         DatabaseHelper data = new DatabaseHelper(context);
         return data.getAllRelevantEvents();
+    }
+
+    public static ArrayList<Event> getClubEvents(Context context, String clubId){
+        DatabaseHelper data = new DatabaseHelper(context);
+        return data.getClubEvents(clubId);
     }
 
     public static ArrayList<Event> getUpcomingEvents(Context context){
