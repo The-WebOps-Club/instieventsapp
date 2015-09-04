@@ -40,7 +40,7 @@ public class CalenderFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
-        events = Event.getAllEvents(getActivity());
+        events = Event.getUpcomingEvents(getActivity());
         adapter = new ScheduleAdapter(getActivity(), events);
         recyclerView.setAdapter(adapter);
 

@@ -27,7 +27,7 @@ public class ScoreBoardFragment extends Fragment {
     private static String LOG_TAG = "ScoreBoardFragment";
     RecyclerView scoreboardrecycle;
     //SwipeRefreshLayout swipe;
-    private RecyclerView.Adapter adapter;
+
     //private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.LayoutManager layoutManager;
     ArrayList<ScoreCard> list;
@@ -40,6 +40,8 @@ public class ScoreBoardFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fr_score_board, container, false);
+
+        final RecyclerView.Adapter adapter;
 
         list = ScoreCard.getScoreBoards(getActivity(), "lit");
 

@@ -8,6 +8,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import org.saarang.instieventsapp.Objects.Event;
 import org.saarang.instieventsapp.R;
@@ -60,6 +64,17 @@ public class EventsDetailsActivity extends AppCompatActivity {
 
         final ActionBar ab = getSupportActionBar();
         ab.setHomeAsUpIndicator(R.drawable.ic_arrow_left);
+        tool.setNavigationIcon(ContextCompat.getDrawable(this, R.drawable.ic_arrow_left));
+        tool.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+      /*  Bundle geteventid=getIntent().getExtras();
+        String eventId;
+        eventId=geteventid.getString(Event.COLUMN_EVENTID);*/
 
         ab.setDisplayHomeAsUpEnabled(true);
 

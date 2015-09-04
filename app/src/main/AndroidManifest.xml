@@ -7,6 +7,7 @@
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <permission
         android:name="org.saarang.instieventsapp.permission.C2D_MESSAGE"
@@ -52,7 +53,10 @@
             android:name=".Activities.EventsDetailsActivity"
             android:theme="@style/AppTheme" >
         </activity>
-
+        <activity
+            android:name=".Activities.AboutUsActivity"
+            android:theme="@style/AppTheme" >
+        </activity>
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"

@@ -56,7 +56,7 @@ public class Club {
     private static String COLUMN_CREATED_ON = "createdOn";
     private static String COLUMN_UPDATED_ON = "updatedOn";
     private static String COLUMN_CATEGORY = "category";
-    private static String COLUMN_ISSUBSCRIBED = "isSubscribed";
+    public static String COLUMN_ISSUBSCRIBED = "isSubscribed";
     private static String COLUMN_DESCRIPTION = "description";
     private static String COLUMN_CONVENORS = "convenors";
 
