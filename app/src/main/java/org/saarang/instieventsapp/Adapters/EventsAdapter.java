@@ -73,8 +73,9 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
 
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(mContext, EventsDetailsActivity.class);
-                intent.putExtra(Event.COLUMN_EVENTID, id);
+                intent.putExtra(Event.COLUMN_EVENTID, mItems.get(position).getId());
                 Log.d(LOG_TAG, "pos :: " + position + " name :: " + mItems.get(position).getName()+  " id :: " + id);
                 mContext.startActivity(intent);
 
