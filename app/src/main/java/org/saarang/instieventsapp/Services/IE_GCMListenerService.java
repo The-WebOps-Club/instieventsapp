@@ -17,12 +17,15 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GcmListenerService;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.saarang.instieventsapp.Activities.EventsDetailsActivity;
 import org.saarang.instieventsapp.Activities.MainActivity;
+import org.saarang.instieventsapp.Helper.DatabaseHelper;
+import org.saarang.instieventsapp.Objects.Club;
 import org.saarang.instieventsapp.Objects.Event;
 import org.saarang.instieventsapp.Objects.ScoreCard;
 import org.saarang.instieventsapp.Objects.UserProfile;
@@ -35,16 +38,17 @@ public class IE_GCMListenerService extends GcmListenerService{
     String data;
     String type,category,scoreBoardId,title;
     Event event;
-    JSONObject Data, jScoreBoard,json;
-    JSONArray jScoreBoards, jScoreCards;
-
+    JSONObject Data, jScoreBoard,Club;
+    JSONArray jScoreBoards, jScoreCards,Clubs;
+    Club club;
+    Gson gson = new Gson();
 
 
     /**
      * Called when message is received.
      *
      * @param from SenderID of the sender.
-     * @param data Data bundle containing message data as key/value pairs.
+     * @param datakjfk Data bundle containing message data as key/value pairs.
      *             For Set of keys use data.keySet().
      */
     // [START receive_message]
@@ -127,7 +131,20 @@ public class IE_GCMListenerService extends GcmListenerService{
                 }
                 break;
 
-            case "103":break;
+            case "103":
+                try {
+                    Clubs = new JSONArray(data);
+                    for (int f = 0; f < Clubs.length(); f++) {
+                        Club = Clubs.getJSONObject(f);
+                        club = gson.fromJson(Club.toString(), Club.class);
+                        Log.d(TAG, Club.getString("name"));
+                        DatabaseHelper data = new DatabaseHelper(this);
+                        data.addClub(club.getCV());
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
             case "302":
                 try {
                     jScoreBoards = new JSONArray(data);
@@ -166,14 +183,12 @@ public class IE_GCMListenerService extends GcmListenerService{
         Uri defaultSoundUri;
         NotificationCompat.Builder notificationBuilder;
         NotificationManager notificationManager;
-       /* i = new Intent(android.content.Intent.ACTION_VIEW);
-        i.setData(Uri.parse("https://play.google.com/store/apps/details?id=org.saarang.app"));*/
         pendingIntent = PendingIntent.getActivity(this, 0  , i,
                 PendingIntent.FLAG_ONE_SHOT);
 
         defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_notifications)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(Title)
                 .setContentText(content)
                 .setAutoCancel(true)
@@ -187,195 +202,5 @@ public class IE_GCMListenerService extends GcmListenerService{
 
 
     }
-   /* private void sendNotification(String Title, String content) {
-        PendingIntent pendingIntent;
-        Uri defaultSoundUri;
-        NotificationCompat.Builder notificationBuilder;
-        NotificationManager notificationManager;
-        pendingIntent = PendingIntent.getActivity(this, 0  , new Intent(),
-                PendingIntent.FLAG_ONE_SHOT);
 
-        defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_notifications)
-                .setContentTitle(Title)
-                .setContentText(content)
-                .setAutoCancel(true)
-                .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent);
-
-        notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-        notificationManager.notify(0 , notificationBuilder.build());
-
-
-*/
-
-        //* ID of notification *//*, notificationBuilder.build());
-       /* switch (message) {
-            case "0":
-                i = new Intent(android.content.Intent.ACTION_VIEW);
-                i.setData(Uri.parse("https://play.google.com/store/apps/details?id=org.saarang.app"));
-                pendingIntent = PendingIntent.getActivity(this, 0 *//* Request code *//*, i,
-                        PendingIntent.FLAG_ONE_SHOT);
-
-                defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                notificationBuilder = new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_notifications)
-                        .setContentTitle("New Update Avalibale!")
-                        .setContentText("Click to update now")
-                        .setAutoCancel(true)
-                        .setSound(defaultSoundUri)
-                        .setContentIntent(pendingIntent);
-
-                notificationManager =
-                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-                notificationManager.notify(0 *//* ID of notification *//*, notificationBuilder.build());
-                break;
-            case "1":
-                i = new Intent(IE_GCMListenerService.this, MainActivity.class);
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                pendingIntent = PendingIntent.getActivity(this, 0 *//* Request code *//*, i,
-                        PendingIntent.FLAG_ONE_SHOT);
-
-                defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                notificationBuilder = new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_notifications)
-                        .setContentTitle("New Event Added")
-                        .setContentText(message)
-                        .setAutoCancel(true)
-                        .setSound(defaultSoundUri)
-                        .setContentIntent(pendingIntent);
-
-                notificationManager =
-                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-                notificationManager.notify(0 *//* ID of notification *//*, notificationBuilder.build());
-                break;
-            case "2":
-                i = new Intent(IE_GCMListenerService.this, MainActivity.class);
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                pendingIntent = PendingIntent.getActivity(this, 0 *//* Request code *//*, i,
-                        PendingIntent.FLAG_ONE_SHOT);
-
-                defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                notificationBuilder = new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_notifications)
-                        .setContentTitle("Event details added")
-                        .setContentText(message)
-                        .setAutoCancel(true)
-                        .setSound(defaultSoundUri)
-                        .setContentIntent(pendingIntent);
-
-                notificationManager =
-                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-                notificationManager.notify(0 *//* ID of notification *//*, notificationBuilder.build());
-
-                break;
-            case "3":
-                i = new Intent(IE_GCMListenerService.this, MainActivity.class);
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                pendingIntent = PendingIntent.getActivity(this, 0 *//* Request code *//*, i,
-                        PendingIntent.FLAG_ONE_SHOT);
-
-                defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                notificationBuilder = new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_notifications)
-                        .setContentTitle("Results Out!")
-                        .setContentText(message)
-                        .setAutoCancel(true)
-                        .setSound(defaultSoundUri)
-                        .setContentIntent(pendingIntent);
-
-                notificationManager =
-                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-                notificationManager.notify(0 *//* ID of notification *//*, notificationBuilder.build());
-                break;
-            case "4":
-                i = new Intent(IE_GCMListenerService.this, MainActivity.class);
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                pendingIntent = PendingIntent.getActivity(this, 0 *//* Request code *//*, i,
-                        PendingIntent.FLAG_ONE_SHOT);
-
-                defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                notificationBuilder = new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_notifications)
-                        .setContentTitle("Club Subscribed")
-                        .setContentText(message)
-                        .setAutoCancel(true)
-                        .setSound(defaultSoundUri)
-                        .setContentIntent(pendingIntent);
-
-                notificationManager =
-                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-                notificationManager.notify(0 *//* ID of notification *//*, notificationBuilder.build());
-                break;
-            case "5":
-                i = new Intent(IE_GCMListenerService.this, MainActivity.class);
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                pendingIntent = PendingIntent.getActivity(this, 0 *//* Request code *//*, i,
-                        PendingIntent.FLAG_ONE_SHOT);
-
-                defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                notificationBuilder = new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_notifications)
-                        .setContentTitle("Scoreboard Updated!")
-                        .setContentText(message)
-                        .setAutoCancel(true)
-                        .setSound(defaultSoundUri)
-                        .setContentIntent(pendingIntent);
-
-                notificationManager =
-                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-                notificationManager.notify(0 *//* ID of notification *//*, notificationBuilder.build());
-                break;
-            case "6":
-                i = new Intent(IE_GCMListenerService.this, MainActivity.class);
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                pendingIntent = PendingIntent.getActivity(this, 0 *//* Request code *//*, i,
-                        PendingIntent.FLAG_ONE_SHOT);
-
-                defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                notificationBuilder = new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_notifications)
-                        .setContentTitle("New club added!")
-                        .setContentText(message)
-                        .setAutoCancel(true)
-                        .setSound(defaultSoundUri)
-                        .setContentIntent(pendingIntent);
-
-                notificationManager =
-                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-                notificationManager.notify(0 *//* ID of notification *//*, notificationBuilder.build());
-                break;
-
-
-            default:
-            i = new Intent(IE_GCMListenerService.this, MainActivity.class);
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            pendingIntent = PendingIntent.getActivity(this, 0 *//* Request code *//*, i,
-                    PendingIntent.FLAG_ONE_SHOT);
-
-            defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            notificationBuilder = new NotificationCompat.Builder(this)
-                    .setSmallIcon(R.drawable.ic_notifications)
-                    .setContentTitle("GCM Message")
-                    .setContentText("message:" + message + " data:" + data1 + " type" + type)
-                    .setAutoCancel(true)
-                    .setSound(defaultSoundUri)
-                    .setContentIntent(pendingIntent);
-
-            notificationManager =
-                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-            notificationManager.notify(0 *//* ID of notification *//*, notificationBuilder.build());
-        }*/
-    //}
 }

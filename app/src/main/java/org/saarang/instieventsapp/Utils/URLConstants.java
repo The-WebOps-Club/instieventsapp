@@ -14,4 +14,5 @@ public class URLConstants {
     public static String URL_SUBCLUBS=SERVER + "api/clubs/subscribeall";
     public static String URL_REGISTER_DEVICE = SERVER + "api/users/gcmRegister";
     public static String URL_SUBSCRIBE_CLUB=SERVER+"api/clubs/subscribe/:";
+    public static String URL_REFRESH = SERVER + "api/users/refresh/";
 }
