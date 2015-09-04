@@ -46,8 +46,8 @@
                 android:layout_margin="2dp">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:id="@+id/ivDate"
                     android:src="@drawable/ic_calendar_grey" />
 
@@ -69,8 +69,8 @@
                 android:layout_margin="2dp">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:id="@+id/ivTime"
                     android:src="@drawable/ic_clock_grey" />
 
@@ -92,8 +92,8 @@
                 android:layout_margin="2dp">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:id="@+id/ivLocation"
                     android:src="@drawable/ic_location_grey" />
 
