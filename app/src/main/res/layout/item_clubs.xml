@@ -18,16 +18,43 @@
 
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingTop="8dp"
         >
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="128dp"
             android:id="@+id/ivProfilePic"
-
             android:src="@drawable/webclub"
             android:background="@color/app_color"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            />
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="128dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#4e161616"
+                android:textColor="#ffffff"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Webops club"
+                android:id="@+id/titleoverlay"
+                android:paddingLeft="8dp"
+                android:paddingBottom="8dp"
+                android:gravity="bottom"
+                />
+        </RelativeLayout>
+
+        </FrameLayout>
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"

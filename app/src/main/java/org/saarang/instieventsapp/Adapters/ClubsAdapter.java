@@ -11,6 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,11 +45,15 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
 
         Button bViewMore;
         Button bSubscibe;
+        TextView tvName;
+        ImageView ivProf;
+
         public ViewHolder(View view) {
             super(view);
             bViewMore = (Button)view.findViewById(R.id.bViewMore);
             bSubscibe = (Button)view.findViewById(R.id.bSubscibe);
-
+            tvName=(TextView) view.findViewById(R.id.titleoverlay);
+            ivProf=(ImageView) view.findViewById(R.id.ivProfilePic);
 
         }
     }
@@ -80,6 +88,9 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
                 subscribe.execute(mList.get(position).getId());
             }
         });
+
+        holder.tvName.setText(mList.get(position).getName());
+        Glide.with(mContext).load(R.drawable.webclub).centerCrop().into(holder.ivProf);
     }
 
     public void markAsSubscribed(Button subscribe){
