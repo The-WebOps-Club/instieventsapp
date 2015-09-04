@@ -23,6 +23,27 @@ public class Event {
     String _id, name, time, venue, description, category, club, result, coords, createdOn, updatedOn;
     boolean active, isLitSocEvent, isSubscribed;
 
+    public class Convenor{
+
+        String name;
+        String phoneNumber;
+        String email;
+
+        public String getConName(){
+            return name;
+        }
+
+        public String getConPhone(){
+            return phoneNumber;
+        }
+
+        public String getConEmail(){
+            return email;
+        }
+
+    }
+
+    Convenor[] convenors;
 
     public static String TABLE_NAME = "Events";
 
@@ -67,7 +88,7 @@ public class Event {
 
     }
     public Event(String id, String name, String time, String venue, String description, String category,
-                 String club, String result, String coords, String createdOn, String updatedOn,
+                 String club, String result, Convenor[] conveners, String createdOn, String updatedOn,
                  boolean isLitSocEvent) {
 
         this._id = id;
@@ -82,20 +103,23 @@ public class Event {
         this.updatedOn = updatedOn;
         this.coords = coords;
         this.category = category;
+        this.convenors = conveners;
 
     }
+
 
 
     public Event(JSONObject jEvent) {
 
         try {
+            Gson gson = new Gson();
             this._id = jEvent.getString("_id");
             this.name = jEvent.getString("name");
             this.description = jEvent.getString("description");
             this.updatedOn = jEvent.getString("updatedOn");
             this.createdOn = jEvent.getString("createdOn");
             this.result = jEvent.getJSONArray("result").toString();
-            this.coords = jEvent.getJSONArray("coords").toString();
+            this.convenors = gson.fromJson(jEvent.getJSONArray("coords").toString(), Convenor[].class);
             this.isLitSocEvent = jEvent.getBoolean("isLitSocEvent");
             this.category = jEvent.getString("category");
         } catch (JSONException e) {
@@ -121,6 +145,10 @@ public class Event {
     }
 
 
+
+    public Convenor[] getConvenors() {
+        return convenors;
+    }
 
     public String getName() {
         return name;
@@ -193,6 +221,7 @@ public class Event {
     }
 
     public long saveEvent(Context context){
+        Gson gson = new Gson();
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_NAME, name);
         cv.put(COLUMN_TIME,time);
@@ -203,7 +232,7 @@ public class Event {
         cv.put(COLUMN_CATEGORY,category);
         cv.put(COLUMN_CLUB,club);
         cv.put(COLUMN_RESULT,result);
-        cv.put(COLUMN_COORDS,coords);
+        cv.put(COLUMN_COORDS,gson.toJson(convenors, Convenor[].class));
         cv.put(COLUMN_CREATEDON,createdOn);
         cv.put(COLUMN_UPDATEDON, updatedOn);
         cv.put(COLUMN_ISLITSOCEVENT, isLitSocEvent?"1":"0" );
@@ -242,8 +271,9 @@ public class Event {
     }
 
     public static Event parseEvent(Cursor c){
+        Gson gson = new Gson();
         Event event = new Event(c.getString(1), c.getString(2),c.getString(3),c.getString(4),
-                c.getString(5),c.getString(6), c.getString(7),c.getString(8),c.getString(9),
+                c.getString(5),c.getString(6), c.getString(7),c.getString(8), gson.fromJson(c.getString(9), Convenor[].class) ,
                 c.getString(10),c.getString(11), (c.getInt(12)==1)?true:false);
         return event;
     }
