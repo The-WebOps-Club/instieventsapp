@@ -185,7 +185,7 @@ public class DatabaseHelper {
         String[] columns = Event.columns;
         Cursor c = ourDatabase.query(Event.TABLE_NAME, columns, Event.COLUMN_EVENTID + " LIKE ?",
                 new String[]{eventId}, null, null, null);
-        while (c.moveToFirst()){
+        while (c.moveToNext()){
             event = Event.parseEvent(c);
         }
         close();

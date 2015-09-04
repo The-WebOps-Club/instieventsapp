@@ -26,21 +26,21 @@ public class Club {
     String _id;
 
 
-    public class Convenor{
+    public class Convenor {
 
         String name;
         String phonenum;
         String email;
 
-        public String getConName(){
+        public String getConName() {
             return name;
         }
 
-        public String getConPhone(){
+        public String getConPhone() {
             return phonenum;
         }
 
-        public String getConEmail(){
+        public String getConEmail() {
             return email;
         }
 
@@ -74,97 +74,93 @@ public class Club {
             " );";
 
 
-
     public static String[] columns = {KEY_ROWID, COLUMN_CLUB_ID, COLUMN_NAME, COLUMN_CREATED_ON,
             COLUMN_UPDATED_ON, COLUMN_CATEGORY, COLUMN_DESCRIPTION, COLUMN_CONVENORS, COLUMN_ISSUBSCRIBED};
 
 
-    public Club(){
+    public Club() {
 
 
     }
+
     public Club(String _id, String name, String createdOn, String updatedOn, String category,
-                String description, Convenor[] convenors,int isSubscribed){
-        this.name=name;
+                String description, Convenor[] convenors, int isSubscribed) {
+        this.name = name;
         this._id = _id;
         this.createdOn = createdOn;
         this.updatedOn = updatedOn;
         this.convenors = convenors;
-        this.category=category;
-        this.description=description;
-        if(isSubscribed==0)
-            this.isSubscribed=false;
+        this.category = category;
+        this.description = description;
+        if (isSubscribed == 0)
+            this.isSubscribed = false;
         else
-            this.isSubscribed=true;
+            this.isSubscribed = true;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public Boolean getIsSubscribed(){
+    public Boolean getIsSubscribed() {
         return isSubscribed;
     }
 
-    public String getId(){
+    public String getId() {
         return _id;
     }
 
-    public String getCreatedOn(){
+    public String getCreatedOn() {
         return createdOn;
     }
 
-    public String getUpdatedOn(){
+    public String getUpdatedOn() {
         return updatedOn;
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return description;
     }
 
-    public String getCategory(){
+    public String getCategory() {
         return category;
     }
 
-    public Convenor[] getConvenors(){
+    public Convenor[] getConvenors() {
         return convenors;
     }
 
 
-
-    public void setIsSubscribed(Boolean subscribed){
-        this.isSubscribed=subscribed;
+    public void setIsSubscribed(Boolean subscribed) {
+        this.isSubscribed = subscribed;
     }
 
-    public void setName(String name){
-        this.name=name;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setId(String id){
-        this._id=id;
+    public void setId(String id) {
+        this._id = id;
     }
 
-    public void setCreatedOn(String createdon){
-        this.createdOn=createdon;
+    public void setCreatedOn(String createdon) {
+        this.createdOn = createdon;
     }
 
-    public void setUpdatedOn(String updatedon){
-        this.updatedOn=updatedon;
+    public void setUpdatedOn(String updatedon) {
+        this.updatedOn = updatedon;
     }
 
-    public void setDescription(String description){
-        this.description=description;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public void setCategory(String category){
-        this.category=category;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
 
-
-
-
-    public ContentValues getCV(){
+    public ContentValues getCV() {
         Gson gson = new Gson();
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_CATEGORY, category);
@@ -172,41 +168,43 @@ public class Club {
         cv.put(COLUMN_CREATED_ON, createdOn);
         cv.put(COLUMN_UPDATED_ON, updatedOn);
         cv.put(COLUMN_DESCRIPTION, description);
-        if (isSubscribed){
-            cv.put(COLUMN_ISSUBSCRIBED, 1);}
-         else
-        {cv.put(COLUMN_ISSUBSCRIBED, 0);}
+        if (isSubscribed) {
+            cv.put(COLUMN_ISSUBSCRIBED, 1);
+        } else {
+            cv.put(COLUMN_ISSUBSCRIBED, 0);
+        }
         cv.put(COLUMN_CONVENORS, gson.toJson(convenors, Convenor[].class));
         cv.put(COLUMN_NAME, name);
         return cv;
     }
 
-    public static ArrayList<Club> getAllClubs(Context context){
+    public static ArrayList<Club> getAllClubs(Context context) {
         DatabaseHelper data = new DatabaseHelper(context);
         return data.getAllClubs();
     }
 
-    public static Club getAClub(Context context,String id){
+    public static Club getAClub(Context context, String id) {
         DatabaseHelper data = new DatabaseHelper(context);
         return data.getAClub(id);
     }
 
-    public static ArrayList<Club> getArrayList(Cursor c){
+    public static ArrayList<Club> getArrayList(Cursor c) {
         ArrayList<Club> arrayList = new ArrayList<>();
         Gson gson = new Gson();
-        while ( c.moveToNext() ){
-            Club club = new Club(c.getString(1), c.getString(2),c.getString(3),c.getString(4),
-                    c.getString(5),c.getString(6), gson.fromJson(c.getString(7), Convenor[].class),c.getInt(8) );
+        while (c.moveToNext()) {
+            Club club = new Club(c.getString(1), c.getString(2), c.getString(3), c.getString(4),
+                    c.getString(5), c.getString(6), gson.fromJson(c.getString(7), Convenor[].class), c.getInt(8));
             arrayList.add(club);
         }
         return arrayList;
     }
-    public static Club getClub(Cursor c){
+
+    public static Club getClub(Cursor c) {
         Gson gson = new Gson();
-        Club  club = new Club();
-         c.moveToFirst() ;
-            club = new Club(c.getString(1), c.getString(2), c.getString(3), c.getString(4),
-                    c.getString(5), c.getString(6), gson.fromJson(c.getString(7), Convenor[].class), c.getInt(8));
+        Club club = new Club();
+        c.moveToFirst();
+        club = new Club(c.getString(1), c.getString(2), c.getString(3), c.getString(4),
+                c.getString(5), c.getString(6), gson.fromJson(c.getString(7), Convenor[].class), c.getInt(8));
         //arrayList.add(club);
 
         return club;
