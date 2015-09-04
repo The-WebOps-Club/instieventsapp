@@ -158,7 +158,7 @@ public class LoginActivity extends Activity {
                 JSONrequest.put("rollNumber", param[0]);
                 JSONrequest.put("password", param[1]);
                 JSONrequest.put("name", "ajmal");
-                JSONrequest.put("hostel", "narmad");
+                JSONrequest.put("hostel", "Narmada");
                 Log.d(LOG_TAG, "2 JSONrequest\n" + JSONrequest.toString());
                 Log.d(LOG_TAG, "3 urlstring :: " + urlString);
             } catch (JSONException e) {
