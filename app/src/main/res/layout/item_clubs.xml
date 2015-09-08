@@ -65,7 +65,7 @@
             android:paddingRight="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="4"
+            android:maxLines="7"
             android:ellipsize="end"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Deals with web development and mobile application development operations"
