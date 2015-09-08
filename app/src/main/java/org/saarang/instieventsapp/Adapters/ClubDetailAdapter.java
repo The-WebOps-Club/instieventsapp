@@ -28,6 +28,7 @@ public class ClubDetailAdapter extends RecyclerView.Adapter<ClubDetailAdapter.Vi
     Club mClub;
     int size=8;
     ArrayList<Event> mEvents;
+
    // ArrayList<Club> mList;
     public ClubDetailAdapter(Context context,Club club,ArrayList<Event> events) {
         mContext = context;
@@ -42,7 +43,7 @@ public class ClubDetailAdapter extends RecyclerView.Adapter<ClubDetailAdapter.Vi
 
         TextView tv,tv2,description;
         ViewGroup mLinearLayout;
-        TextView tvHeading,tvTime,tvDate,tvLocation;
+        TextView tvHeading,tvTime,tvDate,tvLocation,tvconvenor;
         public ViewHolder(View view) {
             super(view);
             tv = (TextView)view.findViewById(R.id.tv);
@@ -53,6 +54,9 @@ public class ClubDetailAdapter extends RecyclerView.Adapter<ClubDetailAdapter.Vi
             tvTime=(TextView)view.findViewById(R.id.tvTime);
             tvDate=(TextView)view.findViewById(R.id.tvDate);
             tvLocation=(TextView)view.findViewById(R.id.tvLocation);
+            tvconvenor=(TextView)view.findViewById(R.id.convenor);
+
+
         }
     }
 
@@ -81,12 +85,17 @@ public class ClubDetailAdapter extends RecyclerView.Adapter<ClubDetailAdapter.Vi
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+        final Club.Convenor[] clubconvenors=mClub.getConvenors();
+
         if(position==1){
-            final Club.Convenor[] clubconvenors=mClub.getConvenors();
+
             //Log.d("ClubDetailAdapter",convenors.getConName());
           // for(int j=0;j<clubconvenors.length; j++){
+
             holder.mLinearLayout.removeAllViews();
              int i;
+
+
             //holder.convenor.setText(clubconvenors[0].getConName());
             for (i = 0; i < clubconvenors.length;  i++){
 
@@ -132,6 +141,8 @@ public class ClubDetailAdapter extends RecyclerView.Adapter<ClubDetailAdapter.Vi
         else if(position==0){
             holder.tv.setText("Description");
             holder.tv2.setText(mClub.getDescription());
+            if(clubconvenors.length<1)
+                holder.tvconvenor.setVisibility(View.INVISIBLE);
 
         }
         else{
