@@ -78,10 +78,6 @@ public class ClubsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         adapter = new ClubsAdapter(getActivity(),list);
         recyclerView.setAdapter(adapter);
 
-
-
-
-
         return rootView;
     }
 

@@ -3,7 +3,6 @@ package org.saarang.instieventsapp.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +24,6 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
     Context mContext;
     ArrayList<Event> mItems;
     TimeHelper th;
-    String id;
     private static String LOG_TAG = "EventDetails";
 
     public EventsAdapter(Context context, ArrayList<Event> items) {
@@ -61,7 +59,6 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
     public void onBindViewHolder(EventsAdapter.ViewHolder holder, final int position) {
 
         th = new TimeHelper();
-        id = mItems.get(position).getId();
 
         holder.tvHeading.setText(mItems.get(position).getName());
         holder.tvDate.setText(th.getDate(mItems.get(position).getTime()) == "" ? "Event date has not been fixed" : th.getDate(mItems.get(position).getTime()));
@@ -76,7 +73,6 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
 
                 Intent intent = new Intent(mContext, EventsDetailsActivity.class);
                 intent.putExtra(Event.COLUMN_EVENTID, mItems.get(position).getId());
-                Log.d(LOG_TAG, "pos :: " + position + " name :: " + mItems.get(position).getName()+  " id :: " + id);
                 mContext.startActivity(intent);
 
             }
