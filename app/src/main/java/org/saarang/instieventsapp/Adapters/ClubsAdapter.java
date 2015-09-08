@@ -20,9 +20,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.saarang.instieventsapp.Activities.ClubDetailActivity;
 import org.saarang.instieventsapp.Objects.Club;
+import org.saarang.instieventsapp.Objects.UserProfile;
 import org.saarang.instieventsapp.R;
 import org.saarang.instieventsapp.Utils.URLConstants;
-import org.saarang.saarangsdk.Network.HttpRequest;
+import org.saarang.saarangsdk.Network.GetRequest;
 
 import java.util.ArrayList;
 
@@ -131,7 +132,7 @@ private class Subscribe extends AsyncTask<String,Void,Void>{
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        JSONObject responseJSON = HttpRequest.execute("POST", urlString, null, JSONrequest);
+        JSONObject responseJSON = GetRequest.execute(urlString, UserProfile.getUserToken(mContext));
         if (responseJSON == null) {
             return null;
 
