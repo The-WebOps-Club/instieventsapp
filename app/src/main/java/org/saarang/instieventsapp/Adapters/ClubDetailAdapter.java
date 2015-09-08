@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +28,6 @@ public class ClubDetailAdapter extends RecyclerView.Adapter<ClubDetailAdapter.Vi
     Club mClub;
     int size=8;
     ArrayList<Event> mEvents;
-    Club.Convenor[] clubconvenors;
    // ArrayList<Club> mList;
     public ClubDetailAdapter(Context context,Club club,ArrayList<Event> events) {
         mContext = context;
@@ -84,7 +82,7 @@ public class ClubDetailAdapter extends RecyclerView.Adapter<ClubDetailAdapter.Vi
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         if(position==1){
-            clubconvenors=mClub.getConvenors();
+            final Club.Convenor[] clubconvenors=mClub.getConvenors();
             //Log.d("ClubDetailAdapter",convenors.getConName());
           // for(int j=0;j<clubconvenors.length; j++){
             holder.mLinearLayout.removeAllViews();
@@ -105,31 +103,28 @@ public class ClubDetailAdapter extends RecyclerView.Adapter<ClubDetailAdapter.Vi
                     @Override
                     public void onClick(View v) {
                         Intent emailintent=new Intent(Intent.ACTION_SEND);
-                        String[] email={clubconvenors[finalI].getConEmail()};
-                        emailintent.putExtra(Intent.EXTRA_EMAIL, email);
+                        String[] abc={clubconvenors[finalI].getConEmail()};
+                        emailintent.putExtra(Intent.EXTRA_EMAIL, abc);
                         emailintent.setType("plain/text");
                         mContext.startActivity(emailintent);
                     }
                 });
+                holder.mLinearLayout.addView(tempView);
 
+                final int finalI1 = i;
                 call.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent phonecall = new Intent(Intent.ACTION_CALL);
-                        String call = "tel:" + clubconvenors[finalI].getConPhone();
-                        Log.d("check", call);
+                        Intent phonecall=new Intent(Intent.ACTION_CALL);
+                        String call="tel:"+clubconvenors[finalI1].getConPhone();
                         phonecall.setData(Uri.parse(call));
-                        try {
+                        try{
                             mContext.startActivity(phonecall);
-                        } catch (ActivityNotFoundException e) {
+                        }catch (ActivityNotFoundException e){
                             Toast.makeText(mContext, "Error", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
-                holder.mLinearLayout.addView(tempView);
-
-
-
             }
 
 

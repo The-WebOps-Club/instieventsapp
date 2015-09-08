@@ -34,9 +34,9 @@ import org.saarang.instieventsapp.R;
 public class IE_GCMListenerService extends GcmListenerService{
 
     private static final String TAG = "GcmListenerService";
-    String message;
-    String data;
-    String type,category,scoreBoardId,title;
+    String message=" ";
+    String data="";
+    String type=" ",category,scoreBoardId,title=" ";
     Event event;
     JSONObject Data, jScoreBoard,Club;
     JSONArray jScoreBoards, jScoreCards,Clubs;
@@ -87,10 +87,6 @@ public class IE_GCMListenerService extends GcmListenerService{
                 Intent l= new Intent(this, EventsDetailsActivity.class);
                 try {
                     Data = new JSONObject(data);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                try {
                     l.putExtra("event_id", Data.getString("_id"));
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -109,9 +105,11 @@ public class IE_GCMListenerService extends GcmListenerService{
                 event.saveEvent(this);
                 break;
             case "301":
+                JSONArray events = new JSONArray();
                 JSONArray results = new JSONArray();
                 try {
-                    Data = new JSONObject(data);
+                    events = new JSONArray(data);
+                    Data = events.getJSONObject(0);
                     Data.put("club", new JSONObject());
                 Log.d("JSON - CONVERSION:", Data.toString());
                 event = new Event(Data);
@@ -121,7 +119,8 @@ public class IE_GCMListenerService extends GcmListenerService{
                 for(int x=0; x< results.length();x++){
 
                         JSONObject hosres = results.getJSONObject(x);
-                        if(UserProfile.getUserHostel(this).equals(hosres.getString("name"))){
+                        JSONObject hostel = hosres.getJSONObject("hostel");
+                        if(UserProfile.getUserHostel(this).equals(hostel.getString("name"))){
                             int score = hosres.getInt("score");
                             sendNotification(event.getName(),"Your Hostel" + UserProfile.getUserHostel(this) + "scored" + String.valueOf(score) + "in" + event.getName(), new Intent());
                         }
