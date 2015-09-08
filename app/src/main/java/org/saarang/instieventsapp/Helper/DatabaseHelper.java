@@ -174,7 +174,7 @@ public class DatabaseHelper {
         long timeNow = System.currentTimeMillis()/1000000;
         String[] columns = Event.columns;
         Cursor c = ourDatabase.query(Event.TABLE_NAME, columns, Event.COLUMN_TIMESTAMP + "> ?",
-                new String[]{"" + timeNow}, null, null, null);
+                new String[]{"" + timeNow}, null, null, Event.COLUMN_TIMESTAMP + " ASC ");
         ArrayList<Event> arrayList = Event.getArrayList(c);
         close();
         return arrayList;
