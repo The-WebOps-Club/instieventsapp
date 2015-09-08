@@ -15,7 +15,8 @@
         android:paddingTop="20dp"
         android:src="@drawable/ic_calendar_grey"
         android:paddingLeft="20dp"
-        android:paddingStart="20dp"/>
+        android:paddingStart="20dp"
+        android:layout_gravity="center_vertical"/>
 </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
@@ -43,7 +44,7 @@
         android:id="@+id/tvClub"
         android:textColor="@color/events_secondary_text"
         android:paddingTop="4dp"
-        android:paddingBottom="12dp"/>
+        android:paddingBottom="5dp"/>
 
     </LinearLayout>
 </LinearLayout>

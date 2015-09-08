@@ -60,8 +60,9 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
         holder.textimage.setImageDrawable(drawable);
         holder.tvName.setText(events.get(position).getName());
         holder.tvClub.setText(events.get(position).eventContext());
-        if(TimeHelper.getRelative(events.get(position).getTime()) != null) {
-            holder.tvDate.setText(TimeHelper.getRelative(events.get(position).getTime()));
+        if(TimeHelper.getDate(events.get(position).getTime()) != null) {
+            holder.tvDate.setText(TimeHelper.getDate(events.get(position).getTime()));
+            
         }
         else
         {

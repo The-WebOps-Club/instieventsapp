@@ -3,6 +3,7 @@ package org.saarang.instieventsapp.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,11 +61,14 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
 
         th = new TimeHelper();
 
+
         holder.tvHeading.setText(mItems.get(position).getName());
         holder.tvDate.setText(th.getDate(mItems.get(position).getTime()) == "" ? "Event date has not been fixed" : th.getDate(mItems.get(position).getTime()));
         holder.tvTime.setText(th.getTime(mItems.get(position).getTime()) == "" ? "Event time has not been decided" : th.getTime(mItems.get(position).getTime()));
         holder.tvLocation.setText(mItems.get(position).getVenue() == null ? "Event venue has not been announced" : mItems.get(position).getVenue());
         holder.tvDescription.setText(mItems.get(position).getDescription());
+        id = mItems.get(position).getId();
+
 
         holder.eventsfeed.setOnClickListener(new View.OnClickListener() {
 

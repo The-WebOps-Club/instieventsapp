@@ -20,9 +20,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.saarang.instieventsapp.Activities.ClubDetailActivity;
 import org.saarang.instieventsapp.Objects.Club;
+import org.saarang.instieventsapp.Objects.UserProfile;
 import org.saarang.instieventsapp.R;
 import org.saarang.instieventsapp.Utils.URLConstants;
-import org.saarang.saarangsdk.Network.HttpRequest;
+import org.saarang.saarangsdk.Network.GetRequest;
 
 import java.util.ArrayList;
 
@@ -45,7 +46,7 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
 
         Button bViewMore;
         Button bSubscibe;
-        TextView tvName;
+        TextView tvName,tvDesc;
         ImageView ivProf;
 
         public ViewHolder(View view) {
@@ -54,7 +55,7 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
             bSubscibe = (Button)view.findViewById(R.id.bSubscribe);
             tvName=(TextView) view.findViewById(R.id.titleoverlay);
             ivProf=(ImageView) view.findViewById(R.id.ivProfilePic);
-
+            tvDesc=(TextView)view.findViewById(R.id.tvDesc);
         }
     }
     public ClubsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -92,6 +93,7 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
         });
 
         holder.tvName.setText(mList.get(position).getName());
+        holder.tvDesc.setText(mList.get(position).getDescription());
         Glide.with(mContext).load(R.drawable.webclub).centerCrop().into(holder.ivProf);
     }
 
@@ -132,7 +134,7 @@ private class Subscribe extends AsyncTask<String,Void,Void>{
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        JSONObject responseJSON = HttpRequest.execute("POST", urlString, null, JSONrequest);
+        JSONObject responseJSON = GetRequest.execute(urlString, UserProfile.getUserToken(mContext));
         if (responseJSON == null) {
             return null;
 
@@ -140,6 +142,8 @@ private class Subscribe extends AsyncTask<String,Void,Void>{
 
         try {
             status = responseJSON.getInt("status");
+            Log.d(LOG_TAG,""+(status));
+
             if (status == 200) {
                 Log.d(LOG_TAG, "successfull\n");}
             else

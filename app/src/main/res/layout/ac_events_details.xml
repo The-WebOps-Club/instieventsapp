@@ -36,7 +36,7 @@
                     android:paddingLeft="20dp"
                     android:paddingStart="20dp"
                     android:paddingTop="20dp"
-                    android:src="@drawable/ic_calender" />
+                    android:src="@drawable/ic_calendar" />
             </LinearLayout>
 
             <LinearLayout
