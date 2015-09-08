@@ -1,8 +1,12 @@
 package org.saarang.instieventsapp.Activities;
 
 import android.annotation.TargetApi;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -14,7 +18,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -27,6 +30,8 @@ import org.saarang.instieventsapp.Fragments.CalenderFragment;
 import org.saarang.instieventsapp.Fragments.ClubsFragment;
 import org.saarang.instieventsapp.Fragments.EventsFragment;
 import org.saarang.instieventsapp.Fragments.ScoreBoardFragment;
+import org.saarang.instieventsapp.IntentServices.SetUpAlarms;
+import org.saarang.instieventsapp.IntentServices.ShowNotification;
 import org.saarang.instieventsapp.Objects.UserProfile;
 import org.saarang.instieventsapp.R;
 import org.saarang.instieventsapp.Services.IE_RegistrationIntentService;
@@ -46,6 +51,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent intentS = new Intent(this, SetUpAlarms.class);
+        startService(intentS);
+
+        Intent startAlarm = new Intent(this, ShowNotification.class);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        PendingIntent pendingIntent = PendingIntent.getService(this, 0, startAlarm, 0);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pendingIntent);
+
 
         userState = UserProfile.getUserState(this);
         redirectUser(userState);

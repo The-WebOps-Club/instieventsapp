@@ -251,6 +251,11 @@ public class Event {
         return data.getAllRelevantEvents();
     }
 
+    public static ArrayList<Event> getUpcomingRelevantEvents(Context context){
+        DatabaseHelper data = new DatabaseHelper(context);
+        return data.getUpcomingRelevantEvents();
+    }
+
     public static ArrayList<Event> getClubEvents(Context context, String clubId){
         DatabaseHelper data = new DatabaseHelper(context);
         return data.getClubEvents(clubId);

@@ -156,6 +156,19 @@ public class DatabaseHelper {
         return arrayList;
     }
 
+    public ArrayList<Event> getUpcomingRelevantEvents () {
+        open();
+        long timeNow = System.currentTimeMillis()/1000000;
+        String[] columns = Event.columns;
+        Cursor c = ourDatabase.query(Event.TABLE_NAME, columns, Event.COLUMN_ISRELEVANT +
+                        " LIKE ? AND " + Event.COLUMN_TIMESTAMP + " > ? ",
+                new String[]{"1", "" + timeNow}, null, null, null);
+        ArrayList<Event> arrayList = Event.getArrayList(c);
+        close();
+        return arrayList;
+    }
+
+
     public ArrayList<Event> getUpcomingEvents () {
         open();
         long timeNow = System.currentTimeMillis()/1000000;

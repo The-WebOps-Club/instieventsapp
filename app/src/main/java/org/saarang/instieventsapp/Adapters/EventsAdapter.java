@@ -61,20 +61,23 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
     public void onBindViewHolder(EventsAdapter.ViewHolder holder, final int position) {
 
         th = new TimeHelper();
-        id = mItems.get(position).getId();
+
 
         holder.tvHeading.setText(mItems.get(position).getName());
         holder.tvDate.setText(th.getDate(mItems.get(position).getTime()) == "" ? "Event date has not been fixed" : th.getDate(mItems.get(position).getTime()));
         holder.tvTime.setText(th.getTime(mItems.get(position).getTime()) == "" ? "Event time has not been decided" : th.getTime(mItems.get(position).getTime()));
         holder.tvLocation.setText(mItems.get(position).getVenue() == null ? "Event venue has not been announced" : mItems.get(position).getVenue());
         holder.tvDescription.setText(mItems.get(position).getDescription());
+        id = mItems.get(position).getId();
+
 
         holder.eventsfeed.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(mContext, EventsDetailsActivity.class);
-                intent.putExtra(Event.COLUMN_EVENTID, id);
+                intent.putExtra(Event.COLUMN_EVENTID, mItems.get(position).getId());
                 Log.d(LOG_TAG, "pos :: " + position + " name :: " + mItems.get(position).getName()+  " id :: " + id);
                 mContext.startActivity(intent);
 
