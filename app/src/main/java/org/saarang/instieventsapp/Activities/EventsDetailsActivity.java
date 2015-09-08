@@ -5,25 +5,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.ViewGroup;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 
-import org.json.JSONArray;
 import org.saarang.instieventsapp.Objects.Club;
 import org.saarang.instieventsapp.Objects.Event;
 import org.saarang.instieventsapp.R;
@@ -58,16 +54,18 @@ public class EventsDetailsActivity extends AppCompatActivity {
 
         TextView tvDate = (TextView) findViewById(R.id.tvDate);
 
-        TextView tvDate2 = (TextView) findViewById(R.id.tvDate2);
+        //TextView tvDate2 = (TextView) findViewById(R.id.tvDate2);
         TextView tvTime = (TextView) findViewById(R.id.tvTime);
         TextView tvDescription = (TextView) findViewById(R.id.tvDescription);
         TextView tvPlace = (TextView) findViewById(R.id.tvPlace);
         TextView tvConvener = (TextView) findViewById(R.id.tvConvenor);
-
+        LinearLayout coordlayout=(LinearLayout)findViewById(R.id.coord_layout);
+        TextView coordsep=(TextView)findViewById(R.id.coord_sep);
+        // to hide the separator after coordinators if there are no coords
 
         Log.d(LOG_TAG, event.getName() + " :: " + event.getTime() + " :: " + event.getVenue() + " :: " + event.getDescription());
 
-        tvDate2.setText(event.getName());
+       // tvDate2.setText(event.getName());
         tvTime.setText(TimeHelper.getTime(event.getTime()));
         tvPlace.setText(event.getVenue());
         tvDescription.setText(event.getDescription());
@@ -75,6 +73,7 @@ public class EventsDetailsActivity extends AppCompatActivity {
         //TODO tvConvener.setText(event.something);
 
         Toolbar tool = (Toolbar) findViewById(R.id.toolbarEventDetails);
+        tool.setTitle(event.getName());
         setSupportActionBar(tool);
 
         final ActionBar ab = getSupportActionBar();
@@ -135,6 +134,11 @@ public class EventsDetailsActivity extends AppCompatActivity {
                     }
                 }
             });
+        }
+
+        if(eventconvenors.length==0){
+          coordlayout.setVisibility(View.GONE);
+          coordsep.setVisibility(View.GONE);
         }
 
     }
