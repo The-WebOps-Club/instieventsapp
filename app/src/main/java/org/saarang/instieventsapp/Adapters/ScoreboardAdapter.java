@@ -23,6 +23,7 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Vi
 
     String highlight;
     Context mContext;
+    int position = 0;
     int pos=1;
 
 
@@ -30,6 +31,7 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Vi
         mList=list;
         mContext=context;
         highlight=userhostel;
+//        for (int i = 0; i )
     }
 
     public static class Viewholder extends RecyclerView.ViewHolder{

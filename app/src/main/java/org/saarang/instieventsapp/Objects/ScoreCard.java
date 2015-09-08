@@ -14,6 +14,9 @@ import java.util.ArrayList;
 public class ScoreCard {
 
     String category, hostel, score;
+    int position;
+
+
 
     public ScoreCard(String category, String hostel, String score) {
         this.category = category;
@@ -73,6 +76,14 @@ public class ScoreCard {
 
     public void setscore(String score) {
         this.score = score;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 
     public static long saveScoreCard(Context context, ContentValues cv){

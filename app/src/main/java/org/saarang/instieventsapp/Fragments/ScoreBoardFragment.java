@@ -51,7 +51,6 @@ public class ScoreBoardFragment extends Fragment implements SwipeRefreshLayout.O
     ArrayList<ScoreCard> list;
     private List<ScoreboardObject> score;
     String hostel;
-    SwipeRefreshLayout swipeRefreshLayout;
     JSONArray Events,jScoreBoards,jScoreCards,Clubs;
     JSONObject jScoreBoard,jClub;
     Event event;
@@ -75,10 +74,6 @@ public class ScoreBoardFragment extends Fragment implements SwipeRefreshLayout.O
         layoutManager=new LinearLayoutManager(getActivity());
         scoreboardrecycle.setLayoutManager(layoutManager);
 
-  //      swipe=(SwipeRefreshLayout) rootView.findViewById(R.id.score_swipe);
-//        swipe.setOnRefreshListener((SwipeRefreshLayout.OnRefreshListener) this);
-        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh);
-        swipeRefreshLayout.setOnRefreshListener(this);
         hostel= UserProfile.getUserHostel(getActivity());
         adapter=new ScoreboardAdapter(getActivity(),list,hostel);
         scoreboardrecycle.setAdapter(adapter);
@@ -94,7 +89,6 @@ public class ScoreBoardFragment extends Fragment implements SwipeRefreshLayout.O
             UIUtils.showSnackBar(rootView, getResources().getString(R.string.error_connection));
         }
 
-        swipeRefreshLayout.setRefreshing(false);
     }
     private class RefreshRequest extends AsyncTask<String, Void, Void> {
         ArrayList<PostParam> params = new ArrayList<>();
