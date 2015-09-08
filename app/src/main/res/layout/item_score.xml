@@ -14,11 +14,12 @@
         android:layout_height="30dp"
         android:layout_weight="3"
         android:text="Position"
-        android:gravity="center"
+        android:gravity="left"
         android:id="@+id/scoreboard_position_body"
         android:background="#ffffff"
         android:textColor="#000000"
-        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:paddingLeft="40dp"
         android:paddingRight="10dp"
         />
 
@@ -26,10 +27,11 @@
     <TextView
         android:layout_width="0dp"
         android:layout_height="30dp"
-        android:layout_weight="5"
+        android:layout_weight="4"
         android:text="Hostelname"
         android:id="@+id/scoreboard_hostelname_body"
-        android:gravity="center"
+        android:gravity="left"
+        android:paddingTop="5dp"
         android:background="#ffffff"
         android:textColor="#000000"
         android:paddingLeft="10dp"
@@ -43,11 +45,12 @@
         android:layout_height="30dp"
         android:layout_weight="3"
         android:text="Points"
-        android:gravity="center"
+        android:gravity="left"
         android:id="@+id/scoreboard_points_body"
         android:background="#ffffff"
         android:textColor="#000000"
-        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:paddingLeft="35dp"
         android:paddingRight="10dp"
         />
 

@@ -102,7 +102,7 @@ public class ClubDetailAdapter extends RecyclerView.Adapter<ClubDetailAdapter.Vi
                 mail.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent emailintent = new Intent(Intent.ACTION_SEND);
+                        Intent emailintent=new Intent(Intent.ACTION_SEND);
                         String[] abc={clubconvenors[finalI].getConEmail()};
                         emailintent.putExtra(Intent.EXTRA_EMAIL, abc);
                         emailintent.setType("plain/text");
