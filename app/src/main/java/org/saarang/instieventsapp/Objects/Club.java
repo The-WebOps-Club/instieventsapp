@@ -3,6 +3,7 @@ package org.saarang.instieventsapp.Objects;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -29,7 +30,7 @@ public class Club {
     public class Convenor {
 
         String name;
-        String phonenum;
+        String phoneNumber;
         String email;
 
         public String getConName() {
@@ -37,7 +38,7 @@ public class Club {
         }
 
         public String getConPhone() {
-            return phonenum;
+            return phoneNumber;
         }
 
         public String getConEmail() {
@@ -205,8 +206,6 @@ public class Club {
         c.moveToFirst();
         club = new Club(c.getString(1), c.getString(2), c.getString(3), c.getString(4),
                 c.getString(5), c.getString(6), gson.fromJson(c.getString(7), Convenor[].class), c.getInt(8));
-        //arrayList.add(club);
-
         return club;
     }
 
