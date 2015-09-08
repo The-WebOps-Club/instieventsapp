@@ -23,6 +23,8 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Vi
 
     String highlight;
     Context mContext;
+    int position = 0;
+    int score = 0;
     int pos=1;
 
 
@@ -30,6 +32,15 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Vi
         mList=list;
         mContext=context;
         highlight=userhostel;
+        for (int i = 0; i < mList.size(); i++){
+            if (Integer.parseInt(mList.get(i).getscore()) == score){
+                mList.get(i).setPosition(position);
+            } else {
+                position = i + 1;
+                mList.get(i).setPosition(position);
+                score = Integer.parseInt(mList.get(i).getscore());
+            }
+        }
     }
 
     public static class Viewholder extends RecyclerView.ViewHolder{
@@ -70,22 +81,23 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Vi
     @Override
     public void onBindViewHolder(Viewholder viewholder, int i) {
 
+        viewholder.position.setText(" " + mList.get(i).getPosition());
         if (mList.get(i).getHostel().equals(highlight)) {
             viewholder.hostelname.setText(mList.get(i).getHostel());
             viewholder.points.setText(mList.get(i).getscore());
             //int score=Integer.parseInt(mList.get(i).getscore());
 
-            if(i>0)
-            {
-                //  int prevscore=Integer.parseInt(mList.get(i-1).getscore());
-                //if(score!=prevscore)
-                if(!mList.get(i).getscore().equals(mList.get(i-1).getscore())){
-                    pos=pos+1;
-                }
-                viewholder.position.setText("" + (pos));
-            }
-            else
-                viewholder.position.setText("" + (pos));
+//            if(i>0)
+//            {
+//                //  int prevscore=Integer.parseInt(mList.get(i-1).getscore());
+//                //if(score!=prevscore)
+//                if(!mList.get(i).getscore().equals(mList.get(i-1).getscore())){
+//                    pos=pos+1;
+//                }
+//                viewholder.position.setText("" + (pos));
+//            }
+//            else
+//                viewholder.position.setText("" + (pos));
 
             viewholder.hostelname.setBackgroundColor(Color.parseColor("#f8f8fa"));
             viewholder.points.setBackgroundColor(Color.parseColor("#f8f8fa"));
@@ -101,17 +113,17 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Vi
 
             viewholder.hostelname.setText(mList.get(i).getHostel());
             viewholder.points.setText(mList.get(i).getscore());
-            if(i>0)
-            {
-                //  int prevscore=Integer.parseInt(mList.get(i-1).getscore());
-                //if(score!=prevscore)
-                if(!mList.get(i).getscore().equals(mList.get(i-1).getscore())){
-                    pos=pos+1;
-                }
-                viewholder.position.setText("" + (pos));
-            }
-            else
-                viewholder.position.setText("" + (pos));
+//            if(i>0)
+//            {
+//                //  int prevscore=Integer.parseInt(mList.get(i-1).getscore());
+//                //if(score!=prevscore)
+//                if(!mList.get(i).getscore().equals(mList.get(i-1).getscore())){
+//                    pos=pos+1;
+//                }
+//                viewholder.position.setText("" + (pos));
+//            }
+//            else
+//                viewholder.position.setText("" + (pos));
         }
 
     }

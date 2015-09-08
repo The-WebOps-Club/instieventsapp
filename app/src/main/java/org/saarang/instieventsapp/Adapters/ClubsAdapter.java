@@ -52,7 +52,7 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
         public ViewHolder(View view) {
             super(view);
             bViewMore = (Button)view.findViewById(R.id.bViewMore);
-            bSubscibe = (Button)view.findViewById(R.id.bSubscibe);
+            bSubscibe = (Button)view.findViewById(R.id.bSubscribe);
             tvName=(TextView) view.findViewById(R.id.titleoverlay);
             ivProf=(ImageView) view.findViewById(R.id.ivProfilePic);
             tvDesc=(TextView)view.findViewById(R.id.tvDesc);
@@ -67,8 +67,10 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-        if(mList.get(position).getIsSubscribed())
-        markAsSubscribed(holder.bSubscibe);
+        if(mList.get(position).getIsSubscribed()){
+            Log.d(LOG_TAG, "" + position + "true");
+            holder.bSubscibe.setText("Subscribed");
+        }
 
 
         holder.bViewMore.setOnClickListener(new View.OnClickListener() {
