@@ -85,26 +85,9 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Vi
         if (mList.get(i).getHostel().equals(highlight)) {
             viewholder.hostelname.setText(mList.get(i).getHostel());
             viewholder.points.setText(mList.get(i).getscore());
-            //int score=Integer.parseInt(mList.get(i).getscore());
-
-//            if(i>0)
-//            {
-//                //  int prevscore=Integer.parseInt(mList.get(i-1).getscore());
-//                //if(score!=prevscore)
-//                if(!mList.get(i).getscore().equals(mList.get(i-1).getscore())){
-//                    pos=pos+1;
-//                }
-//                viewholder.position.setText("" + (pos));
-//            }
-//            else
-//                viewholder.position.setText("" + (pos));
-
             viewholder.hostelname.setBackgroundColor(Color.parseColor("#f8f8fa"));
             viewholder.points.setBackgroundColor(Color.parseColor("#f8f8fa"));
             viewholder.position.setBackgroundColor(Color.parseColor("#f8f8fa"));
-            /*viewholder.hostelname.setTextColor(Color.parseColor("#0057e7"));
-            viewholder.points.setTextColor(Color.parseColor("#0057e7"));
-            viewholder.position.setTextColor(Color.parseColor("#0057e7"));*/
             viewholder.hostelname.setTypeface(null, Typeface.BOLD);
             viewholder.points.setTypeface(null, Typeface.BOLD);
             viewholder.position.setTypeface(null, Typeface.BOLD);
@@ -113,17 +96,7 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Vi
 
             viewholder.hostelname.setText(mList.get(i).getHostel());
             viewholder.points.setText(mList.get(i).getscore());
-//            if(i>0)
-//            {
-//                //  int prevscore=Integer.parseInt(mList.get(i-1).getscore());
-//                //if(score!=prevscore)
-//                if(!mList.get(i).getscore().equals(mList.get(i-1).getscore())){
-//                    pos=pos+1;
-//                }
-//                viewholder.position.setText("" + (pos));
-//            }
-//            else
-//                viewholder.position.setText("" + (pos));
+//
         }
 
     }
