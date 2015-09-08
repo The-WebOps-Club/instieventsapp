@@ -7,15 +7,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -41,8 +37,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private DrawerLayout mDrawerLayout;
-    private SwipeRefreshLayout swipeContainer;
+//    private DrawerLayout mDrawerLayout;
+//    private SwipeRefreshLayout swipeContainer;
 
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     int userState;
@@ -71,10 +67,10 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         final ActionBar ab = getSupportActionBar();
-        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
-        ab.setDisplayHomeAsUpEnabled(true);
+//        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+//        ab.setDisplayHomeAsUpEnabled(true);
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
 
        /* swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
@@ -91,10 +87,10 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        if (navigationView != null) {
-            setupDrawerContent(navigationView);
-        }
+//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+//        if (navigationView != null) {
+//            setupDrawerContent(navigationView);
+//        }
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         if (viewPager != null) {
@@ -163,9 +159,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
-                return true;
+//            case android.R.id.home:
+//                mDrawerLayout.openDrawer(GravityCompat.START);
+//                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -194,17 +190,17 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
     }
 
-    private void setupDrawerContent(NavigationView navigationView) {
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        menuItem.setChecked(true);
-                        mDrawerLayout.closeDrawers();
-                        return true;
-                    }
-                });
-    }
+//    private void setupDrawerContent(NavigationView navigationView) {
+//        navigationView.setNavigationItemSelectedListener(
+//                new NavigationView.OnNavigationItemSelectedListener() {
+//                    @Override
+//                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+//                        menuItem.setChecked(true);
+//                        mDrawerLayout.closeDrawers();
+//                        return true;
+//                    }
+//                });
+//    }
 
     static class Adapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragments = new ArrayList<>();

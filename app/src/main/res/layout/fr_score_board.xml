@@ -45,7 +45,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="35dp"
-            android:layout_weight="5"
+            android:layout_weight="4"
             android:text="Hostelname"
             android:id="@+id/scoreboard_hostelname_header"
             android:gravity="left"
@@ -61,11 +61,11 @@
             android:layout_height="35dp"
             android:layout_weight="3"
             android:text="Points"
-            android:gravity="center"
+            android:gravity="left"
             android:id="@+id/scoreboard_points_header"
             android:background="#ffffff"
             android:textColor="#999999"
-            android:paddingLeft="10dp"
+            android:paddingLeft="35dp"
             android:paddingRight="10dp"
             />
 

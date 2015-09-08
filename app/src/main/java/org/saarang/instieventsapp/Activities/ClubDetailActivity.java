@@ -9,12 +9,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 
 import org.saarang.instieventsapp.Adapters.ClubDetailAdapter;
 import org.saarang.instieventsapp.Objects.Club;
@@ -30,6 +32,7 @@ public class ClubDetailActivity extends AppCompatActivity {
     ArrayList<Event> mEvent;
     RecyclerView recyclerView;
     Context mContext=ClubDetailActivity.this;
+    private static String LOG_TAG = "ClubDetailActivity";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,7 +48,7 @@ public class ClubDetailActivity extends AppCompatActivity {
         Bundle getclubid=getIntent().getExtras();
         String clubId;
         clubId=getclubid.getString(Club.KEY_ROWID);
-        Club club=Club.getAClub(mContext,clubId);
+        Club club= Club.getAClub(mContext, clubId);
         if(club.getIsSubscribed()){
 
             floatB.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.floating_button_sub));
