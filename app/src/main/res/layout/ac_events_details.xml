@@ -242,5 +242,63 @@
             android:paddingLeft="26dp"
             android:paddingRight="26dp"
             android:id="@+id/coord_sep"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="10dp"
+            android:id="@+id/result_layout">
+
+            <LinearLayout
+                android:layout_width="100dp"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/iv_result"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:paddingStart="20dp"
+                    android:paddingTop="20dp"
+                    android:src="@drawable/ic_trophy" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/evresult"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="12dp"
+                    android:text="Results"
+                    android:textColor="#000000"
+                    android:textSize="16dp" />
+
+                <LinearLayout
+                    android:id="@+id/llResut"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingTop="4dp">
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/events_divider"
+            android:paddingLeft="26dp"
+            android:paddingRight="26dp"
+            android:id="@+id/result_sep"/>
     </LinearLayout>
 </ScrollView>
