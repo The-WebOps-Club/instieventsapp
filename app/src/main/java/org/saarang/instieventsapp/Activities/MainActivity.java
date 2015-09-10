@@ -48,15 +48,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Intent intentS = new Intent(this, SetUpAlarms.class);
-        startService(intentS);
-
-        Intent startAlarm = new Intent(this, ShowNotification.class);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-
-        PendingIntent pendingIntent = PendingIntent.getService(this, 0, startAlarm, 0);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pendingIntent);
-
         userState = UserProfile.getUserState(this);
         redirectUser(userState);
 
@@ -124,10 +115,12 @@ public class MainActivity extends AppCompatActivity {
             case 1:
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
+                finish();
                 break;
             case 2:
                 Intent intent_2 = new Intent(this, ClubSubscriptionActivity.class);
                 startActivity(intent_2);
+                finish();
                 break;
         }
 

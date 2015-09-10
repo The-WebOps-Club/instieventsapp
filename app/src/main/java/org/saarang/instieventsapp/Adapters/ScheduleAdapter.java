@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
@@ -38,12 +39,15 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
 
         ImageView textimage;
         TextView tvDate, tvName, tvClub;
+        LinearLayout layout;
+
         public ViewHolder(View view) {
             super(view);
             textimage = (ImageView)view.findViewById(R.id.iv_text);
             tvDate = (TextView) view.findViewById(R.id.tvDate);
             tvName = (TextView) view.findViewById(R.id.tvName);
             tvClub = (TextView) view.findViewById(R.id.tvClub);
+            layout = (LinearLayout) view.findViewById(R.id.layout);
         }
     }
     @Override
@@ -54,7 +58,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ScheduleAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(ScheduleAdapter.ViewHolder holder, final int position) {
         ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
         // generate random color
         int color1 = generator.getRandomColor();
@@ -67,10 +71,17 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
             holder.tvDate.setText(TimeHelper.getDate(events.get(position).getTime()));
             
         }
-        else
-        {
+        else {
             holder.tvDate.setVisibility(View.GONE);
         }
+        holder.layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, EventsDetailsActivity.class);
+                intent.putExtra(Event.COLUMN_EVENTID, events.get(position).getId());
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override
