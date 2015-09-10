@@ -171,6 +171,7 @@ public class ClubSubscriptionActivity extends AppCompatActivity {
            Intent i;
            i = new Intent("org.saarang.instieventsapp.Activities.MAINACTIVITY");
            startActivity(i);
+           finish();
 
        }
    }

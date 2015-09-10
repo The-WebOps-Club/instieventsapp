@@ -1,6 +1,7 @@
 package org.saarang.instieventsapp.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 
+import org.saarang.instieventsapp.Activities.EventsDetailsActivity;
 import org.saarang.instieventsapp.Objects.Event;
 import org.saarang.instieventsapp.R;
 import org.saarang.saarangsdk.Helpers.TimeHelper;
@@ -30,6 +32,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
         mContext = context;
         this.events = events;
     }
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
