@@ -22,6 +22,7 @@ public class Event {
 
     String _id, name, time, venue, description, category, club, result, coords, createdOn, updatedOn;
     boolean active, isLitSocEvent, isSubscribed;
+    public static final long TIMEZONE_CORRECTION = 330 * 60 * 1000;
 
     public class Convenor{
 
@@ -225,7 +226,7 @@ public class Event {
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_NAME, name);
         cv.put(COLUMN_TIME,time);
-        cv.put(COLUMN_TIMESTAMP, TimeHelper.getTimeStamp(time)/1000000);
+        cv.put(COLUMN_TIMESTAMP, TimeHelper.getTimeStamp(time) + TIMEZONE_CORRECTION);
         cv.put(COLUMN_EVENTID, _id);
         cv.put(COLUMN_DESCRIPTION,description);
         cv.put(COLUMN_VENUE,venue);
@@ -264,6 +265,11 @@ public class Event {
     public static ArrayList<Event> getUpcomingEvents(Context context){
         DatabaseHelper data = new DatabaseHelper(context);
         return data.getUpcomingEvents();
+    }
+
+    public static ArrayList<Event> getEventsForNotification(Context context){
+        DatabaseHelper data = new DatabaseHelper(context);
+        return data.getEventsForNotification();
     }
 
     public static ArrayList<Event> getArrayList(Cursor c){

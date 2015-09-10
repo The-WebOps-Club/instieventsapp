@@ -1,9 +1,6 @@
 package org.saarang.instieventsapp.Activities;
 
 import android.annotation.TargetApi;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,8 +23,6 @@ import org.saarang.instieventsapp.Fragments.CalenderFragment;
 import org.saarang.instieventsapp.Fragments.ClubsFragment;
 import org.saarang.instieventsapp.Fragments.EventsFragment;
 import org.saarang.instieventsapp.Fragments.ScoreBoardFragment;
-import org.saarang.instieventsapp.IntentServices.SetUpAlarms;
-import org.saarang.instieventsapp.IntentServices.ShowNotification;
 import org.saarang.instieventsapp.Objects.UserProfile;
 import org.saarang.instieventsapp.R;
 import org.saarang.instieventsapp.Services.IE_RegistrationIntentService;
@@ -47,16 +42,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Intent intentS = new Intent(this, SetUpAlarms.class);
-        startService(intentS);
-
-        Intent startAlarm = new Intent(this, ShowNotification.class);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-
-        PendingIntent pendingIntent = PendingIntent.getService(this, 0, startAlarm, 0);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pendingIntent);
-
 
         userState = UserProfile.getUserState(this);
         redirectUser(userState);
@@ -125,10 +110,12 @@ public class MainActivity extends AppCompatActivity {
             case 1:
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
+                finish();
                 break;
             case 2:
                 Intent intent_2 = new Intent(this, ClubSubscriptionActivity.class);
                 startActivity(intent_2);
+                finish();
                 break;
         }
 

@@ -20,6 +20,7 @@ import org.json.JSONObject;
 import org.saarang.instieventsapp.Adapters.ClubSubscriptionAdapter;
 import org.saarang.instieventsapp.Helper.DatabaseHelper;
 import org.saarang.instieventsapp.IntentServices.GetSetupData;
+import org.saarang.instieventsapp.IntentServices.SetUpAlarms;
 import org.saarang.instieventsapp.Objects.Club;
 import org.saarang.instieventsapp.Objects.UserProfile;
 import org.saarang.instieventsapp.R;
@@ -168,6 +169,8 @@ public class ClubSubscriptionActivity extends AppCompatActivity {
            super.onPostExecute(aVoid);
            pDialog.dismiss();
            UserProfile.setUserState(context, 3);
+           Intent intentS = new Intent(context, SetUpAlarms.class);
+           startService(intentS);
            Intent i;
            i = new Intent("org.saarang.instieventsapp.Activities.MAINACTIVITY");
            startActivity(i);
