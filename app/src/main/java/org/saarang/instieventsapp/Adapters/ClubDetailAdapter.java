@@ -58,7 +58,6 @@ public class ClubDetailAdapter extends RecyclerView.Adapter<ClubDetailAdapter.Vi
             tvLocation=(TextView)view.findViewById(R.id.tvLocation);
             tvconvenor=(TextView)view.findViewById(R.id.convenor);
             tvDescription = (TextView)view.findViewById(R.id.tvDescription);
-            tvHeadingEvents = (TextView)view.findViewById(R.id.tvHeadingEvents);
         }
     }
 
