@@ -91,17 +91,17 @@ public class ClubDetailActivity extends AppCompatActivity {
     }
 
 
-
+/*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_club_detail, menu);
         return true;
-    }
+    }*/
 
-    @Override
+   /* @Override
     public boolean onOptionsItemSelected(MenuItem item) {
     //    if (item.getItemId()==R.id.action_aboutus){startActivity(new Intent(this, AboutUsActivity.class));}
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
 }

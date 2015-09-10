@@ -16,6 +16,7 @@ import org.saarang.instieventsapp.Objects.Club;
 import org.saarang.instieventsapp.Objects.Event;
 import org.saarang.instieventsapp.R;
 import org.saarang.saarangsdk.Helpers.TimeHelper;
+import org.saarang.saarangsdk.Utils.SaarangIntents;
 
 import java.util.ArrayList;
 
@@ -124,14 +125,7 @@ public class ClubDetailAdapter extends RecyclerView.Adapter<ClubDetailAdapter.Vi
                 call.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent phonecall=new Intent(Intent.ACTION_CALL);
-                        String call="tel:"+clubconvenors[finalI1].getConPhone();
-                        phonecall.setData(Uri.parse(call));
-                        try{
-                            mContext.startActivity(phonecall);
-                        }catch (ActivityNotFoundException e){
-                            Toast.makeText(mContext, "Error", Toast.LENGTH_SHORT).show();
-                        }
+                        SaarangIntents.call( mContext, clubconvenors[finalI1].getConPhone());
                     }
                 });
             }
