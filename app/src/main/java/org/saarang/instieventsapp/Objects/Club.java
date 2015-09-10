@@ -3,7 +3,6 @@ package org.saarang.instieventsapp.Objects;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -187,6 +186,11 @@ public class Club {
     public static Club getAClub(Context context, String id) {
         DatabaseHelper data = new DatabaseHelper(context);
         return data.getAClub(id);
+    }
+
+    public static void updateSubscription(Context context, String clubId, int subscription) {
+        DatabaseHelper data = new DatabaseHelper(context);
+        data.updateSubscription(clubId, subscription);
     }
 
     public static ArrayList<Club> getArrayList(Cursor c) {

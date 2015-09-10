@@ -138,16 +138,6 @@ private class Subscribe extends AsyncTask<String,Void,Void>{
     protected Void doInBackground(String... params) {
         String urlString= URLConstants.URL_SUBSCRIBE_CLUB+params[0];
 
-        JSONObject JSONrequest = new JSONObject();
-        try {
-
-            JSONrequest.put("Clubid", params[0]);
-            Log.d(LOG_TAG, "2 JSONrequest\n" + JSONrequest.toString());
-            Log.d(LOG_TAG, "3 urlstring :: " + urlString);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
         JSONObject responseJSON = GetRequest.execute(urlString, UserProfile.getUserToken(mContext));
         if (responseJSON == null) {
             return null;
@@ -158,7 +148,7 @@ private class Subscribe extends AsyncTask<String,Void,Void>{
             status = responseJSON.getInt("status");
             Log.d(LOG_TAG,""+(status));
 
-            if (status == 200) {
+            if (status/100 == 2) {
                 Log.d(LOG_TAG, "successfull\n");}
             else
                 Log.d(LOG_TAG,"Unsuccessful\n");

@@ -228,6 +228,16 @@ public class DatabaseHelper {
         return arrayList;
     }
 
+    public void updateSubscription(String clubId, int subscription){
+        open();
+        ContentValues cv = new ContentValues();
+        cv.put(Club.COLUMN_CLUB_ID, clubId);
+        cv.put(Club.COLUMN_ISSUBSCRIBED, subscription);
+        ourDatabase.update(Club.TABLE_NAME, cv, Club.COLUMN_CLUB_ID+" = ?", new String[]{clubId});
+        close();
+    }
+
+
 //    public boolean ifSubscribedClub(String clubId){
 //        open();
 //        String[] columns = Event.columns;
