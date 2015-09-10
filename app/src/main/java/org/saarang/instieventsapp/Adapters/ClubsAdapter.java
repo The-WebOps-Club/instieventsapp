@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -48,6 +49,7 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
         Button bSubscibe;
         TextView tvName,tvDesc;
         ImageView ivProf;
+        CardView cv;
 
         public ViewHolder(View view) {
             super(view);
@@ -56,6 +58,7 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
             tvName=(TextView) view.findViewById(R.id.titleoverlay);
             ivProf=(ImageView) view.findViewById(R.id.ivProfilePic);
             tvDesc=(TextView)view.findViewById(R.id.tvDesc);
+            cv = (CardView)view.findViewById(R.id.card_view);
         }
     }
     public ClubsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -74,6 +77,16 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
 
 
         holder.bViewMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle clubId=new Bundle();
+                clubId.putString(Club.KEY_ROWID,mList.get(position).getId());
+                Intent myIntent = new Intent(view.getContext(),ClubDetailActivity.class);
+                myIntent.putExtras(clubId);
+                view.getContext().startActivity(myIntent);
+            }
+        });
+        holder.cv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Bundle clubId=new Bundle();
