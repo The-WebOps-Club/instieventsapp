@@ -22,8 +22,12 @@ import com.google.gson.Gson;
 
 import org.saarang.instieventsapp.Objects.Club;
 import org.saarang.instieventsapp.Objects.Event;
+import org.saarang.instieventsapp.Objects.Result;
 import org.saarang.instieventsapp.R;
 import org.saarang.saarangsdk.Helpers.TimeHelper;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by kiran on 26/8/15.
@@ -36,6 +40,11 @@ public class EventsDetailsActivity extends AppCompatActivity {
     Club mClub;
     private static String LOG_TAG = "EventDetails";
     Event.Convenor[] eventconvenors;
+    ArrayList<Integer> positionlist;
+    ArrayList<Integer> scorelist;
+    int[] score;
+    int[] positions;
+    Result[] result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +53,7 @@ public class EventsDetailsActivity extends AppCompatActivity {
 
         // Collecting event id from the parent Activity
 
+
         Bundle bundle = getIntent().getExtras();
         id = bundle.getString(Event.COLUMN_EVENTID);
 
@@ -51,6 +61,9 @@ public class EventsDetailsActivity extends AppCompatActivity {
         Log.d(LOG_TAG,"event = Event.getAnEvent(mContext," + id + ");" );
         event = Event.getAnEvent(mContext, id);
         Log.d(LOG_TAG,"event.getId() :: " + event.getId() );
+
+        scorelist=new ArrayList<>();
+        positionlist=new ArrayList<>();
 
         TextView tvDate = (TextView) findViewById(R.id.tvDate);
 
@@ -62,6 +75,8 @@ public class EventsDetailsActivity extends AppCompatActivity {
         LinearLayout coordlayout=(LinearLayout)findViewById(R.id.coord_layout);
         TextView coordsep=(TextView)findViewById(R.id.coord_sep);
         // to hide the separator after coordinators if there are no coords
+        LinearLayout resultlayout=(LinearLayout) findViewById(R.id.result_layout);
+        TextView resultsep=(TextView) findViewById(R.id.result_sep);
 
         Log.d(LOG_TAG, event.getName() + " :: " + event.getTime() + " :: " + event.getVenue() + " :: " + event.getDescription());
 
@@ -96,6 +111,7 @@ public class EventsDetailsActivity extends AppCompatActivity {
         Gson gson = new Gson();
         eventconvenors = event.getConvenors();
         Log.d(LOG_TAG, gson.toJson(eventconvenors, Event.Convenor[].class));
+
 
         int i;
         for (i = 0; i < eventconvenors.length; i++) {
@@ -141,6 +157,67 @@ public class EventsDetailsActivity extends AppCompatActivity {
           coordsep.setVisibility(View.GONE);
         }
 
+       Log.d(LOG_TAG,event.getResult());
+
+        LinearLayout llResult = (LinearLayout) findViewById(R.id.llResut);
+
+        //TODO Clear mLinearLayout
+
+        Gson gson1 = new Gson();
+        String resultstring = event.getResult();
+        result=gson1.fromJson(resultstring,Result[].class);
+        Log.d(LOG_TAG, gson.toJson(result, Result[].class));
+
+        for(i=0; i<result.length; i++){
+            scorelist.add(Integer.parseInt(result[i].getScore()));
+        }
+
+        if(result.length==0){
+            resultlayout.setVisibility(View.GONE);
+            resultsep.setVisibility(View.GONE);
+        }
+        else{
+
+            Collections.sort(scorelist, Collections.reverseOrder());
+
+            score = new int[scorelist.size()];
+            for( i = 0; i < scorelist.size(); i++) {
+                score[i] = scorelist.get(i);
+            }
+
+            for (i=0; i<result.length; i++){
+                int currpos=0;
+                for(int j=0; j<result.length; j++){
+                    if(Integer.parseInt(result[j].getScore())==score[i]){
+                        currpos=j;
+
+                    }
+                }
+                positionlist.add(currpos);
+            }
+
+            positions = new int[positionlist.size()];
+            for( i = 0; i < positionlist.size(); i++) {
+                positions[i] = positionlist.get(i);
+
+            }
+            int pos;
+            for (i = 0; i < result.length; i++) {
+
+
+                View tempView = LayoutInflater.from(mContext).inflate(R.layout.event_result, llResult, false);
+                TextView position = (TextView) tempView.findViewById(R.id.res_position);
+                TextView hostelname=(TextView) tempView.findViewById(R.id.res_hostel);
+                TextView score=(TextView) tempView.findViewById(R.id.res_score);
+                pos=positions[i];
+                position.setText(""+(i+1));
+                hostelname.setText(result[pos].getHostel());
+                score.setText(result[pos].getScore());
+                llResult.addView(tempView);
+            }
+
+        }
+        //Arrays.sort(score);
     }
 
     @Override
