@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ public class ClubDetailAdapter extends RecyclerView.Adapter<ClubDetailAdapter.Vi
     Club mClub;
     int size=8;
     ArrayList<Event> mEvents;
+    String LOG_TAG = "ClubDetailAdapter";
 
    // ArrayList<Club> mList;
     public ClubDetailAdapter(Context context,Club club,ArrayList<Event> events) {
@@ -43,7 +45,7 @@ public class ClubDetailAdapter extends RecyclerView.Adapter<ClubDetailAdapter.Vi
 
         TextView tv,tv2,description;
         ViewGroup mLinearLayout;
-        TextView tvHeading,tvTime,tvDate,tvLocation,tvconvenor;
+        TextView tvHeading,tvTime,tvDate,tvLocation,tvconvenor, tvDescription, tvHeadingEvents;
         public ViewHolder(View view) {
             super(view);
             tv = (TextView)view.findViewById(R.id.tv);
@@ -55,8 +57,8 @@ public class ClubDetailAdapter extends RecyclerView.Adapter<ClubDetailAdapter.Vi
             tvDate=(TextView)view.findViewById(R.id.tvDate);
             tvLocation=(TextView)view.findViewById(R.id.tvLocation);
             tvconvenor=(TextView)view.findViewById(R.id.convenor);
-
-
+            tvDescription = (TextView)view.findViewById(R.id.tvDescription);
+            tvHeadingEvents = (TextView)view.findViewById(R.id.tvHeadingEvents);
         }
     }
 
@@ -86,6 +88,7 @@ public class ClubDetailAdapter extends RecyclerView.Adapter<ClubDetailAdapter.Vi
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final Club.Convenor[] clubconvenors=mClub.getConvenors();
+        Log.d(LOG_TAG, "current pos: "+position);
 
         if(position==1){
 
@@ -145,14 +148,16 @@ public class ClubDetailAdapter extends RecyclerView.Adapter<ClubDetailAdapter.Vi
                 holder.tvconvenor.setVisibility(View.INVISIBLE);
 
         }
+
         else{
             holder.tvHeading.setText(mEvents.get(position-2).getName());
             String date,time;
             date= TimeHelper.getDate(mEvents.get(position-2).getTime());
-            time= TimeHelper.getTime(mEvents.get(position-2).getTime());
+            time= TimeHelper.getTime(mEvents.get(position - 2).getTime());
             holder.tvDate.setText(date);
             holder.tvTime.setText(time);
             holder.tvLocation.setText(mEvents.get(position-2).getVenue());
+            holder.tvDescription.setText(mEvents.get(position-2).getDescription());
         }
 
     }
