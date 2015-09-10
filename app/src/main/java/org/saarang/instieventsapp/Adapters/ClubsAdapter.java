@@ -70,8 +70,9 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
         if(mList.get(position).getIsSubscribed()){
             Log.d(LOG_TAG, "" + position + "true");
             holder.bSubscibe.setText("Subscribed");
+        } else {
+            holder.bSubscibe.setText("Subscribe");
         }
-
 
         holder.bViewMore.setOnClickListener(new View.OnClickListener() {
             @Override
