@@ -119,7 +119,7 @@ public class EventsDetailsActivity extends AppCompatActivity {
         tool.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                onBack();
             }
         });
 
@@ -232,6 +232,13 @@ public class EventsDetailsActivity extends AppCompatActivity {
 
         }
         //Arrays.sort(score);
+    }
+
+    private void onBack() {
+        Intent i = new Intent(this,MainActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        mContext.startActivity(i);
+        finish();
     }
 
     @Override
