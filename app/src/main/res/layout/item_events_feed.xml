@@ -16,6 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="#ffffffff"
+        android:background="?android:attr/selectableItemBackground"
         app:cardCornerRadius="2dp"
         app:cardElevation="2dp"
         android:layout_marginTop="4dp"
@@ -34,10 +35,19 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Heading"
-                android:textColor="@color/events_primary_text"
-                android:gravity="center"
+                android:textColor="@color/events_primary"
+                android:gravity="left"
                 android:id="@+id/tvHeading"
-                android:layout_marginBottom="8dp" />
+                android:padding="8dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lit-Soc "
+                android:id="@+id/tvClub"
+                android:gravity="left"
+                android:textColor="@color/events_secondary_text"
+                android:layout_marginBottom="8dp"
+                android:paddingLeft="10dp"/>
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -50,7 +60,6 @@
                     android:layout_height="30dp"
                     android:id="@+id/ivDate"
                     android:src="@drawable/ic_calendar_grey" />
-
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

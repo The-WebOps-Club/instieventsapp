@@ -19,7 +19,6 @@ import com.bumptech.glide.Glide;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.saarang.instieventsapp.Activities.ClubDetailActivity;
-import org.saarang.instieventsapp.Helper.DatabaseHelper;
 import org.saarang.instieventsapp.Objects.Club;
 import org.saarang.instieventsapp.Objects.UserProfile;
 import org.saarang.instieventsapp.R;
@@ -89,12 +88,7 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
             @Override
             public void onClick(View v) {
              Subscribe subscribe=new Subscribe();
-                int bool;
-                if(mList.get(position).getIsSubscribed())
-                    bool=1;
-                else
-                    bool=0;
-                subscribe.execute(mList.get(position).getId(),bool);
+                subscribe.execute(mList.get(position).getId());
             }
         });
 
@@ -112,7 +106,7 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
         return mList.size();
     }
 
-private class Subscribe extends AsyncTask<Object,Void,Void>{
+private class Subscribe extends AsyncTask<String,Void,Void>{
 
     int status=200;
 
@@ -127,21 +121,13 @@ private class Subscribe extends AsyncTask<Object,Void,Void>{
     }
 
     @Override
-    protected Void doInBackground(Object... params) {
-
-        String id=(String) params[0];
-        int bool=(Integer) params[1];
-        String urlString;
-        if(bool==0){
-         urlString= URLConstants.URL_SUBSCRIBE_CLUB+id;}
-        else
-         urlString=URLConstants.URL_UNSUBSCRIBE_CLUB+id;
+    protected Void doInBackground(String... params) {
+        String urlString= URLConstants.URL_SUBSCRIBE_CLUB+params[0];
 
         JSONObject JSONrequest = new JSONObject();
-
         try {
 
-            JSONrequest.put("Clubid",id);
+            JSONrequest.put("Clubid", params[0]);
             Log.d(LOG_TAG, "2 JSONrequest\n" + JSONrequest.toString());
             Log.d(LOG_TAG, "3 urlstring :: " + urlString);
 
@@ -159,19 +145,7 @@ private class Subscribe extends AsyncTask<Object,Void,Void>{
             Log.d(LOG_TAG,""+(status));
 
             if (status == 200) {
-                Log.d(LOG_TAG, "successfull\n");
-
-                if(bool==1)
-                {
-                    DatabaseHelper data=new DatabaseHelper(mContext);
-                    data.updateClub(0,id);
-                }
-                else
-                {
-                    DatabaseHelper data=new DatabaseHelper(mContext);
-                    data.updateClub(1,id);
-                }
-            }
+                Log.d(LOG_TAG, "successfull\n");}
             else
                 Log.d(LOG_TAG,"Unsuccessful\n");
         } catch (JSONException e) {

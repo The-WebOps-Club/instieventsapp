@@ -3,7 +3,6 @@
     package="org.saarang.instieventsapp" >
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -29,7 +28,6 @@
             android:name=".Activities.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme" >
-           >
             <intent-filter>
                 <action android:name="org.saarang.instieventsapp.Activities.MAINACTIVITY" />
 

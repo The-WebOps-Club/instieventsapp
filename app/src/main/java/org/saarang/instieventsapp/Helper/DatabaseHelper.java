@@ -135,7 +135,7 @@ public class DatabaseHelper {
 
     public ArrayList<Event> getAllEvents () {
         open();
-        long timeNow = System.currentTimeMillis()/1000000;
+        long timeNow = System.currentTimeMillis();
         String[] columns = Event.columns;
         Cursor c = ourDatabase.query(Event.TABLE_NAME, columns, null, null, null, null,
                 " ABS( " + Event.COLUMN_TIMESTAMP + " - "+ timeNow + " ) ASC ");
@@ -146,7 +146,7 @@ public class DatabaseHelper {
 
     public ArrayList<Event> getAllRelevantEvents () {
         open();
-        long timeNow = System.currentTimeMillis()/1000000;
+        long timeNow = System.currentTimeMillis();
         String[] columns = Event.columns;
         Cursor c = ourDatabase.query(Event.TABLE_NAME, columns, Event.COLUMN_ISRELEVANT + " LIKE ?",
                 new String[]{"1"}, null, null, " ABS( " + Event.COLUMN_TIMESTAMP + " - "+
@@ -158,7 +158,19 @@ public class DatabaseHelper {
 
     public ArrayList<Event> getUpcomingRelevantEvents () {
         open();
-        long timeNow = System.currentTimeMillis()/1000000;
+        long timeNow = System.currentTimeMillis() ;
+        String[] columns = Event.columns;
+        Cursor c = ourDatabase.query(Event.TABLE_NAME, columns, Event.COLUMN_ISRELEVANT +
+                        " LIKE ? AND " + Event.COLUMN_TIMESTAMP + " > ? ",
+                new String[]{"1", "" + timeNow}, null, null, Event.COLUMN_TIMESTAMP + " ASC ");
+        ArrayList<Event> arrayList = Event.getArrayList(c);
+        close();
+        return arrayList;
+    }
+
+    public ArrayList<Event> getEventsForNotification () {
+        open();
+        long timeNow = System.currentTimeMillis() - 10 * 60 * 1000 ;
         String[] columns = Event.columns;
         Cursor c = ourDatabase.query(Event.TABLE_NAME, columns, Event.COLUMN_ISRELEVANT +
                         " LIKE ? AND " + Event.COLUMN_TIMESTAMP + " > ? ",
@@ -171,10 +183,10 @@ public class DatabaseHelper {
 
     public ArrayList<Event> getUpcomingEvents () {
         open();
-        long timeNow = System.currentTimeMillis()/1000000;
+        long timeNow = System.currentTimeMillis();
         String[] columns = Event.columns;
         Cursor c = ourDatabase.query(Event.TABLE_NAME, columns, Event.COLUMN_TIMESTAMP + "> ?",
-                new String[]{"" + timeNow}, null, null, null);
+                new String[]{"" + timeNow}, null, null, Event.COLUMN_TIMESTAMP + " ASC ");
         ArrayList<Event> arrayList = Event.getArrayList(c);
         close();
         return arrayList;
@@ -182,7 +194,7 @@ public class DatabaseHelper {
 
     public ArrayList<Event> getClubEvents (String clubId) {
         open();
-        long timeNow = System.currentTimeMillis()/1000000;
+        long timeNow = System.currentTimeMillis();
         String[] columns = Event.columns;
         Cursor c = ourDatabase.query(Event.TABLE_NAME, columns, Event.COLUMN_CLUB + " LIKE ?",
                 new String[]{'%'+ clubId +'%'}, null, null, " ABS( " + Event.COLUMN_TIMESTAMP + " - "+

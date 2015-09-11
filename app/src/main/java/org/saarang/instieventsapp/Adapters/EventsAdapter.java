@@ -33,7 +33,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
-         TextView tvHeading, tvDate, tvTime, tvLocation, tvDescription;
+         TextView tvHeading, tvDate, tvTime, tvLocation, tvDescription,tvClub;
         LinearLayout eventsfeed;
         public ViewHolder(View itemView) {
             super(itemView);
@@ -45,6 +45,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
             eventsfeed = (LinearLayout) itemView.findViewById(R.id.events_feed);
             tvLocation = (TextView) itemView.findViewById(R.id.tvLocation);
             tvDescription = (TextView) itemView.findViewById(R.id.tvDescription);
+            tvClub = (TextView) itemView.findViewById(R.id.tvClub);
 
         }
     }
@@ -66,6 +67,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
         holder.tvTime.setText(th.getTime(mItems.get(position).getTime()) == "" ? "Event time has not been decided" : th.getTime(mItems.get(position).getTime()));
         holder.tvLocation.setText(mItems.get(position).getVenue() == null ? "Event venue has not been announced" : mItems.get(position).getVenue());
         holder.tvDescription.setText(mItems.get(position).getDescription());
+        holder.tvClub.setText(mItems.get(position).eventContext());
 
 
         holder.eventsfeed.setOnClickListener(new View.OnClickListener() {

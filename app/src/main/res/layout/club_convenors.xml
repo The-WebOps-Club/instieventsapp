@@ -31,7 +31,7 @@
             android:layout_weight="20"
             android:adjustViewBounds="true"
             android:paddingBottom="20dp"
-            android:src="@drawable/ic_phone_2" />
+            android:src="@drawable/phone" />
 
         <ImageView
             android:id="@+id/ivMail"
@@ -40,7 +40,7 @@
             android:layout_gravity="center"
             android:layout_weight="20"
             android:paddingBottom="20dp"
-            android:src="@drawable/ic_mail" />
+            android:src="@drawable/email" />
     </LinearLayout>
     />
 </LinearLayout>

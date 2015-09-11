@@ -27,6 +27,7 @@ import org.saarang.instieventsapp.Objects.Event;
 import org.saarang.instieventsapp.Objects.Result;
 import org.saarang.instieventsapp.R;
 import org.saarang.saarangsdk.Helpers.TimeHelper;
+import org.saarang.saarangsdk.Utils.SaarangIntents;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -150,14 +151,7 @@ public class EventsDetailsActivity extends AppCompatActivity {
             call.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent phonecall = new Intent(Intent.ACTION_CALL);
-                    String call = "tel:" + eventconvenors[finalI1].getConPhone();
-                    phonecall.setData(Uri.parse(call));
-                    try {
-                        mContext.startActivity(phonecall);
-                    } catch (ActivityNotFoundException e) {
-                        Toast.makeText(mContext, "Error", Toast.LENGTH_SHORT).show();
-                    }
+                    SaarangIntents.call(mContext ,eventconvenors[finalI1].getConPhone());
                 }
             });
         }

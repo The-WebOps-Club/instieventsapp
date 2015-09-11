@@ -48,16 +48,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Intent intentS = new Intent(this, SetUpAlarms.class);
-        startService(intentS);
-
-        Intent startAlarm = new Intent(this, ShowNotification.class);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-
-        PendingIntent pendingIntent = PendingIntent.getService(this, 0, startAlarm, 0);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pendingIntent);
-
-
         userState = UserProfile.getUserState(this);
         redirectUser(userState);
 
@@ -66,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final ActionBar ab = getSupportActionBar();
+//        final ActionBar ab = getSupportActionBar();
 //        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
 //        ab.setDisplayHomeAsUpEnabled(true);
 
@@ -125,21 +115,23 @@ public class MainActivity extends AppCompatActivity {
             case 1:
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
+                finish();
                 break;
             case 2:
                 Intent intent_2 = new Intent(this, ClubSubscriptionActivity.class);
                 startActivity(intent_2);
+                finish();
                 break;
         }
 
     }
 
-    @Override
+  /*  @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
-    }
+    }*/
 
 //    @Override
 //    public boolean onOptionsItemSelected(MenuItem item) {
@@ -155,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
 //
 //        return super.onOptionsItemSelected(item);
 //    }
-
+/*
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -164,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
 //                return true;
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
     private boolean checkPlayServices() {
         int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
         if (resultCode != ConnectionResult.SUCCESS) {
@@ -183,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new EventsFragment(), "Events Feed");
+        adapter.addFragment(new EventsFragment(), "Events ");
         adapter.addFragment(new CalenderFragment(), "Calender");
         adapter.addFragment(new ScoreBoardFragment(), "ScoreBoard");
         adapter.addFragment(new ClubsFragment(), "Clubs");

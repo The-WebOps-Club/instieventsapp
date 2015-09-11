@@ -6,6 +6,7 @@
         <item name="colorAccent">@color/events_accents</item>
         <item name="android:windowBackground">@color/white_color_primary</item>
         <item name="android:textColorHint">@color/events_secondary_text</item>
+        <item name="android:windowActionBarOverlay">true</item>
        <!-- <item name="android:textColor">@color/events_text</item>-->
     </style>
 
