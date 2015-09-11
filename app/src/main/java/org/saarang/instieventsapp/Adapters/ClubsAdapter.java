@@ -38,6 +38,7 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
     ProgressDialog pDialog;
     String LOG_TAG="ClubsAdapter";
 
+
     public ClubsAdapter(Context context,ArrayList<Club> list) {
         mContext = context;
         mList=list;
@@ -90,9 +91,9 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
         holder.cv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle clubId=new Bundle();
-                clubId.putString(Club.KEY_ROWID,mList.get(position).getId());
-                Intent myIntent = new Intent(view.getContext(),ClubDetailActivity.class);
+                Bundle clubId = new Bundle();
+                clubId.putString(Club.KEY_ROWID, mList.get(position).getId());
+                Intent myIntent = new Intent(view.getContext(), ClubDetailActivity.class);
                 myIntent.putExtras(clubId);
                 view.getContext().startActivity(myIntent);
             }
@@ -101,14 +102,19 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
         holder.bSubscibe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             Subscribe subscribe=new Subscribe();
+                Subscribe subscribe = new Subscribe();
                 subscribe.execute(mList.get(position).getId());
             }
         });
 
         holder.tvName.setText(mList.get(position).getName());
         holder.tvDesc.setText(mList.get(position).getDescription());
-        Glide.with(mContext).load(R.drawable.webclub).centerCrop().into(holder.ivProf);
+        Glide
+                .with(mContext)
+                .load(URLConstants.URL_CLUB_LOGO + mList.get(position).getLogo())
+                .placeholder(R.drawable.webops)
+                .centerCrop()
+                .into(holder.ivProf);
     }
 
     public void markAsSubscribed(Button subscribe){

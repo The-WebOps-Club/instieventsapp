@@ -26,6 +26,9 @@ public class Club {
     String _id;
 
 
+    String logo;
+
+
     public class Convenor {
 
         String name;
@@ -59,6 +62,7 @@ public class Club {
     public static String COLUMN_ISSUBSCRIBED = "isSubscribed";
     private static String COLUMN_DESCRIPTION = "description";
     private static String COLUMN_CONVENORS = "convenors";
+    private static String COLUMN_LOGO = "logo";
 
 
     public static String CREATE_TABLE_CLUB = "CREATE TABLE " + TABLE_NAME + " ( " +
@@ -70,12 +74,15 @@ public class Club {
             COLUMN_CATEGORY + " TEXT NOT NULL , " +
             COLUMN_ISSUBSCRIBED + " NUMBER  , " +
             COLUMN_DESCRIPTION + " TEXT , " +
-            COLUMN_CONVENORS + " TEXT  " +
+            COLUMN_CONVENORS + " TEXT , " +
+            COLUMN_LOGO + " TEXT  " +
             " );";
 
 
     public static String[] columns = {KEY_ROWID, COLUMN_CLUB_ID, COLUMN_NAME, COLUMN_CREATED_ON,
-            COLUMN_UPDATED_ON, COLUMN_CATEGORY, COLUMN_DESCRIPTION, COLUMN_CONVENORS, COLUMN_ISSUBSCRIBED};
+            COLUMN_UPDATED_ON, COLUMN_CATEGORY, COLUMN_DESCRIPTION, COLUMN_CONVENORS,
+            COLUMN_ISSUBSCRIBED, COLUMN_LOGO
+    };
 
 
     public Club() {
@@ -84,7 +91,7 @@ public class Club {
     }
 
     public Club(String _id, String name, String createdOn, String updatedOn, String category,
-                String description, Convenor[] convenors, int isSubscribed) {
+                String description, Convenor[] convenors, int isSubscribed, String logo) {
         this.name = name;
         this._id = _id;
         this.createdOn = createdOn;
@@ -96,6 +103,7 @@ public class Club {
             this.isSubscribed = false;
         else
             this.isSubscribed = true;
+        this.logo = logo;
     }
 
     public String getName() {
@@ -159,6 +167,14 @@ public class Club {
         this.category = category;
     }
 
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
+    }
+
 
     public ContentValues getCV() {
         Gson gson = new Gson();
@@ -175,6 +191,7 @@ public class Club {
         }
         cv.put(COLUMN_CONVENORS, gson.toJson(convenors, Convenor[].class));
         cv.put(COLUMN_NAME, name);
+        cv.put(COLUMN_LOGO, logo);
         return cv;
     }
 
@@ -198,7 +215,9 @@ public class Club {
         Gson gson = new Gson();
         while (c.moveToNext()) {
             Club club = new Club(c.getString(1), c.getString(2), c.getString(3), c.getString(4),
-                    c.getString(5), c.getString(6), gson.fromJson(c.getString(7), Convenor[].class), c.getInt(8));
+                    c.getString(5), c.getString(6), gson.fromJson(c.getString(7), Convenor[].class), c.getInt(8),
+                    c.getString(9)
+            );
             arrayList.add(club);
         }
         return arrayList;
@@ -209,7 +228,8 @@ public class Club {
         Club club = new Club();
         c.moveToFirst();
         club = new Club(c.getString(1), c.getString(2), c.getString(3), c.getString(4),
-                c.getString(5), c.getString(6), gson.fromJson(c.getString(7), Convenor[].class), c.getInt(8));
+                c.getString(5), c.getString(6), gson.fromJson(c.getString(7), Convenor[].class), c.getInt(8),
+                c.getString(9));
         return club;
     }
 
