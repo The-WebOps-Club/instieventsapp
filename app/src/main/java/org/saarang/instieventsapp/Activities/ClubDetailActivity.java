@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +14,8 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import org.saarang.instieventsapp.Adapters.ClubDetailAdapter;
 import org.saarang.instieventsapp.Objects.Club;
@@ -31,6 +32,14 @@ public class ClubDetailActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     Context mContext=ClubDetailActivity.this;
     private static String LOG_TAG = "ClubDetailActivity";
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Tracker tracker=((TrackerApplication) getApplication()).getTracker();
+        tracker.setScreenName("ClubDetailActivity");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
