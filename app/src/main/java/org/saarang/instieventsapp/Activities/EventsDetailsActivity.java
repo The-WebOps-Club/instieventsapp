@@ -18,6 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.gson.Gson;
 
 import org.saarang.instieventsapp.Objects.Club;
@@ -45,6 +47,14 @@ public class EventsDetailsActivity extends AppCompatActivity {
     int[] score;
     int[] positions;
     Result[] result;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Tracker tracker=((TrackerApplication) getApplication()).getTracker();
+        tracker.setScreenName("EventDetailsActivity");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
