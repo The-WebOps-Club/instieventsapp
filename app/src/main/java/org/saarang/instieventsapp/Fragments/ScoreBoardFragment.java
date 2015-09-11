@@ -42,7 +42,7 @@ import java.util.List;
 /**
  * Created by Seetharaman on 02-08-2015.
  */
-public class ScoreBoardFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
+public class ScoreBoardFragment extends Fragment {
 
     View rootView;
     private static String LOG_TAG = "ScoreBoardFragment";
@@ -89,72 +89,4 @@ public class ScoreBoardFragment extends Fragment implements SwipeRefreshLayout.O
         return rootView;
     }
 
-    @Override
-    public void onRefresh() {
-        RefreshRequest refreshrequest = new RefreshRequest();
-        if (Connectivity.isNetworkAvailable(getActivity())) {
-            refreshrequest.execute();
-        } else {
-            UIUtils.showSnackBar(rootView, getResources().getString(R.string.error_connection));
-        }
-
-    }
-    private class RefreshRequest extends AsyncTask<String, Void, Void> {
-        ArrayList<PostParam> params = new ArrayList<>();
-        int status;
-        Gson gson = new Gson();
-
-
-        @Override
-        protected Void doInBackground(String... strings) {
-            params.add(new PostParam("time", SPUtils.getLastUpdateDate(getActivity())));
-            JSONObject json = PostRequest.execute(URLConstants.URL_REFRESH, params,
-                    UserProfile.getUserToken(getActivity()));
-            try {
-                status = json.getInt("status");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            if(status==200){
-                SPUtils.setLastUpdateDate(getActivity());
-                try {
-                    Log.d(LOG_TAG, "Status:" + String.valueOf(status));
-                    Log.d(LOG_TAG, json.toString());
-                    Events = json.getJSONArray("events");
-                    for (int i=0; i<Events.length(); i++){
-                        JSONObject json1  = Events.getJSONObject(i);
-                        event = new Event(json1);
-                        event.saveEvent(getActivity());
-                    }
-                    jScoreBoards = json.getJSONArray("scoreboard");
-                    for (int j =0; j< jScoreBoards.length(); j++){
-                        jScoreBoard = jScoreBoards.getJSONObject(j);
-                        category = jScoreBoard.getString("category");
-                        jScoreCards = jScoreBoard.getJSONArray("scorecard");
-                        scoreBoardId = jScoreBoard.getString("_id");
-
-                        for (int k = 0; k< jScoreCards.length(); k++){
-                            jScoreBoard = jScoreCards.getJSONObject(k);
-                            ContentValues cv = ScoreCard.getCV(category,
-                                    jScoreBoard.getJSONObject("hostel").getString("name"),
-                                    jScoreBoard.getInt("score"), scoreBoardId + jScoreBoard.getString("_id"));
-                            Log.d(LOG_TAG,"cat:" + category + "score:" + jScoreBoard.getInt("score") + "id" + scoreBoardId + jScoreBoard.getString("_id")+ "hostel"+ jScoreBoard.getJSONObject("hostel").getString("name") );
-                            ScoreCard.saveScoreCard(getActivity(), cv);
-                        }
-                    }
-                    Clubs = json.getJSONArray("clubs");
-                    for (int i = 0; i < Clubs.length(); i++) {
-                        jClub = Clubs.getJSONObject(i);
-                        club = gson.fromJson(jClub.toString(), Club.class);
-                        Log.d(LOG_TAG, jClub.getString("name"));
-                        DatabaseHelper data = new DatabaseHelper(getActivity());
-                        data.addClub(club.getCV());
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }}
-            return null;
-        }
-    }
 }

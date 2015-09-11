@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -39,7 +40,7 @@ import java.util.ArrayList;
 /**
  * Created by Seetharaman on 02-08-2015.
  */
-public class CalenderFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class CalenderFragment extends Fragment {
 
 
     public CalenderFragment(){
@@ -58,6 +59,7 @@ public class CalenderFragment extends Fragment implements SwipeRefreshLayout.OnR
     Club club;
     String category;
     String scoreBoardId;
+    Button btRefresh;
 
     View rootView;
 
@@ -79,9 +81,6 @@ public class CalenderFragment extends Fragment implements SwipeRefreshLayout.OnR
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
-        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh);
-        swipeRefreshLayout.setOnRefreshListener(this);
-
         events = Event.getUpcomingEvents(getActivity());
         adapter = new ScheduleAdapter(getActivity(), events);
         recyclerView.setAdapter(adapter);
@@ -90,72 +89,4 @@ public class CalenderFragment extends Fragment implements SwipeRefreshLayout.OnR
         return rootView;
     }
 
-    @Override
-    public void onRefresh() {
-        RefreshRequest refreshrequest = new RefreshRequest();
-        if (Connectivity.isNetworkAvailable(getActivity())) {
-            refreshrequest.execute();
-        } else {
-            UIUtils.showSnackBar(rootView, getResources().getString(R.string.error_connection));
-        }
-        swipeRefreshLayout.setRefreshing(false);
-    }
-    private class RefreshRequest extends AsyncTask<String, Void, Void> {
-        ArrayList<PostParam> params = new ArrayList<>();
-        int status;
-        Gson gson = new Gson();
-
-
-        @Override
-        protected Void doInBackground(String... strings) {
-            params.add(new PostParam("time", SPUtils.getLastUpdateDate(getActivity())));
-            JSONObject json = PostRequest.execute(URLConstants.URL_REFRESH, params,
-                    UserProfile.getUserToken(getActivity()));
-            try {
-                status = json.getInt("status");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            if(status==200){
-                SPUtils.setLastUpdateDate(getActivity());
-                try {
-                    Log.d(LOG_TAG, "Status:" + String.valueOf(status));
-                    Log.d(LOG_TAG, json.toString());
-                    Events = json.getJSONArray("events");
-                    for (int i=0; i<Events.length(); i++){
-                        JSONObject json1  = Events.getJSONObject(i);
-                        event = new Event(json1);
-                        event.saveEvent(getActivity());
-                    }
-                    jScoreBoards = json.getJSONArray("scoreboard");
-                    for (int j =0; j< jScoreBoards.length(); j++){
-                        jScoreBoard = jScoreBoards.getJSONObject(j);
-                        category = jScoreBoard.getString("category");
-                        jScoreCards = jScoreBoard.getJSONArray("scorecard");
-                        scoreBoardId = jScoreBoard.getString("_id");
-
-                        for (int k = 0; k< jScoreCards.length(); k++){
-                            jScoreBoard = jScoreCards.getJSONObject(k);
-                            ContentValues cv = ScoreCard.getCV(category,
-                                    jScoreBoard.getJSONObject("hostel").getString("name"),
-                                    jScoreBoard.getInt("score"), scoreBoardId + jScoreBoard.getString("_id"));
-                            Log.d(LOG_TAG,"cat:" + category + "score:" + jScoreBoard.getInt("score") + "id" + scoreBoardId + jScoreBoard.getString("_id")+ "hostel"+ jScoreBoard.getJSONObject("hostel").getString("name") );
-                            ScoreCard.saveScoreCard(getActivity(), cv);
-                        }
-                    }
-                    Clubs = json.getJSONArray("clubs");
-                    for (int i = 0; i < Clubs.length(); i++) {
-                        jClub = Clubs.getJSONObject(i);
-                        club = gson.fromJson(jClub.toString(), Club.class);
-                        Log.d(LOG_TAG, jClub.getString("name"));
-                        DatabaseHelper data = new DatabaseHelper(getActivity());
-                        data.addClub(club.getCV());
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }}
-            return null;
-        }
-    }
 }
