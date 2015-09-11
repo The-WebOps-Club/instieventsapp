@@ -176,7 +176,6 @@ public class EventsDetailsActivity extends AppCompatActivity {
 
         LinearLayout llResult = (LinearLayout) findViewById(R.id.llResut);
 
-        //TODO Clear mLinearLayout
 
         Gson gson1 = new Gson();
         String resultstring = event.getResult();

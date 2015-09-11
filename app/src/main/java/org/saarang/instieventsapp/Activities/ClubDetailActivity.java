@@ -32,7 +32,6 @@ public class ClubDetailActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     Context mContext=ClubDetailActivity.this;
     private static String LOG_TAG = "ClubDetailActivity";
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -95,7 +94,7 @@ public class ClubDetailActivity extends AppCompatActivity {
             }
         });
         final ImageView imageView = (ImageView) findViewById(R.id.backdrop);
-        Glide.with(this).load(R.drawable.webclub).centerCrop().into(imageView);
+        Glide.with(this).load("").centerCrop().into(imageView);
 
     }
 

@@ -3,8 +3,11 @@ package org.saarang.instieventsapp.Activities;
 import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -18,28 +21,52 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.gson.Gson;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.saarang.instieventsapp.Fragments.CalenderFragment;
 import org.saarang.instieventsapp.Fragments.ClubsFragment;
 import org.saarang.instieventsapp.Fragments.EventsFragment;
 import org.saarang.instieventsapp.Fragments.ScoreBoardFragment;
+import org.saarang.instieventsapp.Helper.DatabaseHelper;
 import org.saarang.instieventsapp.IntentServices.SetUpAlarms;
 import org.saarang.instieventsapp.IntentServices.ShowNotification;
+import org.saarang.instieventsapp.Objects.Club;
+import org.saarang.instieventsapp.Objects.Event;
+import org.saarang.instieventsapp.Objects.ScoreCard;
 import org.saarang.instieventsapp.Objects.UserProfile;
 import org.saarang.instieventsapp.R;
 import org.saarang.instieventsapp.Services.IE_RegistrationIntentService;
+import org.saarang.instieventsapp.Utils.SPUtils;
+import org.saarang.instieventsapp.Utils.UIUtils;
+import org.saarang.instieventsapp.Utils.URLConstants;
+import org.saarang.saarangsdk.Network.Connectivity;
+import org.saarang.saarangsdk.Network.PostRequest;
+import org.saarang.saarangsdk.Objects.PostParam;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-//    private DrawerLayout mDrawerLayout;
+    //    private DrawerLayout mDrawerLayout;
 //    private SwipeRefreshLayout swipeContainer;
+    JSONArray Events, jScoreBoards, jScoreCards, Clubs;
+    JSONObject jScoreBoard, jClub;
+    Event event;
+    Club club;
+    String category;
+    String scoreBoardId;
+    RefreshRequest refreshrequest = new RefreshRequest();
+    ProgressDialog pDialog;
 
+    private static final String LOG_TAG = "MainActivity";
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     int userState;
 
@@ -56,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        final ActionBar ab = getSupportActionBar();
+        final ActionBar ab = getSupportActionBar();
 //        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
 //        ab.setDisplayHomeAsUpEnabled(true);
 
@@ -74,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
                 //fetchTimelineAsync(0);
             }
         });*/
-
 
 
 //        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -111,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void redirectUser(int userState) {
-        switch (userState){
+        switch (userState) {
             case 1:
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
@@ -126,37 +152,39 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-  /*  @Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
-    }*/
+    }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
-/*
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-//            case android.R.id.home:
-//                mDrawerLayout.openDrawer(GravityCompat.START);
-//                return true;
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.menuRefresh) {
+            refresh(item);
+            return true;
         }
+
         return super.onOptionsItemSelected(item);
-    }*/
+    }
+
+    /*
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+            switch (item.getItemId()) {
+    //            case android.R.id.home:
+    //                mDrawerLayout.openDrawer(GravityCompat.START);
+    //                return true;
+            }
+            return super.onOptionsItemSelected(item);
+        }*/
     private boolean checkPlayServices() {
         int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
         if (resultCode != ConnectionResult.SUCCESS) {
@@ -222,6 +250,94 @@ public class MainActivity extends AppCompatActivity {
             return mFragmentTitles.get(position);
         }
 
+
+    }
+
+
+    private class RefreshRequest extends AsyncTask<String, Void, Void> {
+        ArrayList<PostParam> params = new ArrayList<>();
+        int status;
+        Gson gson = new Gson();
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(MainActivity.this);
+            pDialog.setMessage("Refreshing ...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            params.add(new PostParam("time", SPUtils.getLastUpdateDate(MainActivity.this)));
+            JSONObject json = PostRequest.execute(URLConstants.URL_REFRESH, params,
+                    UserProfile.getUserToken(MainActivity.this));
+            try {
+                status = json.getInt("status");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            if (status == 200) {
+                SPUtils.setLastUpdateDate(MainActivity.this);
+                try {
+                    Log.d(LOG_TAG, "Status:" + String.valueOf(status));
+                    Log.d(LOG_TAG, json.toString());
+                    Events = json.getJSONArray("events");
+                    for (int i = 0; i < Events.length(); i++) {
+                        JSONObject json1 = Events.getJSONObject(i);
+                        event = new Event(json1);
+                        event.saveEvent(MainActivity.this);
+                    }
+                    jScoreBoards = json.getJSONArray("scoreboard");
+                    for (int j = 0; j < jScoreBoards.length(); j++) {
+                        jScoreBoard = jScoreBoards.getJSONObject(j);
+                        category = jScoreBoard.getString("category");
+                        jScoreCards = jScoreBoard.getJSONArray("scorecard");
+                        scoreBoardId = jScoreBoard.getString("_id");
+
+                        for (int k = 0; k < jScoreCards.length(); k++) {
+                            jScoreBoard = jScoreCards.getJSONObject(k);
+                            ContentValues cv = ScoreCard.getCV(category,
+                                    jScoreBoard.getJSONObject("hostel").getString("name"),
+                                    jScoreBoard.getInt("score"), scoreBoardId + jScoreBoard.getString("_id"));
+                            Log.d(LOG_TAG, "cat:" + category + "score:" + jScoreBoard.getInt("score") + "id" + scoreBoardId + jScoreBoard.getString("_id") + "hostel" + jScoreBoard.getJSONObject("hostel").getString("name"));
+                            ScoreCard.saveScoreCard(MainActivity.this, cv);
+                        }
+                    }
+                    Clubs = json.getJSONArray("clubs");
+                    for (int i = 0; i < Clubs.length(); i++) {
+                        jClub = Clubs.getJSONObject(i);
+                        club = gson.fromJson(jClub.toString(), Club.class);
+                        Log.d(LOG_TAG, jClub.getString("name"));
+                        DatabaseHelper data = new DatabaseHelper(MainActivity.this);
+                        data.addClub(club.getCV());
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            return null;
+
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            pDialog.dismiss();
+        }
+    }
+
+    public void refresh(MenuItem item) {
+        // View for displaying SnackBar
+        View llSnackBar = findViewById(R.id.drawer_layout);
+        if (Connectivity.isNetworkAvailable(MainActivity.this)) {
+           new RefreshRequest().execute();
+
+        } else {
+            UIUtils.showSnackBar(llSnackBar, getResources().getString(R.string.error_connection));
+        }
 
     }
 }
