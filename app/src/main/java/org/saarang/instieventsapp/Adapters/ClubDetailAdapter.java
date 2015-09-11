@@ -10,9 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.saarang.instieventsapp.Activities.EventsDetailsActivity;
 import org.saarang.instieventsapp.Objects.Club;
 import org.saarang.instieventsapp.Objects.Event;
 import org.saarang.instieventsapp.R;
@@ -46,6 +48,7 @@ public class ClubDetailAdapter extends RecyclerView.Adapter<ClubDetailAdapter.Vi
 
         TextView tv,tv2,description;
         ViewGroup mLinearLayout;
+        LinearLayout eventsfeed;
         TextView tvHeading,tvTime,tvDate,tvLocation,tvconvenor, tvDescription, tvHeadingEvents;
         public ViewHolder(View view) {
             super(view);
@@ -59,6 +62,7 @@ public class ClubDetailAdapter extends RecyclerView.Adapter<ClubDetailAdapter.Vi
             tvLocation=(TextView)view.findViewById(R.id.tvLocation);
             tvconvenor=(TextView)view.findViewById(R.id.convenor);
             tvDescription = (TextView)view.findViewById(R.id.tvDescription);
+            eventsfeed = (LinearLayout) itemView.findViewById(R.id.events_feed);
         }
     }
 
@@ -138,7 +142,7 @@ public class ClubDetailAdapter extends RecyclerView.Adapter<ClubDetailAdapter.Vi
             holder.tv.setText("Description");
             holder.tv2.setText(mClub.getDescription());
             if(clubconvenors.length<1)
-                holder.tvconvenor.setVisibility(View.INVISIBLE);
+                holder.tvconvenor.setVisibility(View.GONE);
 
         }
 
@@ -151,6 +155,17 @@ public class ClubDetailAdapter extends RecyclerView.Adapter<ClubDetailAdapter.Vi
             holder.tvTime.setText(time);
             holder.tvLocation.setText(mEvents.get(position-2).getVenue());
             holder.tvDescription.setText(mEvents.get(position-2).getDescription());
+            holder.eventsfeed.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(mContext, EventsDetailsActivity.class);
+                    intent.putExtra(Event.COLUMN_EVENTID, mEvents.get(position-2).getId());
+                    mContext.startActivity(intent);
+
+                }
+            });
         }
 
     }
