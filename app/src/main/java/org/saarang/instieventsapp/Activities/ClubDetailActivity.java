@@ -4,15 +4,18 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import org.saarang.instieventsapp.Adapters.ClubDetailAdapter;
 import org.saarang.instieventsapp.Objects.Club;
@@ -29,6 +32,14 @@ public class ClubDetailActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     Context mContext=ClubDetailActivity.this;
     private static String LOG_TAG = "ClubDetailActivity";
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Tracker tracker=((TrackerApplication) getApplication()).getTracker();
+        tracker.setScreenName("ClubDetailActivity");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,10 +77,17 @@ public class ClubDetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_left);
-
+        /*toolbar.setNavigationIcon(ContextCompat.getDrawable(this,R.drawable.ic_arrow_left));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });*/
         CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle(club.getName());
+        //collapsingToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_arrow_left));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,17 +100,17 @@ public class ClubDetailActivity extends AppCompatActivity {
     }
 
 
-/*
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_club_detail, menu);
         return true;
-    }*/
+    }
 
-   /* @Override
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
     //    if (item.getItemId()==R.id.action_aboutus){startActivity(new Intent(this, AboutUsActivity.class));}
         return super.onOptionsItemSelected(item);
-    }*/
+    }
 
 }

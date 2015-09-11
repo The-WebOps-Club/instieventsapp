@@ -14,6 +14,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,6 +50,14 @@ public class ClubSubscriptionActivity extends AppCompatActivity {
     ProgressDialog pDialog;
     int status=400;
     Context context = ClubSubscriptionActivity.this;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Tracker tracker=((TrackerApplication) getApplication()).getTracker();
+        tracker.setScreenName("ClubSubscriptionActivity");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

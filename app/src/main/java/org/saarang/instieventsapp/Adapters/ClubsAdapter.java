@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,14 +13,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.saarang.instieventsapp.Activities.ClubDetailActivity;
-import org.saarang.instieventsapp.Activities.MainActivity;
 import org.saarang.instieventsapp.Objects.Club;
 import org.saarang.instieventsapp.Objects.UserProfile;
 import org.saarang.instieventsapp.R;
@@ -40,7 +37,6 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
     ProgressDialog pDialog;
     String LOG_TAG="ClubsAdapter";
 
-
     public ClubsAdapter(Context context,ArrayList<Club> list) {
         mContext = context;
         mList=list;
@@ -52,8 +48,6 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
         Button bSubscibe;
         TextView tvName,tvDesc;
         ImageView ivProf;
-        CardView cv;
-
 
         public ViewHolder(View view) {
             super(view);
@@ -62,7 +56,6 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
             tvName=(TextView) view.findViewById(R.id.titleoverlay);
             ivProf=(ImageView) view.findViewById(R.id.ivProfilePic);
             tvDesc=(TextView)view.findViewById(R.id.tvDesc);
-            cv = (CardView)view.findViewById(R.id.card_view);
         }
     }
     public ClubsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -77,21 +70,12 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
         if(mList.get(position).getIsSubscribed()){
             Log.d(LOG_TAG, "" + position + "true");
             holder.bSubscibe.setText("Subscribed");
-        } else {
+        }else {
             holder.bSubscibe.setText("Subscribe");
         }
 
+
         holder.bViewMore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle clubId=new Bundle();
-                clubId.putString(Club.KEY_ROWID,mList.get(position).getId());
-                Intent myIntent = new Intent(view.getContext(),ClubDetailActivity.class);
-                myIntent.putExtras(clubId);
-                view.getContext().startActivity(myIntent);
-            }
-        });
-        holder.cv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Bundle clubId=new Bundle();
@@ -105,7 +89,7 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
         holder.bSubscibe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             Subscribe subscribe=new Subscribe(mList.get(position).getName());
+             Subscribe subscribe=new Subscribe();
                 subscribe.execute(mList.get(position).getId());
             }
         });
@@ -125,14 +109,6 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
     }
 
 private class Subscribe extends AsyncTask<String,Void,Void>{
-
-    String club_name;
-
-
-    public Subscribe(String name) {
-        club_name = name;
-    }
-
 
     int status=200;
 
@@ -169,12 +145,11 @@ private class Subscribe extends AsyncTask<String,Void,Void>{
         try {
             status = responseJSON.getInt("status");
             Log.d(LOG_TAG,""+(status));
-            if (status/100 == 2) {
-                Log.d(LOG_TAG, "successful\n");
-            }
+
+            if (status == 200) {
+                Log.d(LOG_TAG, "successfull\n");}
             else
                 Log.d(LOG_TAG,"Unsuccessful\n");
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -185,14 +160,6 @@ private class Subscribe extends AsyncTask<String,Void,Void>{
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        if (status/100 == 2) {
-            Toast toast = Toast.makeText(mContext.getApplicationContext(), "You are now subscribed to " + club_name, Toast.LENGTH_SHORT);
-            toast.show();
-        }
-        else {
-            Toast toast = Toast.makeText(mContext.getApplicationContext(), "Error. Please try again later", Toast.LENGTH_SHORT);
-            toast.show();
-        }
         pDialog.dismiss();
     }
 }
