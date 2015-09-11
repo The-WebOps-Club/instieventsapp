@@ -15,14 +15,19 @@
 
     <uses-permission android:name="org.saarang.instieventsapp.permission.C2D_MESSAGE" />
 
+    <meta-data android:name="com.google.android.gms.version"
+        android:value="@integer/google_play_services_version" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        android:name=".Activities.TrackerApplication">
         <activity
             android:name=".Activities.MainActivity"
             android:label="@string/app_name"
+            android:launchMode="singleInstance"
             android:theme="@style/AppTheme" >
             <intent-filter>
                 <action android:name="org.saarang.instieventsapp.Activities.MAINACTIVITY" />
@@ -52,10 +57,7 @@
             android:name=".Activities.EventsDetailsActivity"
             android:theme="@style/AppTheme" >
         </activity>
-        <activity
-            android:name=".Activities.AboutUsActivity"
-            android:theme="@style/AppTheme" >
-        </activity>
+
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
@@ -105,6 +107,25 @@
             android:name=".IntentServices.ShowNotification"
             android:exported="false" >
         </service>
+
+        <receiver android:name="com.google.android.gms.analytics.CampaignTrackingReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+        <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
+        <receiver android:name="com.google.android.gms.analytics.AnalyticsReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="com.google.android.gms.analytics.ANALYTICS_DISPATCH" />
+            </intent-filter>
+        </receiver>
+        <service android:name="com.google.android.gms.analytics.AnalyticsService"
+            android:enabled="true"
+            android:exported="false"/>
+
     </application>
 
 </manifest>

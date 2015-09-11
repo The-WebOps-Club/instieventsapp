@@ -249,7 +249,4 @@ public class DatabaseHelper {
 //        close();
 //        return event;
 //    }
-
-
-
 }

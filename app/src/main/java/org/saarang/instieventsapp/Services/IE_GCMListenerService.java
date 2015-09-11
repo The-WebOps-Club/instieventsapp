@@ -87,7 +87,7 @@ public class IE_GCMListenerService extends GcmListenerService{
                 Intent l= new Intent(this, EventsDetailsActivity.class);
                 try {
                     Data = new JSONObject(data);
-                    l.putExtra("event_id", Data.getString("_id"));
+                    l.putExtra(Event.COLUMN_EVENTID, Data.getString("_id"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -96,7 +96,8 @@ public class IE_GCMListenerService extends GcmListenerService{
             case "201":
                 try {
                     Data = new JSONObject(data);
-                    Data.put("club", new JSONObject());
+                    if(Data.getBoolean("isLitSocEvent"))
+                        Data.put("club", new JSONObject());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -132,14 +133,12 @@ public class IE_GCMListenerService extends GcmListenerService{
 
             case "103":
                 try {
-                    Clubs = new JSONArray(data);
-                    for (int f = 0; f < Clubs.length(); f++) {
-                        Club = Clubs.getJSONObject(f);
+                    Club = new JSONObject(data);
                         club = gson.fromJson(Club.toString(), Club.class);
                         Log.d(TAG, Club.getString("name"));
                         DatabaseHelper data = new DatabaseHelper(this);
                         data.addClub(club.getCV());
-                    }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -197,7 +196,7 @@ public class IE_GCMListenerService extends GcmListenerService{
         notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify(0 , notificationBuilder.build());
+        notificationManager.notify((int)(Math.random()*1000) , notificationBuilder.build());
 
 
     }

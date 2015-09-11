@@ -1,9 +1,7 @@
 package org.saarang.instieventsapp.Activities;
 
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -16,8 +14,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.gson.Gson;
 
 import org.saarang.instieventsapp.Objects.Club;
@@ -46,6 +45,14 @@ public class EventsDetailsActivity extends AppCompatActivity {
     int[] score;
     int[] positions;
     Result[] result;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Tracker tracker=((TrackerApplication) getApplication()).getTracker();
+        tracker.setScreenName("EventDetailsActivity");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,10 +89,24 @@ public class EventsDetailsActivity extends AppCompatActivity {
         Log.d(LOG_TAG, event.getName() + " :: " + event.getTime() + " :: " + event.getVenue() + " :: " + event.getDescription());
 
        // tvDate2.setText(event.getName());
-        tvTime.setText(TimeHelper.getTime(event.getTime()));
-        tvPlace.setText(event.getVenue());
+        if(event.getTime()==null){
+            tvTime.setText("Event time has not been fixed");
+            tvDate.setText("Event date has not been fixed");
+        }
+        else{
+            tvTime.setText(TimeHelper.getTime(event.getTime()));
+            tvDate.setText(TimeHelper.getDate(event.getTime()));
+        }
+
+        if(event.getVenue()==null){
+            tvPlace.setText("Event venue has not been fixed");
+        }
+        else{
+            tvPlace.setText(event.getVenue());
+        }
+
         tvDescription.setText(event.getDescription());
-        tvDate.setText(TimeHelper.getDate(event.getTime()));
+
         //TODO tvConvener.setText(event.something);
 
         Toolbar tool = (Toolbar) findViewById(R.id.toolbarEventDetails);
@@ -98,7 +119,7 @@ public class EventsDetailsActivity extends AppCompatActivity {
         tool.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                onBack();
             }
         });
 
@@ -212,6 +233,13 @@ public class EventsDetailsActivity extends AppCompatActivity {
 
         }
         //Arrays.sort(score);
+    }
+
+    private void onBack() {
+        Intent i = new Intent(this,MainActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        mContext.startActivity(i);
+        finish();
     }
 
     @Override

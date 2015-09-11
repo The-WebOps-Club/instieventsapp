@@ -12,11 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.saarang.instieventsapp.Activities.TrackerApplication;
 import org.saarang.instieventsapp.Adapters.ClubsAdapter;
 import org.saarang.instieventsapp.Helper.DatabaseHelper;
 import org.saarang.instieventsapp.Objects.Club;
@@ -56,6 +59,14 @@ public class ClubsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     Club club;
     String category;
     String scoreBoardId;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Tracker tracker=((TrackerApplication) getActivity().getApplication()).getTracker();
+        tracker.setScreenName("ClubsFragment");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
+    }
 
 
     @Override
