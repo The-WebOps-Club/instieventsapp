@@ -1,11 +1,8 @@
 package org.saarang.instieventsapp.Activities;
 
 import android.annotation.TargetApi;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -35,8 +32,6 @@ import org.saarang.instieventsapp.Fragments.ClubsFragment;
 import org.saarang.instieventsapp.Fragments.EventsFragment;
 import org.saarang.instieventsapp.Fragments.ScoreBoardFragment;
 import org.saarang.instieventsapp.Helper.DatabaseHelper;
-import org.saarang.instieventsapp.IntentServices.SetUpAlarms;
-import org.saarang.instieventsapp.IntentServices.ShowNotification;
 import org.saarang.instieventsapp.Objects.Club;
 import org.saarang.instieventsapp.Objects.Event;
 import org.saarang.instieventsapp.Objects.ScoreCard;
@@ -91,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
 
 
        /* swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
-
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -333,7 +327,7 @@ public class MainActivity extends AppCompatActivity {
         // View for displaying SnackBar
         View llSnackBar = findViewById(R.id.drawer_layout);
         if (Connectivity.isNetworkAvailable(MainActivity.this)) {
-           new RefreshRequest().execute();
+            new RefreshRequest().execute();
 
         } else {
             UIUtils.showSnackBar(llSnackBar, getResources().getString(R.string.error_connection));

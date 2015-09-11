@@ -1,8 +1,16 @@
+<android.support.v4.widget.SwipeRefreshLayout
+    android:id="@+id/swipe_refresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/events_background"
+    >
     <android.support.v7.widget.RecyclerView
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fastScrollAlwaysVisible="true"
         android:fastScrollEnabled="true"
         android:overScrollMode="always" />
+
+</android.support.v4.widget.SwipeRefreshLayout>
