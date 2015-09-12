@@ -23,7 +23,9 @@ import org.saarang.instieventsapp.Activities.ClubDetailActivity;
 import org.saarang.instieventsapp.Objects.Club;
 import org.saarang.instieventsapp.Objects.UserProfile;
 import org.saarang.instieventsapp.R;
+import org.saarang.instieventsapp.Utils.UIUtils;
 import org.saarang.instieventsapp.Utils.URLConstants;
+import org.saarang.saarangsdk.Network.Connectivity;
 import org.saarang.saarangsdk.Network.GetRequest;
 
 import java.util.ArrayList;
@@ -31,37 +33,38 @@ import java.util.ArrayList;
 /**
  * Created by kevin selva prasanna on 08-Aug-15.
  */
-public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder> {
+public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
 
     Context mContext;
     ArrayList<Club> mList;
     ProgressDialog pDialog;
-    String LOG_TAG = "ClubsAdapter";
+    String LOG_TAG="ClubsAdapter";
 
-    public ClubsAdapter(Context context, ArrayList<Club> list) {
+
+    public ClubsAdapter(Context context,ArrayList<Club> list) {
         mContext = context;
-        mList = list;
+        mList=list;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder{
 
         Button bViewMore;
         Button bSubscibe;
-        TextView tvName, tvDesc;
+        TextView tvName,tvDesc;
         ImageView ivProf;
-        CardView cv;
+        CardView cardView;
 
         public ViewHolder(View view) {
             super(view);
-            bViewMore = (Button) view.findViewById(R.id.bViewMore);
-            bSubscibe = (Button) view.findViewById(R.id.bSubscribe);
-            tvName = (TextView) view.findViewById(R.id.titleoverlay);
-            ivProf = (ImageView) view.findViewById(R.id.ivProfilePic);
-            tvDesc = (TextView) view.findViewById(R.id.tvDesc);
-            cv = (CardView) view.findViewById(R.id.card_view);
+            bViewMore = (Button)view.findViewById(R.id.bViewMore);
+            bSubscibe = (Button)view.findViewById(R.id.bSubscribe);
+            tvName=(TextView) view.findViewById(R.id.titleoverlay);
+            ivProf=(ImageView) view.findViewById(R.id.ivProfilePic);
+            tvDesc=(TextView)view.findViewById(R.id.tvDesc);
+            cardView=(CardView)view.findViewById(R.id.card_view);
+
         }
     }
-
     public ClubsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_clubs, parent, false);
@@ -71,24 +74,15 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-        if (mList.get(position).getIsSubscribed()) {
-            Log.d(LOG_TAG, "" + position + "true");
+        if(mList.get(position).getIsSubscribed()){
+
             holder.bSubscibe.setText("Subscribed");
-        } else {
+        }else {
             holder.bSubscibe.setText("Subscribe");
         }
 
+
         holder.bViewMore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle clubId = new Bundle();
-                clubId.putString(Club.KEY_ROWID, mList.get(position).getId());
-                Intent myIntent = new Intent(view.getContext(), ClubDetailActivity.class);
-                myIntent.putExtras(clubId);
-                view.getContext().startActivity(myIntent);
-            }
-        });
-        holder.cv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Bundle clubId = new Bundle();
@@ -102,22 +96,42 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder> 
         holder.bSubscibe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Subscribe subscribe = new Subscribe();
-                subscribe.execute(mList.get(position).getId());
+                if (!mList.get(position).getIsSubscribed()) {
+
+                    if (Connectivity.isNetworkAvailable(mContext)) {
+                        Subscribe subscribe = new Subscribe();
+                        subscribe.execute(mList.get(position).getId(), holder.bSubscibe, position);
+                    } else
+                        UIUtils.showSnackBar(v, "Connection not available");
+
+                }
+
+
             }
         });
 
         holder.tvName.setText(mList.get(position).getName());
         holder.tvDesc.setText(mList.get(position).getDescription());
-
-        Glide.with(mContext)
+        Glide
+                .with(mContext)
                 .load(URLConstants.URL_CLUB_LOGO + mList.get(position).getLogo())
-                .placeholder(R.drawable.events_bg)
-                .fitCenter()
+                .placeholder(R.drawable.webops)
+                .centerCrop()
                 .into(holder.ivProf);
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle clubId = new Bundle();
+                clubId.putString(Club.KEY_ROWID, mList.get(position).getId());
+                Intent myIntent = new Intent(view.getContext(), ClubDetailActivity.class);
+                myIntent.putExtras(clubId);
+                view.getContext().startActivity(myIntent);
+            }
+        });
     }
 
-    public void markAsSubscribed(Button subscribe) {
+    public void markAsSubscribed(Button subscribe){
         subscribe.setText("Subscribed");
     }
 
@@ -126,9 +140,11 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder> 
         return mList.size();
     }
 
-    private class Subscribe extends AsyncTask<String, Void, Void> {
+    private class Subscribe extends AsyncTask<Object,Void,Void>{
 
-        int status = 200;
+        int status=200;
+        TextView tvSubscribe;
+        int pos;
 
         @Override
         protected void onPreExecute() {
@@ -141,9 +157,24 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder> 
         }
 
         @Override
-        protected Void doInBackground(String... params) {
-            String urlString = URLConstants.URL_SUBSCRIBE_CLUB + params[0];
+        protected Void doInBackground(Object... params) {
 
+            String clubId=(String) params[0];
+            String urlString= URLConstants.URL_SUBSCRIBE_CLUB+clubId;
+
+            JSONObject JSONrequest = new JSONObject();
+            tvSubscribe=(TextView) params[1];
+            pos=(Integer) params[2];
+
+            try {
+
+                JSONrequest.put("Clubid", clubId);
+                Log.d(LOG_TAG, "2 JSONrequest\n" + JSONrequest.toString());
+                Log.d(LOG_TAG, "3 urlstring :: " + urlString);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             JSONObject responseJSON = GetRequest.execute(urlString, UserProfile.getUserToken(mContext));
             if (responseJSON == null) {
                 return null;
@@ -152,12 +183,13 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder> 
 
             try {
                 status = responseJSON.getInt("status");
-                Log.d(LOG_TAG, "" + (status));
+                Log.d(LOG_TAG,""+(status));
 
-                if (status / 100 == 2) {
+                if (status == 200) {
                     Log.d(LOG_TAG, "successfull\n");
-                } else
-                    Log.d(LOG_TAG, "Unsuccessful\n");
+                }
+                else
+                    Log.d(LOG_TAG,"Unsuccessful\n");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -169,6 +201,13 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder> 
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             pDialog.dismiss();
+            if(status==200)
+            {tvSubscribe.setText("Subscribed");
+            mList.get(pos).setIsSubscribed(true);
+            Club.updateSubscription(mContext,mList.get(pos).getId(),1);}
+
         }
     }
+
+
 }
