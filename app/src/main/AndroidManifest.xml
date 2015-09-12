@@ -37,6 +37,11 @@
 
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
+
+            <intent-filter>
+                <action android:name="com.reload.RELOAD_ADAPTER"/>
+            </intent-filter>
+
         </activity>
         <activity
             android:name=".Activities.LoginActivity"
@@ -69,6 +74,7 @@
                 <category android:name="org.saarang.instieventsapp" />
             </intent-filter>
         </receiver>
+
         <receiver
             android:name=".Recivers.RebootReceiver"
             android:label="AlarmSetUp" >
@@ -76,6 +82,8 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
+
 
         <service
             android:name=".Services.IE_GCMListenerService"
@@ -122,6 +130,7 @@
                 <action android:name="com.google.android.gms.analytics.ANALYTICS_DISPATCH" />
             </intent-filter>
         </receiver>
+
         <service android:name="com.google.android.gms.analytics.AnalyticsService"
             android:enabled="true"
             android:exported="false"/>

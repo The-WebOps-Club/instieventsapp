@@ -48,7 +48,7 @@ import org.saarang.saarangsdk.Objects.PostParam;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class    MainActivity extends AppCompatActivity {
 
     //    private DrawerLayout mDrawerLayout;
 //    private SwipeRefreshLayout swipeContainer;

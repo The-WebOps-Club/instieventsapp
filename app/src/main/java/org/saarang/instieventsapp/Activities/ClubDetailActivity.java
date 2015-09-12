@@ -2,6 +2,7 @@ package org.saarang.instieventsapp.Activities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -224,10 +225,16 @@ public class ClubDetailActivity extends AppCompatActivity {
                     Toast.makeText(mContext, "Unsubscribed to " + clubname, Toast.LENGTH_SHORT).show();
                     Club.updateSubscription(mContext, clubId, 0);
                     floatB.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.floating_button_notsub));
+                    Intent intent=new Intent();
+                    intent.setAction("com.reload.RELOAD_ADAPTER");
+                    sendBroadcast(intent);
                 } else {
                     Toast.makeText(mContext, "Subscribed to" + clubname, Toast.LENGTH_SHORT).show();
                     Club.updateSubscription(mContext, clubId, 1);
                     floatB.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.floating_button_sub));
+                    Intent intent=new Intent();
+                    intent.setAction("com.reload.RELOAD_ADAPTER");
+                    sendBroadcast(intent);
                 }
 
             }

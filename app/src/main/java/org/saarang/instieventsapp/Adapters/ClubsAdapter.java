@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,6 +40,7 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
     ProgressDialog pDialog;
     String LOG_TAG="ClubsAdapter";
 
+
     public ClubsAdapter(Context context,ArrayList<Club> list) {
         mContext = context;
         mList=list;
@@ -50,7 +52,7 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
         Button bSubscibe;
         TextView tvName,tvDesc;
         ImageView ivProf;
-
+        CardView cardView;
 
         public ViewHolder(View view) {
             super(view);
@@ -59,6 +61,7 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
             tvName=(TextView) view.findViewById(R.id.titleoverlay);
             ivProf=(ImageView) view.findViewById(R.id.ivProfilePic);
             tvDesc=(TextView)view.findViewById(R.id.tvDesc);
+            cardView=(CardView)view.findViewById(R.id.card_view);
 
         }
     }
@@ -82,9 +85,9 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
         holder.bViewMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle clubId=new Bundle();
-                clubId.putString(Club.KEY_ROWID,mList.get(position).getId());
-                Intent myIntent = new Intent(view.getContext(),ClubDetailActivity.class);
+                Bundle clubId = new Bundle();
+                clubId.putString(Club.KEY_ROWID, mList.get(position).getId());
+                Intent myIntent = new Intent(view.getContext(), ClubDetailActivity.class);
                 myIntent.putExtras(clubId);
                 view.getContext().startActivity(myIntent);
             }
@@ -95,12 +98,11 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
             public void onClick(View v) {
                 if (!mList.get(position).getIsSubscribed()) {
 
-                    if(Connectivity.isNetworkAvailable(mContext)){
+                    if (Connectivity.isNetworkAvailable(mContext)) {
                         Subscribe subscribe = new Subscribe();
-                        subscribe.execute(mList.get(position).getId(), holder.bSubscibe,position);
-                    }
-                    else
-                        UIUtils.showSnackBar(v,"Connection not available");
+                        subscribe.execute(mList.get(position).getId(), holder.bSubscibe, position);
+                    } else
+                        UIUtils.showSnackBar(v, "Connection not available");
 
                 }
 
@@ -110,7 +112,23 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
 
         holder.tvName.setText(mList.get(position).getName());
         holder.tvDesc.setText(mList.get(position).getDescription());
-        Glide.with(mContext).load(R.drawable.webclub).centerCrop().into(holder.ivProf);
+        Glide
+                .with(mContext)
+                .load(URLConstants.URL_CLUB_LOGO + mList.get(position).getLogo())
+                .placeholder(R.drawable.webops)
+                .centerCrop()
+                .into(holder.ivProf);
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle clubId = new Bundle();
+                clubId.putString(Club.KEY_ROWID, mList.get(position).getId());
+                Intent myIntent = new Intent(view.getContext(), ClubDetailActivity.class);
+                myIntent.putExtras(clubId);
+                view.getContext().startActivity(myIntent);
+            }
+        });
     }
 
     public void markAsSubscribed(Button subscribe){
