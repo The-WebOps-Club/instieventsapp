@@ -31,6 +31,10 @@ import org.saarang.instieventsapp.Utils.UIUtils;
 import org.saarang.instieventsapp.Utils.URLConstants;
 import org.saarang.saarangsdk.Network.Connectivity;
 import org.saarang.saarangsdk.Network.HttpRequest;
+import org.saarang.saarangsdk.Network.PostRequest;
+import org.saarang.saarangsdk.Objects.PostParam;
+
+import java.util.ArrayList;
 
 /**
  * Created by Ajmal on 08-08-2015.
@@ -40,6 +44,9 @@ public class LoginActivity extends Activity {
 
 
     private static String LOG_TAG = "LDAPLoginActivity";
+    private static String postUsername = "roll";
+    private static String postPassword = "pass";
+
     Button btLogin;
     TextView tvLogin;
     EditText etUsername, etPassword;
@@ -84,7 +91,6 @@ public class LoginActivity extends Activity {
         });
 
 
-
         //tilUsername = (TextInputLayout) findViewById(R.id.tilUsername);
     }
 
@@ -99,7 +105,6 @@ public class LoginActivity extends Activity {
             //Checking for connection
 
 
-
             if (Connectivity.isNetworkAvailable(context)) {
                 logintask = new Login();
                 logintask.execute(username, password);
@@ -107,8 +112,7 @@ public class LoginActivity extends Activity {
                 UIUtils.showSnackBar(llSnack, getResources().getString(R.string.error_connection));
             }
         } else {
-            // tilUsername.setError("Invalid roll number");
-            UIUtils.showSnackBar(llSnack, getResources().getString(R.string.invalid_password));
+            UIUtils.showSnackBar(llSnack, getResources().getString(R.string.invalid_credentials));
         }
     }
 
@@ -141,38 +145,62 @@ public class LoginActivity extends Activity {
         @Override
         protected Void doInBackground(String... param) {
 
-            // String urlString = URLConstants.SERVER + URLConstants.URL_LOGIN;
-            String urlString = URLConstants.URL_LOGIN;
-            //Adding Parameters
-            JSONObject JSONrequest = new JSONObject();
+
+            //Adding params for requesting insti server
+            ArrayList<PostParam> instiPostParams = new ArrayList<PostParam>();
+            PostParam postUser = new PostParam(postUsername, param[0]);
+            PostParam postPass = new PostParam(postPassword, param[1]);
+            instiPostParams.add(postUser);
+            instiPostParams.add(postPass);
+
+            //Making request to Insti Server
+
+            JSONObject instiResponseJSON = PostRequest.execute(URLConstants.URL_INSTI_LOGIN, instiPostParams, null);
+            Log.d(LOG_TAG, "4 instiResponseJSON " + instiResponseJSON.toString());
+
+
+            //Checking response from Insti server
+
+            //Response from server due to invalid credentials has length <40 right now
+            if (instiResponseJSON.toString().length() < 40) {
+                status = 666;
+                return null;
+            }
+
+            //Storing userProfile of logged in user into class UserJSON
+            profile = new UserProfile(instiResponseJSON);
+
+            Log.d(LOG_TAG, profile.getFullname() + "  " + profile.getId()  + "  " + profile.getHostel() + "  " + profile.getUsername());
+            //Adding Parameters for saarang server
+            JSONObject JSONrequestSaarang = new JSONObject();
             try {
-                JSONrequest.put("rollNumber", param[0]);
-                JSONrequest.put("password", param[1]);
-                JSONrequest.put("name", "ajmal");
-                JSONrequest.put("hostel", "Narmada");
-                Log.d(LOG_TAG, "2 JSONrequest\n" + JSONrequest.toString());
-                Log.d(LOG_TAG, "3 urlstring :: " + urlString);
+                JSONrequestSaarang.put("rollNumber", param[0]);
+                JSONrequestSaarang.put("password", "password");
+                JSONrequestSaarang.put("name", profile.getFullname());
+                JSONrequestSaarang.put("hostel", profile.getHostel());
+                Log.d(LOG_TAG, "4 JSONrequestSaarang\n" + JSONrequestSaarang.toString());
+                Log.d(LOG_TAG, "5 urlstringSaarang :: " + URLConstants.URL_LOGIN);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            //Making request
 
-            JSONObject responseJSON = HttpRequest.execute("POST", urlString, null, JSONrequest);
-            Log.d(LOG_TAG, "4 responseJSON " + responseJSON.toString());
-            if (responseJSON == null) {
+            //Making request to Saarang server
+            JSONObject saarangResponseJSON = HttpRequest.execute("POST", URLConstants.URL_LOGIN, null, JSONrequestSaarang);
+            Log.d(LOG_TAG, "6 saarangResponseJSON " + saarangResponseJSON.toString());
+            if (saarangResponseJSON == null) {
                 return null;
-
             }
 
             try {
-                status = responseJSON.getInt("status");
+                status = saarangResponseJSON.getInt("status");
                 if (status == 200) {
-                    Log.d(LOG_TAG, "5 successfull\n");
+                    Log.d(LOG_TAG, "7 successfull\n");
 
                     //Saving INSTIProfile of logged in user
-                    profile.saveUser(LoginActivity.this, responseJSON.getJSONObject("data"));
-                    JSONArray jEvents = responseJSON.getJSONObject("data").getJSONArray("clubs");
+                    profile.saveUser(LoginActivity.this, saarangResponseJSON.getJSONObject("data"));
+
+                    JSONArray jEvents = saarangResponseJSON.getJSONObject("data").getJSONArray("clubs");
                     for (int i = 0; i < jEvents.length(); i++) {
                         jEvent = jEvents.getJSONObject(i);
                         club = gson.fromJson(jEvent.toString(), Club.class);
@@ -181,7 +209,7 @@ public class LoginActivity extends Activity {
                         data.addClub(club.getCV());
                     }
                 } else {
-                    Log.d(LOG_TAG, "5 unsuccessfull!! ");
+                    Log.d(LOG_TAG, "7 unsuccessfull!! ");
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -201,6 +229,9 @@ public class LoginActivity extends Activity {
                     break;
                 case 401:
                     UIUtils.showSnackBar(llSnack, "Invalid credentials, please try again");
+                    break;
+                case 666:
+                    UIUtils.showSnackBar(llSnack, "Invalid Credentials,please try again");
                     break;
                 default:
                     UIUtils.showSnackBar(llSnack, "There was an error connecting to our server. Please try again");

@@ -96,6 +96,13 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Vi
 
             viewholder.hostelname.setText(mList.get(i).getHostel());
             viewholder.points.setText(mList.get(i).getscore());
+            viewholder.hostelname.setBackgroundColor(Color.parseColor("#ffffff"));
+            viewholder.points.setBackgroundColor(Color.parseColor("#ffffff"));
+            viewholder.position.setBackgroundColor(Color.parseColor("#ffffff"));
+            viewholder.hostelname.setTypeface(null, Typeface.NORMAL);
+            viewholder.points.setTypeface(null, Typeface.NORMAL);
+            viewholder.position.setTypeface(null, Typeface.NORMAL);
+
 //
         }
 

@@ -7,4 +7,5 @@
     <string name="action_about_us">About Us</string>
     <string name="rate_us_weblink">Rate Us On Play Store<a href="https://play.google.com/store/apps/details?id=iitm.satan.messmenu">https://play.google.com/store/apps/details?id=iitm.satan.messmenu</a></string>
     <string name="invalid_password">Invalid Password</string>
+    <string name="invalid_credentials">Invalid Credentials , Please try again</string>
 </resources>

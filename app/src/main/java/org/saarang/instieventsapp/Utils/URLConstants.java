@@ -10,6 +10,7 @@ public class URLConstants {
     public static String URL_EVENT_FETCH = SERVER+ "api/events/";
     public static String URL_SUBSCRIBE = SERVER + "api/clubs";
     public static String URL_LOGIN = SERVER+ "auth/local/mobile";
+    public static String URL_INSTI_LOGIN = "http://10.24.0.224/mobapi/ldap/login.php";
     public static String URL_SCORECARD_FETCH= SERVER+ "api/scoreboards/";
     public static String URL_SUBCLUBS=SERVER + "api/clubs/subscribeall";
     public static String URL_REGISTER_DEVICE = SERVER + "api/users/gcmRegister";

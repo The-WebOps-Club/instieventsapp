@@ -107,7 +107,6 @@ public class EventsDetailsActivity extends AppCompatActivity {
 
         tvDescription.setText(event.getDescription());
 
-        //TODO tvConvener.setText(event.something);
 
         Toolbar tool = (Toolbar) findViewById(R.id.toolbarEventDetails);
         tool.setTitle(event.getName());

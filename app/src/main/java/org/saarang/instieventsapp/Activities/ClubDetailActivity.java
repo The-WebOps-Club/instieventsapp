@@ -21,6 +21,7 @@ import org.saarang.instieventsapp.Adapters.ClubDetailAdapter;
 import org.saarang.instieventsapp.Objects.Club;
 import org.saarang.instieventsapp.Objects.Event;
 import org.saarang.instieventsapp.R;
+import org.saarang.instieventsapp.Utils.URLConstants;
 
 import java.util.ArrayList;
 
@@ -94,7 +95,10 @@ public class ClubDetailActivity extends AppCompatActivity {
             }
         });
         final ImageView imageView = (ImageView) findViewById(R.id.backdrop);
-        Glide.with(this).load("").centerCrop().into(imageView);
+        Glide.with(this)
+                .load(URLConstants.URL_CLUB_LOGO + club.getLogo())
+                .placeholder(R.drawable.events_bg)
+                .into(imageView);
 
     }
 
