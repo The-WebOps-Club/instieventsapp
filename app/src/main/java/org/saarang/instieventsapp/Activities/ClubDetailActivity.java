@@ -22,6 +22,8 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.saarang.instieventsapp.Adapters.ClubDetailAdapter;
 import org.saarang.instieventsapp.Objects.Club;
 import org.saarang.instieventsapp.Objects.Event;
