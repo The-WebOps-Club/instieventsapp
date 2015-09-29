@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import org.saarang.instieventsapp.Objects.Event;
 import org.saarang.saarangsdk.Helpers.TimeHelper;
 
 /**
@@ -14,10 +15,13 @@ public class SPUtils {
     private static String spLastUpdateDate = "latestPost";
 
     public static void setLastUpdateDate(Context context) {
+
+        // minus one minute For safety
+        long timeNow = System.currentTimeMillis() - Event.TIMEZONE_CORRECTION - 60000;
         SharedPreferences preferences = context.getSharedPreferences(sp, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         Log.d("TIME:", TimeHelper.getTimeStamp(System.currentTimeMillis()));
-        editor.putString(spLastUpdateDate, TimeHelper.getTimeStamp(System.currentTimeMillis()));
+        editor.putString(spLastUpdateDate, TimeHelper.getTimeStamp(timeNow));
         editor.commit();
     }
 

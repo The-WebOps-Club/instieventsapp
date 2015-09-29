@@ -1,11 +1,13 @@
 package org.saarang.instieventsapp.Fragments;
 
 
-import android.content.ContentValues;
-import android.os.AsyncTask;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,26 +17,18 @@ import android.view.ViewGroup;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
-import com.google.gson.Gson;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
+import org.saarang.instieventsapp.Activities.MainActivity;
 import org.saarang.instieventsapp.Activities.TrackerApplication;
 import org.saarang.instieventsapp.Adapters.ScoreboardAdapter;
-import org.saarang.instieventsapp.Helper.DatabaseHelper;
 import org.saarang.instieventsapp.Objects.Club;
 import org.saarang.instieventsapp.Objects.Event;
 import org.saarang.instieventsapp.Objects.ScoreCard;
 import org.saarang.instieventsapp.Objects.ScoreboardObject;
 import org.saarang.instieventsapp.Objects.UserProfile;
 import org.saarang.instieventsapp.R;
-import org.saarang.instieventsapp.Utils.SPUtils;
-import org.saarang.instieventsapp.Utils.UIUtils;
-import org.saarang.instieventsapp.Utils.URLConstants;
-import org.saarang.saarangsdk.Network.Connectivity;
-import org.saarang.saarangsdk.Network.PostRequest;
-import org.saarang.saarangsdk.Objects.PostParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +41,7 @@ public class ScoreBoardFragment extends Fragment {
     View rootView;
     private static String LOG_TAG = "ScoreBoardFragment";
     RecyclerView scoreboardrecycle;
+    RecyclerView.Adapter adapter;
     //SwipeRefreshLayout swipe;
 
     //private RecyclerView.LayoutManager layoutManager;
@@ -72,9 +67,12 @@ public class ScoreBoardFragment extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mMessageReceiver,
+                new IntentFilter(MainActivity.BROADCAST_UPDATE));
+
         rootView = inflater.inflate(R.layout.fr_score_board, container, false);
 
-        final RecyclerView.Adapter adapter;
 
         list = ScoreCard.getScoreBoards(getActivity(), "lit");
 
@@ -87,6 +85,26 @@ public class ScoreBoardFragment extends Fragment {
         adapter=new ScoreboardAdapter(getActivity(),list,hostel);
         scoreboardrecycle.setAdapter(adapter);
         return rootView;
+    }
+
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+            String code = intent.getStringExtra("code");
+            Log.d(LOG_TAG, "Message  recieved " + code);
+            if (code.equals("scoreboards")){
+                list = ScoreCard.getScoreBoards(getActivity(), "lit");
+                adapter=new ScoreboardAdapter(getActivity(),list,hostel);
+                scoreboardrecycle.setAdapter(adapter);
+            }
+        }
+    };
+
+    @Override
+    public void onPause() {
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mMessageReceiver);
+        super.onPause();
     }
 
 }

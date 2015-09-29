@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +20,7 @@ import com.google.android.gms.analytics.Tracker;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.saarang.instieventsapp.Activities.MainActivity;
 import org.saarang.instieventsapp.Activities.TrackerApplication;
 import org.saarang.instieventsapp.Adapters.ClubsAdapter;
 import org.saarang.instieventsapp.Objects.Club;
@@ -64,6 +66,10 @@ public class ClubsFragment extends Fragment  {
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mMessageReceiver,
+                new IntentFilter(MainActivity.BROADCAST_UPDATE));
+
         rootView = inflater.inflate(R.layout.fr_clubs, container, false);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
 
@@ -83,6 +89,33 @@ public class ClubsFragment extends Fragment  {
 
         return rootView;
     }
+
+
+    // Our handler for received Intents. This will be called whenever an Intent
+    // with an action named "custom-event-name" is broadcasted.
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+            String code = intent.getStringExtra("code");
+            Log.d(LOG_TAG, "Msg recieved " + code );
+
+            if (code.equals("clubs")){
+                list=Club.getAllClubs(getActivity());
+                adapter = new ClubsAdapter(getActivity(),list);
+                adapter.notifyDataSetChanged();
+                recyclerView.setAdapter(adapter);
+
+            }
+        }
+    };
+
+    @Override
+    public void onPause() {
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mMessageReceiver);
+        super.onPause();
+    }
+
 
     private class Receiver extends BroadcastReceiver{
         @Override

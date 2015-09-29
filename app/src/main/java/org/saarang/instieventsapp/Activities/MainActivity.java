@@ -11,6 +11,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +20,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -62,8 +64,10 @@ public class    MainActivity extends AppCompatActivity {
     ProgressDialog pDialog;
 
     private static final String LOG_TAG = "MainActivity";
+    public static final String BROADCAST_UPDATE = "updateData";
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     int userState;
+
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -128,6 +132,11 @@ public class    MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, IE_RegistrationIntentService.class);
             startService(intent);
         }
+
+        if (Connectivity.isNetworkAvailable(MainActivity.this)) {
+            new RefreshRequest().execute();
+        }
+
     }
 
     private void redirectUser(int userState) {
@@ -162,7 +171,7 @@ public class    MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.menuRefresh) {
-            refresh(item);
+            refresh();
             return true;
         }
 
@@ -265,6 +274,10 @@ public class    MainActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(String... strings) {
+
+
+            Intent intent = new Intent(MainActivity.BROADCAST_UPDATE);
+
             params.add(new PostParam("time", SPUtils.getLastUpdateDate(MainActivity.this)));
             JSONObject json = PostRequest.execute(URLConstants.URL_REFRESH, params,
                     UserProfile.getUserToken(MainActivity.this));
@@ -279,12 +292,22 @@ public class    MainActivity extends AppCompatActivity {
                 try {
                     Log.d(LOG_TAG, "Status:" + String.valueOf(status));
                     Log.d(LOG_TAG, json.toString());
+                    json = json.getJSONObject("data");
                     Events = json.getJSONArray("events");
                     for (int i = 0; i < Events.length(); i++) {
                         JSONObject json1 = Events.getJSONObject(i);
                         event = new Event(json1);
                         event.saveEvent(MainActivity.this);
                     }
+                    intent.putExtra("code", "events");
+                    if (Events.length() > 0)
+                    LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(intent);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                try {
                     jScoreBoards = json.getJSONArray("scoreboard");
                     for (int j = 0; j < jScoreBoards.length(); j++) {
                         jScoreBoard = jScoreBoards.getJSONObject(j);
@@ -297,10 +320,19 @@ public class    MainActivity extends AppCompatActivity {
                             ContentValues cv = ScoreCard.getCV(category,
                                     jScoreBoard.getJSONObject("hostel").getString("name"),
                                     jScoreBoard.getInt("score"), scoreBoardId + jScoreBoard.getString("_id"));
-                            Log.d(LOG_TAG, "cat:" + category + "score:" + jScoreBoard.getInt("score") + "id" + scoreBoardId + jScoreBoard.getString("_id") + "hostel" + jScoreBoard.getJSONObject("hostel").getString("name"));
                             ScoreCard.saveScoreCard(MainActivity.this, cv);
                         }
                     }
+                    intent = new Intent(MainActivity.BROADCAST_UPDATE);
+                    intent.putExtra("code", "scoreboards");
+                    if (jScoreBoards.length() > 0)
+                        LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(intent);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                try {
                     Clubs = json.getJSONArray("clubs");
                     for (int i = 0; i < Clubs.length(); i++) {
                         jClub = Clubs.getJSONObject(i);
@@ -309,10 +341,16 @@ public class    MainActivity extends AppCompatActivity {
                         DatabaseHelper data = new DatabaseHelper(MainActivity.this);
                         data.addClub(club.getCV());
                     }
-                    SPUtils.setLastUpdateDate(MainActivity.this);
+                    intent = new Intent(MainActivity.BROADCAST_UPDATE);
+                    intent.putExtra("code", "clubs");
+                    if (Clubs.length() > 0)
+                        LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(intent);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
+                SPUtils.setLastUpdateDate(MainActivity.this);
+
             }
             return null;
 
@@ -321,10 +359,11 @@ public class    MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             pDialog.dismiss();
+            Toast.makeText(MainActivity.this, "App updated", Toast.LENGTH_SHORT).show();
         }
     }
 
-    public void refresh(MenuItem item) {
+    public void refresh() {
         // View for displaying SnackBar
         View llSnackBar = findViewById(R.id.drawer_layout);
         if (Connectivity.isNetworkAvailable(MainActivity.this)) {
