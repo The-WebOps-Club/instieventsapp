@@ -5,14 +5,25 @@ package org.saarang.instieventsapp.Objects;
  */
 public class Result {
 
-    String _id, score;
+    Hostel hostel;
+    String score;
 
-    public String getHostel() {
+    public String get_id() {
         return _id;
     }
 
-    public void setHostel(String hostel) {
-        this._id = hostel;
+    public void set_id(String _id) {
+        this._id = _id;
+    }
+
+    String _id;
+
+    public Hostel getHostel() {
+        return hostel;
+    }
+
+    public void setHostel(Hostel hostel) {
+        this.hostel = hostel;
     }
 
     public String getScore() {

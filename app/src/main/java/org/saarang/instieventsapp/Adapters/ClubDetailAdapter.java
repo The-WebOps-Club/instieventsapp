@@ -1,9 +1,7 @@
 package org.saarang.instieventsapp.Adapters;
 
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.saarang.instieventsapp.Activities.EventsDetailsActivity;
 import org.saarang.instieventsapp.Objects.Club;
@@ -148,13 +145,25 @@ public class ClubDetailAdapter extends RecyclerView.Adapter<ClubDetailAdapter.Vi
 
         else{
             holder.tvHeading.setText(mEvents.get(position-2).getName());
-            String date,time;
-            date= TimeHelper.getDate(mEvents.get(position-2).getTime());
-            time= TimeHelper.getTime(mEvents.get(position - 2).getTime());
-            holder.tvDate.setText(date);
-            holder.tvTime.setText(time);
-            holder.tvLocation.setText(mEvents.get(position-2).getVenue());
+            String date,time, utcDate, utcTime;
+            utcDate = mEvents.get(position-2).getTime();
+            date= TimeHelper.getDate(utcDate);
+            time= TimeHelper.getTime(utcDate);
+//            holder.tvDate.setText(date);
+//            holder.tvTime.setText(time);
+//            holder.tvLocation.setText(mEvents.get(position-2).getVenue());
             holder.tvDescription.setText(mEvents.get(position-2).getDescription());
+
+            holder.tvDate.setText(
+                    ( utcDate == null || utcDate.isEmpty()) ?
+                            "Event date has not been fixed" : date);
+            holder.tvTime.setText(
+                    ( utcDate == null || utcDate.isEmpty()
+                            || time.equals("4:46 PM")
+                    ) ?
+                            "Event time has not been fixed" : time);
+            holder.tvLocation.setText(mEvents.get(position - 2).getVenue() == null ? "Event venue has not been fixed" : mEvents.get(position - 2).getVenue());
+
             holder.eventsfeed.setOnClickListener(new View.OnClickListener() {
 
                 @Override

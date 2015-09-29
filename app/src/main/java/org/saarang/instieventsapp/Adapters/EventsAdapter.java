@@ -3,6 +3,7 @@ package org.saarang.instieventsapp.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,10 +62,17 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
 
         th = new TimeHelper();
 
+        Log.d(LOG_TAG, "date is " + th.getTime(mItems.get(position).getTime()));
 
         holder.tvHeading.setText(mItems.get(position).getName());
-        holder.tvDate.setText(th.getDate(mItems.get(position).getTime()) == "" ? "Event date has not been fixed" : th.getDate(mItems.get(position).getTime()));
-        holder.tvTime.setText(th.getTime(mItems.get(position).getTime()) == "" ? "Event time has not been fixed" : th.getTime(mItems.get(position).getTime()));
+        holder.tvDate.setText(
+                ( mItems.get(position).getTime() == null || mItems.get(position).getTime().isEmpty()) ?
+                        "Event date has not been fixed" : th.getDate(mItems.get(position).getTime()));
+        holder.tvTime.setText(
+                (mItems.get(position).getTime() == null || mItems.get(position).getTime().isEmpty()
+                        || th.getTime(mItems.get(position).getTime()).equals("4:46 PM")
+                ) ?
+                        "Event time has not been fixed" : th.getTime(mItems.get(position).getTime()));
         holder.tvLocation.setText(mItems.get(position).getVenue() == null ? "Event venue has not been fixed" : mItems.get(position).getVenue());
         holder.tvDescription.setText(mItems.get(position).getDescription());
         holder.tvClub.setText(mItems.get(position).eventContext());

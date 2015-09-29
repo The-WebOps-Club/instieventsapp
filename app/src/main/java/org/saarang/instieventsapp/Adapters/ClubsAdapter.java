@@ -54,6 +54,7 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
         ImageView ivProf;
         CardView cardView;
 
+
         public ViewHolder(View view) {
             super(view);
             bViewMore = (Button)view.findViewById(R.id.bViewMore);
@@ -62,6 +63,7 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
             ivProf=(ImageView) view.findViewById(R.id.ivProfilePic);
             tvDesc=(TextView)view.findViewById(R.id.tvDesc);
             cardView=(CardView)view.findViewById(R.id.card_view);
+
 
         }
     }
@@ -115,7 +117,6 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ViewHolder>{
         Glide
                 .with(mContext)
                 .load(URLConstants.URL_CLUB_LOGO + mList.get(position).getLogo())
-                .placeholder(R.drawable.webops)
                 .centerCrop()
                 .into(holder.ivProf);
 

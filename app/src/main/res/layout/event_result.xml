@@ -31,8 +31,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="50"
         android:text="num"
+        android:layout_marginLeft="8dp"
         android:id="@+id/res_hostel"
-        android:gravity="center_horizontal"
         android:textColor="#000000"
         android:textSize="16dp"/>
 

@@ -28,8 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="128dp"
             android:id="@+id/ivProfilePic"
-            android:src="@drawable/webclub"
-            android:background="@color/app_color"
+            android:background="#5a5e80"
             android:scaleType="centerCrop"
             />
 

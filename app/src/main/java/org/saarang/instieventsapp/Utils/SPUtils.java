@@ -23,6 +23,6 @@ public class SPUtils {
 
     public static String getLastUpdateDate(Context context){
         SharedPreferences pref = context.getSharedPreferences(sp, Context.MODE_PRIVATE);
-        return pref.getString(spLastUpdateDate, "");
+        return pref.getString(spLastUpdateDate, "2014-09-28T22:23:45.601Z");
     }
 }

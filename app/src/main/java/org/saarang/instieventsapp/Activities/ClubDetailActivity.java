@@ -2,7 +2,6 @@ package org.saarang.instieventsapp.Activities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -33,7 +32,6 @@ import org.saarang.instieventsapp.Utils.UIUtils;
 import org.saarang.instieventsapp.Utils.URLConstants;
 import org.saarang.saarangsdk.Network.Connectivity;
 import org.saarang.saarangsdk.Network.GetRequest;
-import org.saarang.instieventsapp.Utils.URLConstants;
 
 import java.util.ArrayList;
 
@@ -45,7 +43,6 @@ public class ClubDetailActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     Context mContext=ClubDetailActivity.this;
     private static String LOG_TAG = "ClubDetailActivity";
-    ProgressDialog pDialog;
     @Override
     protected void onStart() {
         super.onStart();
@@ -99,7 +96,7 @@ public class ClubDetailActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    UIUtils.showSnackBar(v,"Connection not available");
+                    UIUtils.showSnackBar(v, "Connection not available");
                 }
 
             }
@@ -156,6 +153,7 @@ public class ClubDetailActivity extends AppCompatActivity {
         int isSubscribed;
         String clubname,clubId;
         FloatingActionButton floatB;
+        ProgressDialog pDialog;
 
         @Override
         protected void onPreExecute() {
@@ -229,21 +227,111 @@ public class ClubDetailActivity extends AppCompatActivity {
                     Toast.makeText(mContext, "Unsubscribed to " + clubname, Toast.LENGTH_SHORT).show();
                     Club.updateSubscription(mContext, clubId, 0);
                     floatB.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.floating_button_notsub));
-                    Intent intent=new Intent();
-                    intent.setAction("com.reload.RELOAD_ADAPTER");
-                    sendBroadcast(intent);
                 } else {
                     Toast.makeText(mContext, "Subscribed to" + clubname, Toast.LENGTH_SHORT).show();
                     Club.updateSubscription(mContext, clubId, 1);
                     floatB.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.floating_button_sub));
-                    Intent intent=new Intent();
-                    intent.setAction("com.reload.RELOAD_ADAPTER");
-                    sendBroadcast(intent);
                 }
 
             }
         }
 
     }
+
+//    private class Subscribe extends AsyncTask<Object,Void,Void> {
+//
+//        int status=200;
+//        int isSubscribed;
+//        String clubname,clubId;
+//        FloatingActionButton floatB;
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            pDialog = new ProgressDialog(mContext);
+//            pDialog.setMessage("Please Wait....");
+//            pDialog.setIndeterminate(false);
+//            pDialog.setCancelable(false);
+//            pDialog.show();
+//        }
+//
+//        @Override
+//        protected Void doInBackground(Object... params) {
+//
+//            clubId=(String) params[0];
+//
+//            JSONObject JSONrequest = new JSONObject();
+//
+//            isSubscribed=(Integer) params[1];
+//            clubname=(String) params[2];
+//            floatB=(FloatingActionButton) params[3];
+//
+//            String urlString;
+//
+//            if(isSubscribed==1){
+//                 urlString= URLConstants.URL_UNSUBSCRIBE_CLUB+clubId;
+//            }
+//            else{
+//                 urlString= URLConstants.URL_SUBSCRIBE_CLUB+clubId;
+//            }
+//
+//            try {
+//
+//                JSONrequest.put("Clubid", clubId);
+//                Log.d(LOG_TAG, "2 JSONrequest\n" + JSONrequest.toString());
+//                Log.d(LOG_TAG, "3 urlstring :: " + urlString);
+//
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//            JSONObject responseJSON = GetRequest.execute(urlString, UserProfile.getUserToken(mContext));
+//            if (responseJSON == null) {
+//                return null;
+//
+//            }
+//
+//            try {
+//                status = responseJSON.getInt("status");
+//                Log.d(LOG_TAG,""+(status));
+//
+//                if (status == 200) {
+//                    Log.d(LOG_TAG, "successfull\n");
+//
+//                }
+//                else
+//                    Log.d(LOG_TAG,"Unsuccessful\n");
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void aVoid) {
+//            super.onPostExecute(aVoid);
+//            pDialog.dismiss();
+//            if(status==200) {
+//
+//                if (isSubscribed == 1) {
+//                    Toast.makeText(mContext, "Unsubscribed to " + clubname, Toast.LENGTH_SHORT).show();
+//                    Club.updateSubscription(mContext, clubId, 0);
+//                    floatB.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.floating_button_notsub));
+//                    Intent intent=new Intent();
+//                    intent.setAction("com.reload.RELOAD_ADAPTER");
+//                    sendBroadcast(intent);
+//                } else {
+//                    Toast.makeText(mContext, "Subscribed to" + clubname, Toast.LENGTH_SHORT).show();
+//                    Club.updateSubscription(mContext, clubId, 1);
+//                    floatB.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.floating_button_sub));
+//                    Intent intent=new Intent();
+//                    intent.setAction("com.reload.RELOAD_ADAPTER");
+//                    sendBroadcast(intent);
+//                }
+//
+//            }
+//        }
+//
+//    }
 
 }

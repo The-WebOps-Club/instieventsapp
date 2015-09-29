@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 import org.saarang.instieventsapp.Activities.EventsDetailsActivity;
 import org.saarang.instieventsapp.Objects.Event;
 import org.saarang.instieventsapp.R;
+import org.saarang.saarangsdk.Helpers.TimeHelper;
 
 public class ShowNotification extends IntentService {
 
@@ -22,6 +23,7 @@ public class ShowNotification extends IntentService {
     public static String EXTRA_EVENT = "event";
     Event event;
     Gson gson = new Gson();
+    String date, time, utcDate, message, venue;
 
     public ShowNotification() {
         super("ShowNotification");
@@ -35,7 +37,14 @@ public class ShowNotification extends IntentService {
             event = gson.fromJson(eventExtra, Event.class);
             Intent openEvent = new Intent(this, EventsDetailsActivity.class);
             openEvent.putExtra(Event.COLUMN_EVENTID, event.getId());
-            sendNotification(event.getName(), "Event to start in 10 mins", openEvent);
+            utcDate = event.getTime();
+            date= TimeHelper.getDate(utcDate);
+            time= TimeHelper.getTime(utcDate);
+            message = "Event about to start at ";
+            if (!event.getTime().isEmpty()) message += time;
+            if (!event.getVenue().equals(Event.NO_VENUE)) message += " at " + event.getVenue();
+            if (time.equals("4:46 PM")) message = "Event Reminder";
+            sendNotification(event.getName(), message, openEvent);
             Log.d(LOG_TAG, "Show a notification for event" + intent.getExtras().getString(EXTRA_EVENT));
         }
     }

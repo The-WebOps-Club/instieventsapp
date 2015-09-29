@@ -269,12 +269,13 @@ public class    MainActivity extends AppCompatActivity {
             JSONObject json = PostRequest.execute(URLConstants.URL_REFRESH, params,
                     UserProfile.getUserToken(MainActivity.this));
             try {
+                Log.d(LOG_TAG, " Last updated on " + SPUtils.getLastUpdateDate(MainActivity.this));
+                Log.d(LOG_TAG, json.toString());
                 status = json.getInt("status");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             if (status == 200) {
-                SPUtils.setLastUpdateDate(MainActivity.this);
                 try {
                     Log.d(LOG_TAG, "Status:" + String.valueOf(status));
                     Log.d(LOG_TAG, json.toString());
@@ -308,7 +309,7 @@ public class    MainActivity extends AppCompatActivity {
                         DatabaseHelper data = new DatabaseHelper(MainActivity.this);
                         data.addClub(club.getCV());
                     }
-
+                    SPUtils.setLastUpdateDate(MainActivity.this);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

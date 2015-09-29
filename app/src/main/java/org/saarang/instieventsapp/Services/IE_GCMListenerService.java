@@ -23,13 +23,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.saarang.instieventsapp.Activities.EventsDetailsActivity;
-import org.saarang.instieventsapp.Activities.MainActivity;
 import org.saarang.instieventsapp.Helper.DatabaseHelper;
+import org.saarang.instieventsapp.Helper.SortResults;
 import org.saarang.instieventsapp.Objects.Club;
 import org.saarang.instieventsapp.Objects.Event;
 import org.saarang.instieventsapp.Objects.ScoreCard;
 import org.saarang.instieventsapp.Objects.UserProfile;
 import org.saarang.instieventsapp.R;
+import org.saarang.instieventsapp.Utils.AppConstants;
+import org.saarang.instieventsapp.Utils.URLConstants;
+import org.saarang.saarangsdk.Network.GetRequest;
 
 public class IE_GCMListenerService extends GcmListenerService{
 
@@ -38,20 +41,15 @@ public class IE_GCMListenerService extends GcmListenerService{
     String data="";
     String type=" ",category,scoreBoardId,title=" ";
     Event event;
-    JSONObject Data, jScoreBoard,Club;
+    String myHostel;
+    int position = 0;
+    JSONObject Data, jScoreBoard,Club, json;
     JSONArray jScoreBoards, jScoreCards,Clubs;
     Club club;
     Gson gson = new Gson();
 
 
-    /**
-     * Called when message is received.
-     *
-     * @param from SenderID of the sender.
-     * @param datakjfk Data bundle containing message data as key/value pairs.
-     *             For Set of keys use data.keySet().
-     */
-    // [START receive_message]
+
     @Override
     public void onMessageReceived(String from, Bundle data1) {
         message = data1.getString("message");
@@ -60,7 +58,8 @@ public class IE_GCMListenerService extends GcmListenerService{
         title = data1.getString("title");
         Log.d(TAG, "From: " + from);
         Log.d(TAG, "Message: " + message);
-        Log.d(TAG ,data1.toString());
+        Log.d(TAG, "Its type is  " + type);
+        Log.d(TAG , data1.toString());
 
 
 
@@ -79,7 +78,7 @@ public class IE_GCMListenerService extends GcmListenerService{
         switch(type){
             case "0":
                 Intent i = new Intent(android.content.Intent.ACTION_VIEW);
-                i.setData(Uri.parse("https://play.google.com/store/apps/details?id=org.saarang.app"));
+                i.setData(Uri.parse("https://play.google.com/store/apps/details?id=org.saarang.instieventsapp&hl=en"));
                 sendNotification("New Update Available!", "Click to update now", i);
                 break;
             case "1":
@@ -106,26 +105,37 @@ public class IE_GCMListenerService extends GcmListenerService{
                 event.saveEvent(this);
                 break;
             case "301":
+                myHostel = UserProfile.getUserHostel(this);
                 JSONArray events = new JSONArray();
                 JSONArray results = new JSONArray();
                 try {
                     events = new JSONArray(data);
                     Data = events.getJSONObject(0);
                     Data.put("club", new JSONObject());
-                Log.d("JSON - CONVERSION:", Data.toString());
-                event = new Event(Data);
-                event.saveEvent(this);
-                   results = Data.getJSONArray("result");
+                    Log.d("JSON - CONVERSION:", Data.toString());
+                    event = new Event(Data);
+                    event.saveEvent(this);
+                    results = Data.getJSONArray("result");
+                    Log.d(TAG, "Unsorted " + results.toString());
+                    results = SortResults.getSortedList(results);
+                    Log.d(TAG, "Sorted " + results);
+                    for(int x=0; x< results.length();x++){
 
-                for(int x=0; x< results.length();x++){
+                            JSONObject hosres = results.getJSONObject(x);
+                            JSONObject hostel = hosres.getJSONObject("hostel");
+                            if(myHostel.equals(hostel.getString("name"))){
+                                position = x + 1;
+                                int score = hosres.getInt("score");
+                            }
+                    }
 
-                        JSONObject hosres = results.getJSONObject(x);
-                        JSONObject hostel = hosres.getJSONObject("hostel");
-                        if(UserProfile.getUserHostel(this).equals(hostel.getString("name"))){
-                            int score = hosres.getInt("score");
-                            sendNotification(event.getName(),"Your Hostel" + UserProfile.getUserHostel(this) + "scored" + String.valueOf(score) + "in" + event.getName(), new Intent());
-                        }
-                }
+                    Intent intent = new Intent(this, EventsDetailsActivity.class);
+                    intent.putExtra(Event.COLUMN_EVENTID, event.getId());
+                    sendNotification(event.getName(),
+                            AppConstants.getResultMessage(position, myHostel, event.getName()), intent);
+
+                    fetchScoreBoard();
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -138,36 +148,43 @@ public class IE_GCMListenerService extends GcmListenerService{
                         Log.d(TAG, Club.getString("name"));
                         DatabaseHelper data = new DatabaseHelper(this);
                         data.addClub(club.getCV());
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 break;
             case "302":
-                try {
-                    jScoreBoards = new JSONArray(data);
-                    Log.d(TAG, "SUCCESS");
-                    for (int j =0; j< jScoreBoards.length(); j++){
-                        jScoreBoard = jScoreBoards.getJSONObject(j);
-                        category = jScoreBoard.getString("category");
-                        jScoreCards = jScoreBoard.getJSONArray("scorecard");
-                        scoreBoardId = jScoreBoard.getString("_id");
-
-                        for (int k = 0; k< jScoreCards.length(); k++){
-                            jScoreBoard = jScoreCards.getJSONObject(k);
-                            ContentValues cv = ScoreCard.getCV(category,
-                                    jScoreBoard.getJSONObject("hostel").getString("name"),
-                                    jScoreBoard.getInt("score"), scoreBoardId + jScoreBoard.getString("_id"));
-                            Log.d(TAG,"cat:" + category + "score:" + jScoreBoard.getInt("score") + "id" + scoreBoardId + jScoreBoard.getString("_id")+ "hostel"+ jScoreBoard.getJSONObject("hostel").getString("name") );
-                            ScoreCard.saveScoreCard(this, cv);
-                        }
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }break;
-
+                fetchScoreBoard();
+                break;
         }
         /*sendNotification(message);*/
+    }
+
+    private void fetchScoreBoard() {
+
+        try {
+            // Fetching new scoreboards
+            json = GetRequest.execute(URLConstants.URL_SCORECARD_FETCH,
+                    UserProfile.getUserToken(this));
+            Log.d(TAG, json.toString());
+            JSONArray jScoreBoards = json.getJSONObject("data").getJSONArray("response");
+            for (int k =0; k< jScoreBoards.length(); k++){
+                jScoreBoard = jScoreBoards.getJSONObject(k);
+                category = jScoreBoard.getString("category");
+                jScoreCards = jScoreBoard.getJSONArray("scorecard");
+                scoreBoardId = jScoreBoard.getString("_id");
+
+                for (int j = 0; j< jScoreCards.length(); j++){
+                    jScoreBoard = jScoreCards.getJSONObject(j);
+                    ContentValues cv = ScoreCard.getCV(category,
+                            jScoreBoard.getJSONObject("hostel").getString("name"),
+                            jScoreBoard.getInt("score"), scoreBoardId + jScoreBoard.getString("_id"));
+                    ScoreCard.saveScoreCard(this, cv);
+                }
+            }
+        } catch (JSONException e){
+            e.printStackTrace();
+        }
+
     }
     // [END receive_message]
 
@@ -191,6 +208,7 @@ public class IE_GCMListenerService extends GcmListenerService{
                 .setContentText(content)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(content))
                 .setContentIntent(pendingIntent);
 
         notificationManager =

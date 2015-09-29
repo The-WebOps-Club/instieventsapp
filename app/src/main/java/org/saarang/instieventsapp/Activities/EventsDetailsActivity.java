@@ -21,6 +21,7 @@ import com.google.gson.Gson;
 
 import org.saarang.instieventsapp.Objects.Club;
 import org.saarang.instieventsapp.Objects.Event;
+import org.saarang.instieventsapp.Objects.Hostel;
 import org.saarang.instieventsapp.Objects.Result;
 import org.saarang.instieventsapp.R;
 import org.saarang.saarangsdk.Helpers.TimeHelper;
@@ -45,6 +46,7 @@ public class EventsDetailsActivity extends AppCompatActivity {
     int[] score;
     int[] positions;
     Result[] result;
+    Gson gson = new Gson();
 
     @Override
     protected void onStart() {
@@ -178,8 +180,9 @@ public class EventsDetailsActivity extends AppCompatActivity {
 
         Gson gson1 = new Gson();
         String resultstring = event.getResult();
+        Log.d(LOG_TAG, resultstring);
         result=gson1.fromJson(resultstring,Result[].class);
-        Log.d(LOG_TAG, gson.toJson(result, Result[].class));
+//        Log.d(LOG_TAG, gson.toJson(result, Result[].class));
 
         for(i=0; i<result.length; i++){
             scorelist.add(Integer.parseInt(result[i].getScore()));
@@ -224,7 +227,8 @@ public class EventsDetailsActivity extends AppCompatActivity {
                 TextView score=(TextView) tempView.findViewById(R.id.res_score);
                 pos=positions[i];
                 position.setText(""+(i+1));
-                hostelname.setText(result[pos].getHostel());
+                Hostel hostel = result[pos].getHostel();
+                hostelname.setText(hostel.getName());
                 score.setText(result[pos].getScore());
                 llResult.addView(tempView);
             }

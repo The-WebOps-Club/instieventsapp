@@ -23,6 +23,7 @@ public class Event {
     String _id, name, time, venue, description, category, club, result, coords, createdOn, updatedOn;
     boolean active, isLitSocEvent, isSubscribed;
     public static final long TIMEZONE_CORRECTION = 330 * 60 * 1000;
+    public static final String NO_VENUE = "Venue is not fixed till now";
 
     public class Convenor{
 
@@ -105,6 +106,9 @@ public class Event {
         this.coords = coords;
         this.category = category;
         this.convenors = conveners;
+        if (venue == null || venue == "" || venue.isEmpty()){
+            this.venue = NO_VENUE;
+        }
 
     }
 

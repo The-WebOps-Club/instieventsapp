@@ -50,7 +50,7 @@ public class ClubsFragment extends Fragment  {
     Club club;
     String category;
     String scoreBoardId;
-    private  BroadcastReceiver receiver;
+    private BroadcastReceiver receiver;
 
     @Override
     public void onStart() {
@@ -70,6 +70,7 @@ public class ClubsFragment extends Fragment  {
         // use a linear layout manager
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
+
 
         list=new ArrayList<>();
         list=Club.getAllClubs(getActivity());
